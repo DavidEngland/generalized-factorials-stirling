@@ -75,6 +75,60 @@ $$S_{m+1,n}(a,b) = S_{m,n-1}(a,b) \cdot nb + S_{m,n}(a,b) \cdot (x + ma)$$
 
 This recurrence follows from the fundamental recurrence of $P(x,a,m)$.
 
+## Decomposition into Classical Stirling Numbers
+
+### Scaling Property and Fundamental Decomposition
+
+When both $a$ and $b$ are non-zero, the generalized Stirling transfer coefficients can be decomposed using a scaling argument. Since:
+
+$$P(x,a,m) = a^m P(x/a, 1, m)$$
+
+and 
+
+$$P(x,b,n) = b^n P(x/b, 1, n)$$
+
+the transformation becomes:
+
+$$a^m P(x/a, 1, m) = \sum_{n=0}^{m} S_{m,n}(a,b) \cdot b^n P(x/b, 1, n)$$
+
+Dividing by appropriate powers and substituting $y = x/b$, this reduces to a relationship involving standard Pochhammer symbols, which connects directly to classical Stirling numbers.
+
+### Connection to Classical Stirling Numbers with Alternating Signs
+
+The key insight is that for non-zero parameters, the generalized coefficients can be expressed as:
+
+$$S_{m,n}(a,b) = \left(\frac{a}{b}\right)^m \sum_{k=0}^{\min(m,n)} (-1)^{m-k} s(m,k) S(k,n) \binom{n}{k} k!$$
+
+where:
+- $s(m,k)$ are Stirling numbers of the first kind
+- $S(k,n)$ are Stirling numbers of the second kind  
+- The alternating sign $(-1)^{m-k}$ emerges from the inverse relationship between first and second kind Stirling numbers
+
+This decomposition shows that **all generalized Stirling transfer coefficients** can be expressed as scaled combinations of classical Stirling numbers with alternating signs.
+
+### Special Cases through Scaling
+
+#### Case 1: One Parameter Zero
+- **$a = 0, b \neq 0$**: $S_{m,n}(0,b) = b^{-n} s(m,n)$ (scaled Stirling first kind)
+- **$a \neq 0, b = 0$**: $S_{m,n}(a,0) = a^m (-1)^{m-n} S(m,n)$ (scaled Stirling second kind with alternating sign)
+
+#### Case 2: Both Parameters Non-zero
+The full decomposition formula applies, showing how the coefficients interpolate between the classical cases through scaling and alternating sign patterns.
+
+### Lah Numbers as a Special Case
+
+The **Lah numbers** $L(m,n)$ emerge as a particularly elegant special case when we consider specific parameter ratios. For the transformation involving rising and falling factorials with unit increments, we have:
+
+$$S_{m,n}(1,-1) = (-1)^{m-n} L(m,n)$$
+
+where $L(m,n)$ are the **unsigned Lah numbers**, defined by:
+$$L(m,n) = \binom{m-1}{n-1} \frac{m!}{n!}$$
+
+The Lah numbers represent the coefficients for transforming between rising and falling factorials:
+$$x^{\overline{m}} = \sum_{n=0}^{m} (-1)^{m-n} L(m,n) \cdot x^{\underline{n}}$$
+
+This connection demonstrates that **Lah numbers are simply scaled generalized Stirling transfer coefficients** with alternating signs, fitting perfectly into the unified framework through the decomposition formula with specific parameter choices.
+
 ## Special Cases and Examples
 
 ### Example 1: Monomial to Pochhammer Transformation
@@ -210,6 +264,7 @@ The concept of generalized Stirling transfer coefficients emerged from the need 
 - **Generalized factorial polynomials** - The base functions being transformed
 - **Stirling numbers of the first kind** - Special case $S_{m,n}(0,1)$
 - **Stirling numbers of the second kind** - Related to $S_{m,n}(1,0)$
+- **Lah numbers** - Special case $S_{m,n}(1,-1) = (-1)^{m-n} L(m,n)$
 - **Pochhammer symbol** - Standard rising factorial case
 - **Connection coefficients** - General framework for basis transformations
 - **Hypergeometric functions** - Applications in special function theory
