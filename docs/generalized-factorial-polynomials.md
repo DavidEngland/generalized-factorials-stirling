@@ -18,6 +18,23 @@ where:
 
 **Note**: When $a = 0$, the definition reduces to the trivial monomial case $P(x,0,m) = x^m$.
 
+### Unified Representation
+
+The generalized factorial polynomial can be expressed in a unified form using Iverson bracket notation:
+
+$$P(x,a,s) = [a = 0] \cdot x^s + [a \neq 0] \cdot a^s \cdot P(x/a, 1, s)$$
+
+where:
+- $[a = 0]$ equals 1 if $a = 0$ and 0 otherwise
+- $[a \neq 0]$ equals 1 if $a \neq 0$ and 0 otherwise
+- $s$ represents the degree (replacing $m$ for consistency with the unified notation)
+
+This representation elegantly captures both cases:
+- **Monomial case** ($a = 0$): $P(x,0,s) = x^s$
+- **General case** ($a \neq 0$): $P(x,a,s) = a^s \cdot P(x/a, 1, s) = a^s \cdot (x/a)^{\overline{s}}$
+
+The unified form demonstrates how the generalized factorial polynomial smoothly transitions between the discrete factorial structure and the continuous monomial, with the Iverson brackets serving as a mathematical "switch" between the two regimes.
+
 ### Relationship to Established Notations
 
 The $P(x,a,m)$ notation unifies and generalizes several well-known mathematical objects:
@@ -102,6 +119,14 @@ This representation extends the definition to non-integer values of $m$ and prov
 
 **Special Case**: When $a = 0$, the gamma function representation is not applicable, and we have the direct monomial form $P(x,0,m) = x^m$.
 
+#### Unified Gamma Representation
+
+The unified representation also extends to the gamma function formulation:
+
+$$P(x,a,s) = [a = 0] \cdot x^s + [a \neq 0] \cdot a^s \cdot \frac{\Gamma(x/a + s)}{\Gamma(x/a)}$$
+
+This single formula encompasses both the monomial case and the general gamma function representation, demonstrating the mathematical elegance of the Iverson bracket approach.
+
 #### Special Cases via Gamma Function
 
 - **Pochhammer Symbol**: $P(x,1,m) = \frac{\Gamma(x+m)}{\Gamma(x)}$
@@ -158,6 +183,21 @@ For $P(4,0,3)$:
 $$P(4,0,3) = 4^3 = 64$$
 
 Using recurrence: $P(4,0,3) = P(4,0,2) \cdot (4 + 0 \cdot 2) = 16 \cdot 4 = 64$ ✓
+
+#### Unified Representation Verification
+
+Using the unified form $P(x,a,s) = [a = 0] \cdot x^s + [a \neq 0] \cdot a^s \cdot P(x/a, 1, s)$:
+
+**For $P(5,0,3)$ (monomial case)**:
+$$P(5,0,3) = [0 = 0] \cdot 5^3 + [0 \neq 0] \cdot 0^3 \cdot P(5/0, 1, 3) = 1 \cdot 125 + 0 \cdot (\text{undefined}) = 125$$
+
+**For $P(6,2,3)$ (general case)**:
+$$P(6,2,3) = [2 = 0] \cdot 6^3 + [2 \neq 0] \cdot 2^3 \cdot P(6/2, 1, 3) = 0 \cdot 216 + 1 \cdot 8 \cdot P(3,1,3)$$
+
+Since $P(3,1,3) = 3 \cdot 4 \cdot 5 = 60$:
+$$P(6,2,3) = 8 \cdot 60 = 480$$
+
+Direct verification: $P(6,2,3) = 6 \cdot 8 \cdot 10 = 480$ ✓
 
 ## Historical Context
 
