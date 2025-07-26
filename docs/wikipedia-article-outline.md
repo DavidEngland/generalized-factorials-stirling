@@ -7,41 +7,55 @@ Generalized Stirling numbers extend the classical Stirling numbers of the first 
 ## Outline
 
 ### 1. Introduction
+
 - Historical background
 - Relationship to classical Stirling numbers
 - Motivation and applications
 
-### 2. Definitions
-- Classical Stirling numbers (first and second kind)
-- Generalized Stirling numbers
-- Various parameterizations and notations
+### 2. Generalized Factorial Polynomials
 
-### 3. Properties
-- Recurrence relations
+- Definition of P(x,a,m) notation
+- Relationships to Pochhammer, gamma, rising and falling factorials
+- Initial and boundary conditions
+- Recurrence relations and properties
+
+### 3. Generalized Stirling Transfer Coefficients
+
+- Definition: P(x,a,m) = Σ S_{m,n}(a,b) * P(x,b,n)
+- Connection to classical Stirling numbers
+- Properties and recurrence relations
+- Examples and computational methods
+
+### 4. Classical Connections
+
+- Stirling numbers of the first kind (a=0, b=1 case)
+- Stirling numbers of the second kind (a=1, b=0 case)
+- Pochhammer symbol transformations
+- Monomial expansions
+
+### 5. Properties and Identities
+
+- Orthogonality relations
 - Generating functions
 - Asymptotic behavior
-- Orthogonality relations
+- Composition properties
 
-### 4. Connections to Other Mathematical Objects
-- Factorial functions and Pochhammer symbols
-- Bell numbers and partition functions
-- Euler numbers and Bernoulli numbers
-- Special functions (gamma, beta, hypergeometric)
+### 6. Applications
 
-### 5. Applications
 - Combinatorial identities
-- Number theory
-- Probability theory
+- Special functions theory
+- Numerical analysis
 - Mathematical physics
 
-### 6. Computational Aspects
+### 7. Computational Aspects
+
 - Algorithms for computation
 - Numerical stability
 - Software implementations
 
-### 7. Open Problems and Current Research
+### 8. Open Problems and Current Research
 
-### 8. References
+### 9. References
 
 ## Notes for Development
 
