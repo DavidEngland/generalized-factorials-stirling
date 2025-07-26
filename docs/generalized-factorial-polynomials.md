@@ -316,11 +316,51 @@ $$\frac{d}{dx} \ln(x^2 + x) = \frac{2x + 1}{x^2 + x} = \frac{2x + 1}{x(x + 1)} =
 
 The difference is $\psi(x)$, which represents the "baseline" logarithmic derivative behavior, confirming the digamma function's role as the fundamental building block.
 
+## Alternative Terminology and Notation
+
+In the mathematical literature, these generalized factorial polynomials have appeared under several names, reflecting their independent discovery and development in different contexts:
+
+### Descriptive Names
+- **Generalized factorial polynomials** - Emphasizes the extension of factorial structure
+- **Arithmetic progression polynomials** - Highlights the constant increment between terms
+- **Parametric factorial functions** - Emphasizes the parameter-dependent nature
+- **Generalized Pochhammer symbols** (when $a \neq 0$) - Extension of the classical notation
+
+### Historical Naming Conventions
+Some authors have used eponymous names for specific cases:
+- **Nørlund polynomials** - Sometimes used for factorial polynomials in finite difference contexts
+- **Jordan polynomials** - Occasionally applied to certain parametric factorial forms
+- **Generalized rising/falling factorials** - Descriptive extensions of classical terminology
+
+### Notational Variations
+The mathematical literature employs various symbols:
+- $P(x,a,m)$ - Used in this article for clarity and generality
+- $(x)_{m,a}$ or $x^{\overline{m}}_a$ - Subscript/superscript parameter notation
+- $x^{(m)}_a$ or $(x)^{[a]}_m$ - Alternative bracket conventions
+- $\mathrm{fac}_a(x,m)$ - Functional notation in some computational contexts
+
+### Preferred Terminology
+This article adopts **"generalized factorial polynomials"** as the primary term because:
+1. It clearly describes the mathematical structure
+2. It avoids potential confusion with eponymous names that may not be universally recognized
+3. It emphasizes the polynomial nature of these expressions
+4. It provides natural terminology for related concepts (generalized Stirling transfer coefficients, etc.)
+
+The choice of descriptive over eponymous naming reflects modern mathematical practice of preferring terminology that illuminates mathematical structure rather than historical attribution, especially for fundamental objects that have been discovered and rediscovered in multiple contexts.
+
 ## Historical Context
 
 The concept of generalized factorial polynomials emerged from the generalization of the classical Pochhammer symbol, introduced by **Leo Pochhammer** in 1870. The extension to arbitrary increment parameters developed naturally in the study of hypergeometric functions and combinatorial analysis during the late 19th and early 20th centuries.
 
-The systematic study of these polynomials was advanced by mathematicians working on finite difference theory and special functions, including **Charles Jordan** and **Niels Erik Nørlund** in the early 20th century.
+The systematic study of these polynomials was advanced by mathematicians working on finite difference theory and special functions, including **Charles Jordan** and **Niels Erik Nørlund** in the early 20th century. While various authors have studied specific cases and applications of these generalized forms, the mathematical community has not settled on a single eponymous name for the general P(x,a,m) formulation. 
+
+The polynomials appear in literature under various descriptive names including:
+- **Generalized factorial polynomials** (emphasizing the factorial structure)
+- **Generalized Pochhammer symbols** (when $a \neq 0$)
+- **Arithmetic progression polynomials** (emphasizing the constant increment)
+- **Parametric factorial functions** (emphasizing the parameter dependence)
+
+This terminological diversity reflects both the broad applicability of these functions and the fact that they arose independently in multiple mathematical contexts. The P(x,a,m) notation used in this article provides a unified framework that encompasses all these variations while maintaining mathematical clarity.
 
 The connection to the **digamma function** traces back to **Carl Friedrich Gauss**, who first studied the logarithmic derivative of the gamma function in his analysis of the hypergeometric series. Gauss denoted this function as $\psi(x)$ and established its fundamental properties, including the recurrence relation $\psi(x+1) = \psi(x) + \frac{1}{x}$. The appearance of the digamma function in the derivatives of generalized factorial polynomials reveals the deep connection between discrete factorial structures and continuous special functions, a relationship that continues to be explored in modern mathematical analysis.
 
