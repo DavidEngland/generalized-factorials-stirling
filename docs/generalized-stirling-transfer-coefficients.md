@@ -44,9 +44,9 @@ This connection involves the relationship between rising factorials and binomial
 ### Fundamental Properties
 
 #### Identity Transformation
-$$S_{m,n}(a,a) = \delta_{m,n}$$
+$$S_{m,n}(a,a) = [m = n]$$
 
-where $\delta_{m,n}$ is the Kronecker delta. This reflects that no transformation is needed when increment parameters are identical.
+where $[m = n]$ is the Iverson bracket, equal to 1 if $m = n$ and 0 otherwise. This reflects that no transformation is needed when increment parameters are identical.
 
 #### Triangular Structure
 $$S_{m,n}(a,b) = 0 \quad \text{for } n > m$$
@@ -63,7 +63,7 @@ The coefficient matrix has upper triangular structure, reflecting the degree-pre
 
 For any parameters $a$ and $b$, the coefficients $S_{m,n}(a,b)$ and $S_{m,n}(b,a)$ form inverse transformations:
 
-$$\sum_{k=0}^{m} S_{m,k}(a,b) \cdot S_{k,n}(b,a) = \delta_{m,n}$$
+$$\sum_{k=0}^{m} S_{m,k}(a,b) \cdot S_{k,n}(b,a) = [m = n]$$
 
 This fundamental property ensures that transformations between any two parameter regimes are bijective and reversible.
 
@@ -125,7 +125,7 @@ The coefficients $S_{m,n}(0,1)$ are Stirling numbers of the first kind:
 So: $x^2 = -x + x(x+1) = -x + x^2 + x = x^2$ ✓
 
 The inverse transformation coefficients $S_{m,n}(1,0)$ are related to Stirling numbers of the second kind, and the orthogonality relation:
-$$\sum_{k=0}^{2} S_{2,k}(0,1) \cdot S_{k,2}(1,0) = \delta_{2,2} = 1$$
+$$\sum_{k=0}^{2} S_{2,k}(0,1) \cdot S_{k,2}(1,0) = [2 = 2] = 1$$
 
 confirms the inverse relationship.
 
@@ -149,7 +149,7 @@ This represents the composition property of parameter transformations.
 
 Setting $c = a$ in the orthogonality relation yields the **inverse relationship**:
 
-$$\sum_{k=0}^{m} S_{m,k}(a,b) \cdot S_{k,n}(b,a) = S_{m,n}(a,a) = \delta_{m,n}$$
+$$\sum_{k=0}^{m} S_{m,k}(a,b) \cdot S_{k,n}(b,a) = S_{m,n}(a,a) = [m = n]$$
 
 This shows that $S_{m,n}(b,a)$ serves as the **inverse transformation** of $S_{m,n}(a,b)$. In matrix form, if $\mathbf{S}(a,b)$ is the matrix with entries $S_{m,n}(a,b)$, then:
 
@@ -161,8 +161,8 @@ where $\mathbf{I}$ is the identity matrix.
 
 This generalizes the well-known orthogonality relations for classical Stirling numbers:
 
-- **First and Second Kind**: $\sum_{k=0}^{m} s(m,k) \cdot S(k,n) = \delta_{m,n}$
-- **In our notation**: $S_{m,k}(0,1) \cdot S_{k,n}(1,0) = \delta_{m,n}$
+- **First and Second Kind**: $\sum_{k=0}^{m} s(m,k) \cdot S(k,n) = [m = n]$
+- **In our notation**: $S_{m,k}(0,1) \cdot S_{k,n}(1,0) = [m = n]$
 
 This confirms that Stirling numbers of the first and second kinds are indeed inverse transformations between monomial and Pochhammer bases.
 
