@@ -13,8 +13,10 @@ $$P(x,a,m) = x(x+a)(x+2a)\cdots(x+(m-1)a)$$
 where:
 
 - $x$ is a real or complex variable
-- $a$ is a non-zero constant (the **increment parameter**)
+- $a$ is a constant (the **increment parameter**)
 - $m$ is a non-negative integer (the **degree** of the polynomial)
+
+**Note**: When $a = 0$, the definition reduces to the trivial monomial case $P(x,0,m) = x^m$.
 
 ### Relationship to Established Notations
 
@@ -43,6 +45,13 @@ $$x^{\underline{m}}_a = x(x-a)(x-2a)\cdots(x-(m-1)a)$$
 When $a = 1$:
 $$x^{\underline{m}} = x(x-1)(x-2)\cdots(x-m+1)$$
 
+#### Trivial Monomial Case
+
+When $a = 0$, the generalized factorial polynomial reduces to the simple monomial:
+$$P(x,0,m) = x^m$$
+
+This case represents the degenerate limit where all increments vanish, yielding the standard power function. This limiting behavior is fundamental in connecting discrete factorial structures to continuous polynomial theory.
+
 ### Initial and Boundary Conditions
 
 The generalized factorial polynomial $P(x,a,m)$ satisfies several fundamental conditions:
@@ -54,14 +63,19 @@ This follows from the empty product convention.
 
 #### Boundary Behavior
 $$P(0,a,m) = \begin{cases} 
-0 & \text{if } m > 0 \\
+0 & \text{if } m > 0 \text{ and } a \neq 0 \\
+0^m & \text{if } a = 0 \\
 1 & \text{if } m = 0
 \end{cases}$$
+
+For the monomial case ($a = 0$), this gives the standard behavior: $P(0,0,m) = 0^m$, which equals 0 for $m > 0$ and 1 for $m = 0$.
 
 #### Recursive Structure
 $$P(x,a,m+1) = P(x,a,m) \cdot (x + ma)$$
 
 This fundamental recurrence relation defines the polynomial structure.
+
+**Monomial Case**: When $a = 0$, this becomes $P(x,0,m+1) = P(x,0,m) \cdot x = x^m \cdot x = x^{m+1}$, which is the standard power rule.
 
 ## Properties and Identities
 
@@ -80,11 +94,13 @@ $$P(x+a,a,m) = \frac{P(x,a,m+1)}{x}$$
 
 ### Connection to the Gamma Function
 
-For complex arguments, the generalized factorial polynomial can be expressed using the gamma function:
+For complex arguments with $a \neq 0$, the generalized factorial polynomial can be expressed using the gamma function:
 
 $$P(x,a,m) = a^m \frac{\Gamma(x/a + m)}{\Gamma(x/a)}$$
 
 This representation extends the definition to non-integer values of $m$ and provides the analytic continuation.
+
+**Special Case**: When $a = 0$, the gamma function representation is not applicable, and we have the direct monomial form $P(x,0,m) = x^m$.
 
 #### Special Cases via Gamma Function
 
@@ -116,6 +132,13 @@ $$P(3,1,4) = 3 \cdot 4 \cdot 5 \cdot 6 = 360 = \frac{6!}{2!}$$
 
 This is equivalent to the standard Pochhammer symbol $(3)_4$.
 
+#### Example 4: Trivial Monomial Case P(x,0,m)
+$$P(5,0,3) = 5^3 = 125$$
+
+$$P(2,0,4) = 2^4 = 16$$
+
+This demonstrates the degenerate case where the generalized factorial reduces to simple monomials.
+
 ### Verification of Properties
 
 #### Recurrence Relation Verification
@@ -129,6 +152,12 @@ For $P(3,1,2)$:
 $$P(3,1,2) = \frac{\Gamma(3+2)}{\Gamma(3)} = \frac{4!}{2!} = \frac{24}{2} = 12$$
 
 Direct computation: $P(3,1,2) = 3 \cdot 4 = 12$ ✓
+
+#### Monomial Case Verification
+For $P(4,0,3)$:
+$$P(4,0,3) = 4^3 = 64$$
+
+Using recurrence: $P(4,0,3) = P(4,0,2) \cdot (4 + 0 \cdot 2) = 16 \cdot 4 = 64$ ✓
 
 ## Historical Context
 
@@ -161,6 +190,7 @@ These polynomials appear in the study of quantum mechanical systems and statisti
 - **Gamma function** - Provides analytic continuation
 - **Rising factorial** - Alternative notation for $P(x,1,m)$
 - **Falling factorial** - Related by shift transformation
+- **Monomial** - The trivial case $P(x,0,m) = x^m$
 - **Hypergeometric function** - Uses generalized factorials in series
 - **Finite difference** - Applications in discrete calculus
 - **Binomial coefficient** - Related combinatorial objects
