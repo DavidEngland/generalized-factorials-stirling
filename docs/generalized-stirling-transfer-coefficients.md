@@ -54,9 +54,18 @@ $$S_{m,n}(a,b) = 0 \quad \text{for } n > m$$
 The coefficient matrix has upper triangular structure, reflecting the degree-preserving nature of the transformation.
 
 #### Boundary Conditions
+
 - $S_{0,0}(a,b) = 1$ for all $a,b$
 - $S_{m,0}(a,b) = 0$ for $m > 0$ when $a \neq 0$
 - $S_{0,n}(a,b) = 0$ for $n > 0$
+
+#### Inverse Transformation Property
+
+For any parameters $a$ and $b$, the coefficients $S_{m,n}(a,b)$ and $S_{m,n}(b,a)$ form inverse transformations:
+
+$$\sum_{k=0}^{m} S_{m,k}(a,b) \cdot S_{k,n}(b,a) = \delta_{m,n}$$
+
+This fundamental property ensures that transformations between any two parameter regimes are bijective and reversible.
 
 ### Recurrence Relations
 
@@ -101,6 +110,25 @@ We find: $x^2 + 2x = 0 \cdot 1 + 2 \cdot x + 1 \cdot (x^2 + x) = 2x + x^2 + x = 
 
 Therefore: $S_{2,0}(2,1) = 0$, $S_{2,1}(2,1) = 1$, $S_{2,2}(2,1) = 1$
 
+### Example 3: Verification of Inverse Relationship
+
+Consider the transformation from monomials to Pochhammer and back ($a = 0, b = 1, c = 0$):
+
+For $m = 2$, we have:
+$$x^2 = S_{2,0}(0,1) \cdot 1 + S_{2,1}(0,1) \cdot x + S_{2,2}(0,1) \cdot x(x+1)$$
+
+The coefficients $S_{m,n}(0,1)$ are Stirling numbers of the first kind:
+- $S_{2,0}(0,1) = s(2,0) = 0$
+- $S_{2,1}(0,1) = s(2,1) = -1$ 
+- $S_{2,2}(0,1) = s(2,2) = 1$
+
+So: $x^2 = -x + x(x+1) = -x + x^2 + x = x^2$ ✓
+
+The inverse transformation coefficients $S_{m,n}(1,0)$ are related to Stirling numbers of the second kind, and the orthogonality relation:
+$$\sum_{k=0}^{2} S_{2,k}(0,1) \cdot S_{k,2}(1,0) = \delta_{2,2} = 1$$
+
+confirms the inverse relationship.
+
 ## Generating Functions and Analytical Properties
 
 ### Exponential Generating Function
@@ -116,6 +144,39 @@ The coefficients satisfy orthogonality relations that generalize the classical S
 $$\sum_{k=0}^{m} S_{m,k}(a,b) \cdot S_{k,n}(b,c) = S_{m,n}(a,c)$$
 
 This represents the composition property of parameter transformations.
+
+#### Inverse Relationship
+
+Setting $c = a$ in the orthogonality relation yields the **inverse relationship**:
+
+$$\sum_{k=0}^{m} S_{m,k}(a,b) \cdot S_{k,n}(b,a) = S_{m,n}(a,a) = \delta_{m,n}$$
+
+This shows that $S_{m,n}(b,a)$ serves as the **inverse transformation** of $S_{m,n}(a,b)$. In matrix form, if $\mathbf{S}(a,b)$ is the matrix with entries $S_{m,n}(a,b)$, then:
+
+$$\mathbf{S}(a,b) \cdot \mathbf{S}(b,a) = \mathbf{I}$$
+
+where $\mathbf{I}$ is the identity matrix.
+
+#### Classical Stirling Number Orthogonality
+
+This generalizes the well-known orthogonality relations for classical Stirling numbers:
+
+- **First and Second Kind**: $\sum_{k=0}^{m} s(m,k) \cdot S(k,n) = \delta_{m,n}$
+- **In our notation**: $S_{m,k}(0,1) \cdot S_{k,n}(1,0) = \delta_{m,n}$
+
+This confirms that Stirling numbers of the first and second kinds are indeed inverse transformations between monomial and Pochhammer bases.
+
+#### Computational Implications
+
+The inverse relationship has important computational consequences:
+
+1. **Matrix Inversion**: To compute $S_{m,n}(b,a)$ from known $S_{m,n}(a,b)$, one can invert the coefficient matrix.
+
+2. **Bidirectional Transformations**: Any polynomial expansion can be transformed in both directions between parameter regimes.
+
+3. **Numerical Stability**: The orthogonality provides a check for computational accuracy in coefficient calculations.
+
+4. **Algorithmic Efficiency**: Forward and backward transformations can be implemented using the same coefficient sets.
 
 ## Applications
 
