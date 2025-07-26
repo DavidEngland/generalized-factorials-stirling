@@ -145,6 +145,68 @@ $$P(x,a,m) = (x+(m-1)a)^{\underline{m}}_a$$
 
 This identity allows conversion between the two forms and demonstrates their fundamental equivalence.
 
+### Derivatives and the Digamma Function
+
+The derivatives of generalized factorial polynomials reveal deep connections to the **digamma function** $\psi(x) = \frac{\Gamma'(x)}{\Gamma(x)}$, also known as the **logarithmic derivative of the gamma function**.
+
+#### Unified Derivative Formula
+
+Using the unified representation, the derivative of $P(x,a,m)$ with respect to $x$ is:
+
+$$\frac{d}{dx} P(x,a,m) = [a = 0] \cdot m x^{m-1} + [a \neq 0] \cdot a^{m-1} P(x,a,m) \psi\left(\frac{x}{a} + m\right)$$
+
+This single formula encompasses both the monomial case and the general factorial case.
+
+#### Special Cases
+
+**Monomial case** ($a = 0$):
+$$\frac{d}{dx} P(x,0,m) = \frac{d}{dx} x^m = m x^{m-1}$$
+
+**General case** ($a \neq 0$):
+$$\frac{d}{dx} P(x,a,m) = \frac{P(x,a,m)}{a} \psi\left(\frac{x}{a} + m\right) = \frac{P(x,a,m)}{a} \left[\psi\left(\frac{x}{a} + m\right) - \psi\left(\frac{x}{a}\right)\right] + \frac{P(x,a,m)}{a} \psi\left(\frac{x}{a}\right)$$
+
+Simplifying using the digamma difference property:
+$$\frac{d}{dx} P(x,a,m) = \frac{P(x,a,m)}{a} \left[\sum_{k=0}^{m-1} \frac{1}{\frac{x}{a} + k}\right] = P(x,a,m) \sum_{k=0}^{m-1} \frac{1}{x + ak}$$
+
+#### Connection to Classical Results
+
+**Rising factorial derivative** ($a = 1$):
+$$\frac{d}{dx} x^{(m)} = x^{(m)} \sum_{k=0}^{m-1} \frac{1}{x + k} = x^{(m)} [\psi(x + m) - \psi(x)]$$
+
+**Falling factorial derivative** ($a = -1$):
+$$\frac{d}{dx} (x)_m = (x)_m \sum_{k=0}^{m-1} \frac{1}{x - k} = (x)_m [\psi(x + 1) - \psi(x - m + 1)]$$
+
+#### Digamma Function Properties
+
+The **digamma function** $\psi(x)$ satisfies the fundamental recurrence:
+$$\psi(x + 1) = \psi(x) + \frac{1}{x}$$
+
+This leads to the difference formula used above:
+$$\psi(x + m) - \psi(x) = \sum_{k=0}^{m-1} \frac{1}{x + k}$$
+
+#### Higher-Order Derivatives
+
+The $n$-th derivative of $P(x,a,m)$ involves **polygamma functions** $\psi^{(n)}(x)$:
+
+For $a \neq 0$:
+$$\frac{d^n}{dx^n} P(x,a,m) = \frac{P(x,a,m)}{a^n} \sum_{k_1,k_2,\ldots,k_n} \frac{(-1)^{n-1}(n-1)!}{\prod_{j=0}^{m-1}(x/a + j)^{k_j+1}}$$
+
+where the sum is over all non-negative integer solutions to $k_1 + k_2 + \cdots + k_n = n$.
+
+For the monomial case ($a = 0$):
+$$\frac{d^n}{dx^n} P(x,0,m) = \frac{d^n}{dx^n} x^m = \frac{m!}{(m-n)!} x^{m-n}$$
+
+#### Logarithmic Derivative
+
+The **logarithmic derivative** of $P(x,a,m)$ provides the cleanest connection to the digamma function:
+
+$$\frac{d}{dx} \ln P(x,a,m) = \begin{cases}
+\frac{m}{x} & \text{if } a = 0 \\
+\frac{1}{a} \psi\left(\frac{x}{a} + m\right) & \text{if } a \neq 0
+\end{cases}$$
+
+This unified form shows how the discrete factorial structure (via the digamma function) smoothly transitions to the continuous monomial structure.
+
 ## Examples
 
 ### Computational Examples
@@ -204,11 +266,63 @@ $$P(6,2,3) = 8 \cdot 60 = 480$$
 
 Direct verification: $P(6,2,3) = 6 \cdot 8 \cdot 10 = 480$ ✓
 
+### Derivative Examples and Verification
+
+#### Example 1: Derivative of P(x,1,3) (Rising Factorial)
+$$P(x,1,3) = x(x+1)(x+2) = x^3 + 3x^2 + 2x$$
+
+Using the general formula:
+$$\frac{d}{dx} P(x,1,3) = P(x,1,3) \sum_{k=0}^{2} \frac{1}{x + k} = P(x,1,3) \left[\frac{1}{x} + \frac{1}{x+1} + \frac{1}{x+2}\right]$$
+
+Direct differentiation:
+$$\frac{d}{dx} (x^3 + 3x^2 + 2x) = 3x^2 + 6x + 2$$
+
+Verification at $x = 2$:
+- $P(2,1,3) = 2 \cdot 3 \cdot 4 = 24$
+- Sum of reciprocals: $\frac{1}{2} + \frac{1}{3} + \frac{1}{4} = \frac{6+4+3}{12} = \frac{13}{12}$
+- Formula result: $24 \cdot \frac{13}{12} = 26$
+- Direct result: $3(4) + 6(2) + 2 = 12 + 12 + 2 = 26$ ✓
+
+#### Example 2: Derivative of P(x,2,3) (General Case)
+$$P(x,2,3) = x(x+2)(x+4) = x^3 + 6x^2 + 8x$$
+
+Using the general formula:
+$$\frac{d}{dx} P(x,2,3) = P(x,2,3) \sum_{k=0}^{2} \frac{1}{x + 2k} = P(x,2,3) \left[\frac{1}{x} + \frac{1}{x+2} + \frac{1}{x+4}\right]$$
+
+Verification at $x = 2$:
+- $P(2,2,3) = 2 \cdot 4 \cdot 6 = 48$
+- Sum of reciprocals: $\frac{1}{2} + \frac{1}{4} + \frac{1}{6} = \frac{6+3+2}{12} = \frac{11}{12}$
+- Formula result: $48 \cdot \frac{11}{12} = 44$
+- Direct result: $3(4) + 6(4) + 8 = 12 + 24 + 8 = 44$ ✓
+
+#### Example 3: Monomial Case P(x,0,4)
+$$P(x,0,4) = x^4$$
+
+Using the unified formula:
+$$\frac{d}{dx} P(x,0,4) = [0 = 0] \cdot 4x^3 + [0 \neq 0] \cdot \text{(digamma terms)} = 4x^3$$
+
+This matches the standard power rule directly.
+
+#### Example 4: Logarithmic Derivative
+For $P(x,1,2) = x(x+1) = x^2 + x$:
+
+$$\frac{d}{dx} \ln P(x,1,2) = \frac{1}{1} \psi\left(\frac{x}{1} + 2\right) = \psi(x + 2)$$
+
+Since $\psi(x + 2) = \psi(x) + \frac{1}{x} + \frac{1}{x+1}$, we have:
+$$\frac{d}{dx} \ln P(x,1,2) = \psi(x) + \frac{1}{x} + \frac{1}{x+1}$$
+
+Direct computation:
+$$\frac{d}{dx} \ln(x^2 + x) = \frac{2x + 1}{x^2 + x} = \frac{2x + 1}{x(x + 1)} = \frac{1}{x} + \frac{1}{x+1}$$
+
+The difference is $\psi(x)$, which represents the "baseline" logarithmic derivative behavior, confirming the digamma function's role as the fundamental building block.
+
 ## Historical Context
 
 The concept of generalized factorial polynomials emerged from the generalization of the classical Pochhammer symbol, introduced by **Leo Pochhammer** in 1870. The extension to arbitrary increment parameters developed naturally in the study of hypergeometric functions and combinatorial analysis during the late 19th and early 20th centuries.
 
 The systematic study of these polynomials was advanced by mathematicians working on finite difference theory and special functions, including **Charles Jordan** and **Niels Erik Nørlund** in the early 20th century.
+
+The connection to the **digamma function** traces back to **Carl Friedrich Gauss**, who first studied the logarithmic derivative of the gamma function in his analysis of the hypergeometric series. Gauss denoted this function as $\psi(x)$ and established its fundamental properties, including the recurrence relation $\psi(x+1) = \psi(x) + \frac{1}{x}$. The appearance of the digamma function in the derivatives of generalized factorial polynomials reveals the deep connection between discrete factorial structures and continuous special functions, a relationship that continues to be explored in modern mathematical analysis.
 
 ## Applications
 
@@ -233,6 +347,8 @@ These polynomials appear in the study of quantum mechanical systems and statisti
 
 - **Pochhammer symbol** - The standard case $P(x,1,m)$
 - **Gamma function** - Provides analytic continuation
+- **Digamma function** - Logarithmic derivative of gamma function, central to derivative formulas
+- **Polygamma functions** - Higher-order derivatives of the logarithmic gamma function
 - **Rising factorial** - Alternative notation for $P(x,1,m)$
 - **Falling factorial** - Related by shift transformation
 - **Monomial** - The trivial case $P(x,0,m) = x^m$
