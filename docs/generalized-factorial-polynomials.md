@@ -46,9 +46,14 @@ This is the **generalized rising factorial** or **generalized Pochhammer symbol*
 
 #### Pochhammer Symbol (Standard Rising Factorial)
 When $a = 1$:
-$$P(x,1,m) = x^{\overline{m}} = (x)_m = x(x+1)(x+2)\cdots(x+m-1)$$
+$$P(x,1,m) = x^{\overline{m}} = x(x+1)(x+2)\cdots(x+m-1)$$
 
-This is the classical **Pochhammer symbol**.
+This is the classical **Pochhammer symbol**. In the literature, this is also denoted as:
+- $(x)_m$ in special functions (Abramowitz & Stegun)
+- $x^{(m)}$ in combinatorics
+- $(x)_m^+$ when disambiguation is needed
+
+The notation varies by field, with special function theory typically using $(x)_m$ for the rising factorial, while combinatorics often uses $(x)_m$ for the falling factorial.
 
 #### Generalized Falling Factorials
 The **generalized falling factorial** relates to $P(x,a,m)$ by:
