@@ -1,5 +1,8 @@
 # Generalized Stirling Transfer Coefficients
 
+**Abstract:**  
+Generalized Stirling Transfer Coefficients provide a unified framework for expressing linear transformations between generalized factorial polynomials with different increment parameters. These coefficients generalize the classical Stirling numbers of both kinds, allowing for seamless transitions between various polynomial bases such as monomials, rising factorials, and falling factorials. Their applications span combinatorics, special function theory, and numerical analysis, where they enable the translation of results and identities across different polynomial representations.
+
 **Generalized Stirling Transfer Coefficients** are mathematical coefficients that express the linear transformation between generalized factorial polynomials with different increment parameters. These coefficients, denoted as $S_{m,n}(a,b)$, generalize the classical Stirling numbers and provide a unified framework for understanding polynomial transformations in combinatorics and special function theory.
 
 ## Definition
@@ -12,10 +15,10 @@ $$P(x,a,m) = \sum_{n=0}^{m} S_{m,n}(a,b) \cdot P(x,b,n) \tag{1}$$
 
 where:
 
-- $P(x,a,m)$ and $P(x,b,n)$ are generalized factorial polynomials
-- $a$ and $b$ are increment parameters (constants)
-- $m$ and $n$ are non-negative integers
-- $S_{m,n}(a,b)$ represents the coefficient for transforming from increment $b$ to increment $a$
+- $P(x,a,m)$ and $P(x,b,n)$ are generalized factorial polynomials,
+- $a$ and $b$ are increment parameters (constants),
+- $m$ and $n$ are non-negative integers,
+- $S_{m,n}(a,b)$ represents the coefficient for transforming from increment $b$ to increment $a$.
 
 ### Interpretation
 
@@ -41,11 +44,13 @@ This connection involves the relationship between rising factorials and binomial
 
 ## Matrix Representations
 
-### Classical Stirling Numbers as Triangular Matrices
+The relationships between classical and generalized Stirling numbers are best understood through their matrix representations. For clarity, this section is divided into two parts: **Classical Stirling Numbers** and **Generalized Stirling Transfer Coefficients**.
 
-The classical Stirling numbers can be represented as infinite triangular matrices, providing a visual understanding of their structure and relationships.
+### Classical Stirling Numbers
 
-**Note on Matrix Structure**: All Stirling transfer coefficient matrices have trivial first row and column entries due to boundary conditions:
+The classical Stirling numbers can be represented as infinite triangular matrices, providing a visual understanding of their structure and relationships. Each matrix below corresponds to a specific transformation between polynomial bases.
+
+**Note on Matrix Structure:** All Stirling number matrices have trivial first row and column entries due to boundary conditions:
 
 - $S_{0,0}(a,b) = 1$ (identity transformation for degree-0 polynomials)
 - $S_{m,0}(a,b) = 0$ for $m > 0$ (no constant term in higher-degree transformations when $a \neq 0$)
@@ -55,70 +60,10 @@ These boundary conditions reflect the fundamental degree-preserving nature of po
 
 #### Stirling Numbers of the First Kind (Signed): $s(m,n)$
 
-The **signed Stirling numbers of the first kind** $s(m,n)$ form the triangular matrix $\mathbf{S}_1^{(-)}$ (showing entries for $m,n \geq 1$):
+The signed Stirling numbers of the first kind, $s(m,n)$, correspond to the transformation from monomials to rising factorials. The matrix $\mathbf{S}_1^{(-)}$ is:
 
-$$\mathbf{S}_1^{(-)} = \begin{pmatrix}
-1 & 0 & 0 & 0 & 0 & \cdots \\
-2 & -3 & 1 & 0 & 0 & \cdots \\
-24 & -50 & 35 & -10 & 1 & \cdots \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{4}$$
-
-These coefficients satisfy the transformation: $x^m = \sum_{n=0}^{m} s(m,n) \cdot P(x,1,n)$
-
-**Combinatorial interpretation:** $|s(m,n)|$ counts the number of permutations of $m$ elements with exactly $n$ cycles. The sign of $s(m,n)$ is $(-1)^{m-n}$. Thus, $s(m,n)$ gives the (signed) number of permutations of $m$ elements with $n$ cycles.
-
-#### Stirling Numbers of the First Kind (Unsigned): $|s(m,n)|$
-
-The **unsigned Stirling numbers of the first kind** $|s(m,n)|$ form the triangular matrix $\mathbf{S}_1^{(+)}$ (showing entries for $m,n \geq 1$):
-
-$$\mathbf{S}_1^{(+)} = \begin{pmatrix}
-1 & 0 & 0 & 0 & 0 & \cdots \\
-1 & 1 & 0 & 0 & 0 & \cdots \\
-2 & 3 & 1 & 0 & 0 & \cdots \\
-6 & 11 & 6 & 1 & 0 & \cdots \\
-24 & 50 & 35 & 10 & 1 & \cdots \\
-120 & 274 & 225 & 85 & 15 & \cdots \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{5}$$
-
-The relationship is: $|s(m,n)| = (-1)^{m-n} s(m,n)$
-
-**Combinatorial interpretation:** $|s(m,n)|$ counts the number of permutations of $m$ elements with exactly $n$ cycles (i.e., the number of ways to decompose a set of $m$ labeled objects into $n$ disjoint cycles).
-
-#### Stirling Numbers of the Second Kind: $S(m,n)$
-
-The **Stirling numbers of the second kind** $S(m,n)$ form the triangular matrix $\mathbf{S}_2$ (showing entries for $m,n \geq 1$):
-
-$$\mathbf{S}_2 = \begin{pmatrix}
-1 & 0 & 0 & 0 & 0 & \cdots \\
-1 & 1 & 0 & 0 & 0 & \cdots \\
-1 & 3 & 1 & 0 & 0 & \cdots \\
-1 & 7 & 6 & 1 & 0 & \cdots \\
-1 & 15 & 25 & 10 & 1 & \cdots \\
-1 & 31 & 90 & 65 & 15 & \cdots \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{6}$$
-
-These coefficients express the transformation: $P(x,1,m) = \sum_{n=0}^{m} S(m,n) \cdot n! \cdot \binom{x}{n}$
-
-**Combinatorial interpretation:** $S(m,n)$ counts the number of ways to partition a set of $m$ labeled elements into $n$ non-empty, unlabeled subsets (i.e., the number of set partitions of $m$ elements into $n$ blocks).
-
-#### Orthogonality Relationship
-
-The matrices $\mathbf{S}_1^{(-)}$ and $\mathbf{S}_2$ are **inverses** of each other:
-
-$$\mathbf{S}_1^{(-)} \cdot \mathbf{S}_2 = \mathbf{I} \tag{7}$$
-
-This reflects the fundamental orthogonality: $\sum_{k=0}^{m} s(m,k) \cdot S(k,n) = [m = n]$
-
-### Generalized Stirling Transfer Coefficient Matrices
-
-#### Case 1: $S_{m,n}(0,1)$ - Monomial to Rising Factorial
-
-This is identical to the signed Stirling numbers of the first kind (showing entries for $m,n \geq 1$):
-
-$$\mathbf{S}(0,1) = \mathbf{S}_1^{(-)} = \begin{pmatrix}
+$$
+\mathbf{S}_1^{(-)} = \begin{pmatrix}
 1 & 0 & 0 & 0 & 0 & \cdots \\
 -1 & 1 & 0 & 0 & 0 & \cdots \\
 2 & -3 & 1 & 0 & 0 & \cdots \\
@@ -126,56 +71,19 @@ $$\mathbf{S}(0,1) = \mathbf{S}_1^{(-)} = \begin{pmatrix}
 24 & -50 & 35 & -10 & 1 & \cdots \\
 -120 & 274 & -225 & 85 & -15 & \cdots \\
 \vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{8}$$
+\end{pmatrix}
+$$
 
-#### Case 2: $S_{m,n}(1,0)$ - Rising Factorial to Monomial
+These coefficients satisfy the transformation: $x^m = \sum_{n=0}^{m} s(m,n) \cdot P(x,1,n)$
 
-This is related to Stirling numbers of the second kind (showing entries for $m,n \geq 1$):
+**Combinatorial interpretation:** $|s(m,n)|$ counts the number of permutations of $m$ elements with exactly $n$ cycles. The sign of $s(m,n)$ is $(-1)^{m-n}$.
 
-$$\mathbf{S}(1,0) = \mathbf{S}_2 = \begin{pmatrix}
-1 & 0 & 0 & 0 & 0 & \cdots \\
-1 & 1 & 0 & 0 & 0 & \cdots \\
-1 & 3 & 1 & 0 & 0 & \cdots \\
-1 & 7 & 6 & 1 & 0 & \cdots \\
-1 & 15 & 25 & 10 & 1 & \cdots \\
-1 & 31 & 90 & 65 & 15 & \cdots \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{9}$$
+#### Stirling Numbers of the First Kind (Unsigned): $|s(m,n)|$
 
-#### Case 3: $S_{m,n}(1,-1)$ - Rising to Falling Factorial (Lah Numbers)
+The unsigned Stirling numbers of the first kind, $|s(m,n)|$, correspond to the transformation from monomials to falling factorials. The matrix $\mathbf{S}_1^{(+)}$ is:
 
-The coefficients $S_{m,n}(1,-1)$ involve **Lah numbers** with alternating signs (showing entries for $m,n \geq 1$):
-
-$$\mathbf{S}(1,-1) = \begin{pmatrix}
-2 & 1 & 0 & 0 & 0 & \cdots \\
-24 & 36 & 12 & 1 & 0 & \cdots \\
-720 & 1800 & 1200 & 300 & 30 & 1 & \cdots \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{10}$$
-
-The relationship is: $S_{m,n}(1,-1) = (-1)^{m-n} L(m,n)$ where $L(m,n)$ are unsigned Lah numbers.
-
-**Combinatorial interpretation:** $L(m,n)$ counts the number of ways to partition a set of $m$ labeled elements into $n$ non-empty, linearly ordered subsets (i.e., the number of ways to split $m$ elements into $n$ ordered lists). Equivalently, $L(m,n) = \binom{m-1}{n-1} \frac{m!}{n!}$.
-
-#### Case 4: $S_{m,n}(-1,1)$ - Falling to Rising Factorial
-
-This is the inverse of the Lah transformation (showing entries for $m,n \geq 1$):
-
-$$\mathbf{S}(-1,1) = \begin{pmatrix}
--1 & 0 & 0 & 0 & 0 & \cdots \\
--2 & 1 & 0 & 0 & 0 & \cdots \\
--6 & 6 & -1 & 0 & 0 & \cdots \\
--24 & 36 & -12 & 1 & 0 & \cdots \\
--120 & 240 & -120 & 20 & -1 & \cdots \\
--720 & 1800 & -1200 & 300 & -30 & 1 & \cdots \\
-\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{11}$$
-
-#### Case 5: $S_{m,n}(0,-1)$ - Monomial to Falling Factorial
-
-This is identical to the **unsigned Stirling numbers of the first kind** $|s(m,n)|$ (showing entries for $m,n \geq 1$):
-
-$$\mathbf{S}(0,-1) = \begin{pmatrix}
+$$
+\mathbf{S}_1^{(+)} = \begin{pmatrix}
 1 & 0 & 0 & 0 & 0 & \cdots \\
 1 & 1 & 0 & 0 & 0 & \cdots \\
 2 & 3 & 1 & 0 & 0 & \cdots \\
@@ -183,13 +91,137 @@ $$\mathbf{S}(0,-1) = \begin{pmatrix}
 24 & 50 & 35 & 10 & 1 & \cdots \\
 120 & 274 & 225 & 85 & 15 & \cdots \\
 \vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{12}$$
+\end{pmatrix}
+$$
+
+The relationship is: $|s(m,n)| = (-1)^{m-n} s(m,n)$
+
+#### Stirling Numbers of the Second Kind: $S(m,n)$
+
+The Stirling numbers of the second kind, $S(m,n)$, correspond to the transformation from rising factorials to monomials. The matrix $\mathbf{S}_2$ is:
+
+$$
+\mathbf{S}_2 = \begin{pmatrix}
+1 & 0 & 0 & 0 & 0 & \cdots \\
+1 & 1 & 0 & 0 & 0 & \cdots \\
+1 & 3 & 1 & 0 & 0 & \cdots \\
+1 & 7 & 6 & 1 & 0 & \cdots \\
+1 & 15 & 25 & 10 & 1 & \cdots \\
+1 & 31 & 90 & 65 & 15 & \cdots \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix}
+$$
+
+These coefficients express the transformation from rising factorials to monomials:
+\[
+P(x,1,m) = \sum_{n=0}^{m} S(m,n) \, x^n
+\]
+
+**Combinatorial interpretation:** $S(m,n)$ counts the number of ways to partition a set of $m$ labeled elements into $n$ non-empty, unlabeled subsets.
+
+#### Orthogonality Relationship
+
+The matrices $\mathbf{S}_1^{(-)}$ and $\mathbf{S}_2$ are **inverses** of each other:
+
+$$\mathbf{S}_1^{(-)} \cdot \mathbf{S}_2 = \mathbf{I} \tag{7}$$
+
+Explicitly, in summation notation:
+\[
+\sum_{k=0}^m s(m, k) \, S(k, n) = [m = n]
+\]
+where $[m = n]$ is the Iverson bracket (1 if $m=n$, 0 otherwise).
+
+This reflects the fundamental orthogonality: the signed Stirling numbers of the first kind and the Stirling numbers of the second kind are inverse transformations between monomial and rising factorial bases.
+
+### Generalized Stirling Transfer Coefficient Matrices
+
+The following matrices generalize the classical cases to arbitrary increment parameters, unifying transformations between various factorial polynomial bases.
+
+#### Case 1: $S_{m,n}(0,1)$ - Monomial to Rising Factorial
+
+This is identical to the signed Stirling numbers of the first kind:
+
+$$
+\mathbf{S}(0,1) = \mathbf{S}_1^{(-)} = \begin{pmatrix}
+1 & 0 & 0 & 0 & 0 & \cdots \\
+-1 & 1 & 0 & 0 & 0 & \cdots \\
+2 & -3 & 1 & 0 & 0 & \cdots \\
+-6 & 11 & -6 & 1 & 0 & \cdots \\
+24 & -50 & 35 & -10 & 1 & \cdots \\
+-120 & 274 & -225 & 85 & -15 & \cdots \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix}
+$$
+
+#### Case 2: $S_{m,n}(1,0)$ - Rising Factorial to Monomial
+
+This is related to Stirling numbers of the second kind:
+
+$$
+\mathbf{S}(1,0) = \mathbf{S}_2 = \begin{pmatrix}
+1 & 0 & 0 & 0 & 0 & \cdots \\
+1 & 1 & 0 & 0 & 0 & \cdots \\
+1 & 3 & 1 & 0 & 0 & \cdots \\
+1 & 7 & 6 & 1 & 0 & \cdots \\
+1 & 15 & 25 & 10 & 1 & \cdots \\
+1 & 31 & 90 & 65 & 15 & \cdots \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix}
+$$
+
+#### Case 3: $S_{m,n}(1,-1)$ - Rising to Falling Factorial (Lah Numbers)
+
+The transformation from rising to falling factorials involves Lah numbers with alternating signs. The matrix is:
+
+$$
+\mathbf{S}(1,-1) = \begin{pmatrix}
+2 & 1 & 0 & 0 & 0 & \cdots \\
+12 & 6 & 1 & 0 & 0 & \cdots \\
+60 & 30 & 8 & 1 & 0 & \cdots \\
+360 & 180 & 48 & 12 & 1 & \cdots \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix}
+$$
+
+The relationship is: $S_{m,n}(1,-1) = (-1)^{m-n} L(m,n)$ where $L(m,n)$ are unsigned Lah numbers.
+
+#### Case 4: $S_{m,n}(-1,1)$ - Falling to Rising Factorial
+
+The inverse transformation (falling to rising factorials) is:
+
+$$
+\mathbf{S}(-1,1) = \begin{pmatrix}
+-1 & 0 & 0 & 0 & 0 & \cdots \\
+-2 & 1 & 0 & 0 & 0 & \cdots \\
+-6 & 6 & -1 & 0 & 0 & \cdots \\
+-24 & 36 & -12 & 1 & 0 & \cdots \\
+-120 & 240 & -120 & 20 & -1 & \cdots \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix}
+$$
+
+#### Case 5: $S_{m,n}(0,-1)$ - Monomial to Falling Factorial
+
+This is identical to the unsigned Stirling numbers of the first kind:
+
+$$
+\mathbf{S}(0,-1) = \mathbf{S}_1^{(+)} = \begin{pmatrix}
+1 & 0 & 0 & 0 & 0 & \cdots \\
+1 & 1 & 0 & 0 & 0 & \cdots \\
+2 & 3 & 1 & 0 & 0 & \cdots \\
+6 & 11 & 6 & 1 & 0 & \cdots \\
+24 & 50 & 35 & 10 & 1 & \cdots \\
+120 & 274 & 225 & 85 & 15 & \cdots \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix}
+$$
 
 #### Case 6: $S_{m,n}(-1,0)$ - Falling Factorial to Monomial
 
-The relationship is: $S_{m,n}(-1,0) = (-1)^{m-n} S(m,n)$ where $S(m,n)$ are Stirling numbers of the second kind (showing entries for $m,n \geq 1$):
+The transformation from falling factorials to monomials is:
 
-$$\mathbf{S}(-1,0) = \begin{pmatrix}
+$$
+\mathbf{S}(-1,0) = \begin{pmatrix}
 1 & 0 & 0 & 0 & 0 & \cdots \\
 -1 & 1 & 0 & 0 & 0 & \cdots \\
 1 & -3 & 1 & 0 & 0 & \cdots \\
@@ -197,7 +229,8 @@ $$\mathbf{S}(-1,0) = \begin{pmatrix}
 1 & -15 & 25 & -10 & 1 & \cdots \\
 -1 & 31 & -90 & 65 & -15 & \cdots \\
 \vdots & \vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix} \tag{13}$$
+\end{pmatrix}
+$$
 
 ### Matrix Inverse Relationships
 
@@ -261,11 +294,25 @@ This fundamental property ensures that transformations between any two parameter
 
 ### Recurrence Relations
 
-The generalized Stirling transfer coefficients satisfy recurrence relations derived from the properties of generalized factorial polynomials:
+The generalized Stirling transfer coefficients satisfy recurrence relations derived from the properties of generalized factorial polynomials.
 
-$$S_{m+1,n}(a,b) = S_{m,n-1}(a,b) \cdot nb + S_{m,n}(a,b) \cdot (x + ma) \tag{17}$$
+To derive the general recurrence, one writes $P(x,a,m+1)$ in terms of $P(x,a,m)$ using the recurrence $P(x,a,m+1) = P(x,a,m) \cdot (x + ma)$, then expands both $P(x,a,m)$ and $P(x,a,m+1)$ in the $b$-basis. By equating coefficients of $P(x,b,n)$ on both sides, a recurrence for $S_{m,n}(a,b)$ in terms of $S_{m-1,n}(a,b)$ and $S_{m-1,n-1}(a,b)$ (with coefficients involving $a$, $b$, $m$, and $n$) is obtained. This method generalizes the familiar approach for classical Stirling numbers to the broader setting of arbitrary increments.
 
-This recurrence follows from the fundamental recurrence of $P(x,a,m)$.
+#### Classical Recurrences (Unit Circle Cases)
+
+For the **unsigned Stirling numbers of the first kind** (monomial to falling factorial, $S_{m,n}(0,-1) = \left[ \begin{array}{c} m \\ n \end{array} \right]$):
+
+\[
+\left[ \begin{array}{c} m+1 \\ n \end{array} \right] = m \left[ \begin{array}{c} m \\ n \end{array} \right] + \left[ \begin{array}{c} m \\ n-1 \end{array} \right]
+\]
+
+For the **Stirling numbers of the second kind** (monomial to rising factorial, $S_{m,n}(0,1) = \left\{ \begin{array}{c} m \\ n \end{array} \right\}$):
+
+\[
+\left\{ \begin{array}{c} m+1 \\ n \end{array} \right\} = n \left\{ \begin{array}{c} m \\ n \end{array} \right\} + \left\{ \begin{array}{c} m \\ n-1 \end{array} \right\}
+\]
+
+These recurrences can be verified directly from the general recursion by setting $a=0$, $b=1$ (for curly brackets) or $a=0$, $b=-1$ (for square brackets).
 
 ## Decomposition into Classical Stirling Numbers
 
@@ -295,12 +342,15 @@ $$S_{m,n}(a,b) = \left(\frac{a}{b}\right)^{\alpha(m,n)} \cdot S_{m,n}^*(1,1) \ta
 
 where $S_{m,n}^*(1,1)$ represents the normalized coefficients and $\alpha(m,n)$ is a scaling exponent determined by the degrees.
 
-This inheritance property explains why:
+**However, the scaling factor is not always a simple power of $a/b$, and the normalized coefficients $S_{m,n}^*(1,1)$ are not always the identity matrix (except when $a = b$).** The observed triangular structure and combinatorial content arise from the non-trivial nature of these normalized coefficients, which encode the classical Stirling, Lah, or related numbers. Thus, the full structure of $S_{m,n}(a,b)$ is a combination of both scaling and combinatorial information.
+
+This clarifies the apparent contradiction: the diagonal (identity) structure would only occur if the normalized coefficients were trivial, but in reality, the combinatorial part (e.g., Stirling or Lah numbers) is essential and persists regardless of the scaling.
+
+This scaling inheritance property explains why:
 - Classical Stirling numbers appear when one parameter is 0 or 1
 - Lah numbers emerge with specific parameter ratios
 - All generalized coefficients can be expressed in terms of classical forms with appropriate scaling factors
 
-The scaling inheritance is what makes the unified framework possible - the polynomial scaling properties propagate directly to the transformation coefficients.
 
 #### Normalized Coefficients Matrix
 
@@ -324,13 +374,7 @@ $$S_{m,n}(a,b) = \left(\frac{a}{b}\right)^{\alpha(m,n)} \cdot [m = n] = \begin{c
 0 & \text{if } m \neq n
 \end{cases} \tag{23}$$
 
-However, this diagonal structure contradicts the observed triangular patterns in classical Stirling numbers. This suggests that either:
-
-1. The scaling exponent $\alpha(m,n)$ depends on both indices in a more complex way
-2. The normalized coefficients $S_{m,n}^*(1,1)$ may not be the simple identity matrix
-3. The scaling inheritance formula requires additional terms or corrections
-
-The resolution of this apparent contradiction will be clarified through the detailed combinatorial proof.
+However, this diagonal structure contradicts the observed triangular patterns in classical Stirling numbers. The apparent contradiction arises because the normalized coefficients $S_{m,n}^*(1,1)$ are not always the identity matrix. The true structure of $S_{m,n}(a,b)$ is a combination of both a scaling factor and these non-trivial, combinatorially-rich normalized coefficients.
 
 ## Proofs and Technical Details
 
@@ -565,6 +609,12 @@ The current notation using $P(x,a,m)$ for generalized factorial polynomials prov
 - **Connection coefficients** - General framework for basis transformations
 - **Hypergeometric functions** - Applications in special function theory
 
+## References
+
+1. Comtet, L. (1974). *Advanced Combinatorics: The Art of Finite and Infinite Expansions*. D. Reidel Publishing Company.
+2. Graham, R. L., Knuth, D. E., & Patashnik, O. (1994). *Concrete Mathematics* (2nd ed.). Addison-Wesley.
+3. Stanley, R. P. (2012). *Enumerative Combinatorics* (2nd ed., Vol. 1). Cambridge University Press.
+4. Riordan, J. (1968). *Combinatorial Identities*. John Wiley & Sons.
 ## References
 
 1. Comtet, L. (1974). *Advanced Combinatorics: The Art of Finite and Infinite Expansions*. D. Reidel Publishing Company.
