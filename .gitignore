@@ -1,4 +1,45 @@
-# Python
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Backup files
+*.bak
+*.backup
+
+# Node.js (if adding computational tools later)
+node_modules/
+npm-debug.log*
+
+# Python (if adding computational tools later)
 __pycache__/
 *.py[cod]
 *$py.class
@@ -19,56 +60,28 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Virtual environments
-venv/
-env/
-ENV/
-.venv/
-.env/
+# R (if adding computational tools later)
+.RData
+.Rhistory
 
-# Jupyter Notebook
-.ipynb_checkpoints/
-*.ipynb
+# MATLAB (if adding computational tools later)
+*.asv
+*.m~
 
-# LaTeX
-*.aux
-*.bbl
-*.blg
-*.fdb_latexmk
-*.fls
-*.log
-*.out
-*.synctex.gz
-*.toc
-*.pdf
-*.dvi
-*.ps
+# Computational outputs (future)
+outputs/
+results/
+plots/
+figures/
 
-# macOS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Draft and work-in-progress files
+draft_*
+wip_*
+scratch_*
+notes_*
 
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Temporary files
-*.tmp
-*.temp
-temp/
-tmp/
-
-# Research and draft files
-drafts/
-notes/
-scratch/
+# Large data files (if any added later)
+*.csv
+*.dat
+*.bin

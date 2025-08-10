@@ -1,39 +1,40 @@
-# Generalized Factorials and Stirling Numbers
+# Generalized Stirling Transfer Coefficients
 
-This repository contains research materials and documentation for a comprehensive study of generalized factorials and their relationship to Stirling numbers, intended as preparatory work for a Wikipedia article.
+A unified framework for polynomial basis transformations using generalized factorial polynomials and their associated transfer coefficients.
 
 ## Overview
 
-This project explores the mathematical foundations and applications of generalized factorials and their connections to various forms of Stirling numbers, including:
+This repository contains a comprehensive mathematical framework for **Generalized Stirling Transfer Coefficients** $S_{m,n}(a,b)$, which provide a unified approach to transformations between different polynomial bases. These coefficients generalize the classical Stirling numbers of both kinds and enable systematic conversion between polynomial representations including monomials, rising factorials, falling factorials, and their generalizations.
 
-- Classical Stirling numbers of the first and second kind
-- Generalized Stirling numbers
-- Rising and falling factorials
-- Pochhammer symbols
-- Applications in combinatorics and special functions
+## Key Features
 
-## Repository Structure
+- **Unified Framework**: Single notation $P(x,a,m)$ encompasses monomials, rising factorials, falling factorials
+- **Classical Extensions**: Generalizes Stirling numbers of first and second kinds, Lah numbers
+- **Matrix Theory**: Complete matrix representations and inversion relationships
+- **Combinatorial Interpretations**: Extends classical counting problems to weighted scenarios
+- **Computational Tools**: Efficient algorithms and verification methods
 
-```text
-├── docs/                    # Documentation and article drafts
-├── mathematical-proofs/     # Formal proofs and derivations
-├── examples/               # Computational examples and illustrations
-├── references/             # Bibliography and source materials
-└── code/                   # Supporting computational tools
-```
+## Mathematical Framework
 
-## Purpose
+### Core Definitions
 
-This repository serves as a workspace for developing a comprehensive Wikipedia article on generalized Stirling numbers, ensuring all mathematical content is rigorously documented with proper citations and examples.
+**Generalized Factorial Polynomial:**
+- [`journal-article-draft.md`](docs/journal-article-draft.md) - Complete mathematical exposition
 
-## Author
+### Practical Resources  
+- [`cheat-sheet.md`](docs/cheat-sheet.md) - Quick reference formulas and tables
+- [`Combinatorial-Interpretations.md`](docs/Combinatorial-Interpretations.md) - Counting interpretations and applications
 
-David England
+### Advanced Topics
+- [`Higher-Dimensional-Generalizations.md`](docs/Higher-Dimensional-Generalizations.md) - Future research directions
+- [`Math-Verification-Prompts.md`](docs/Math-Verification-Prompts.md) - Systematic verification procedures
 
-## License
+### Reference Materials
+- [`rising-falling-factorials-unified.md`](docs/rising-falling-factorials-unified.md) - Historical context and notation
+- [`Alternative Transfer Coefficients.md`](docs/Alternative%20Transfer%20Coefficients.md) - **DEPRECATED** (failed T-coefficient approach)
 
-This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License - see the [LICENSE](LICENSE) file for details. This license is compatible with Wikipedia's content licensing and appropriate for educational and research materials.
+## Quick Start
 
-## Contributing
+### Basic Definitions
 
-This is primarily a research repository for Wikipedia content development. However, suggestions and corrections are welcome through GitHub issues.
+**Generalized Factorial Polynomial:**

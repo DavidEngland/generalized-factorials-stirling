@@ -1,3 +1,9 @@
+**Special Cases:**
+- Monomials: `P(x,0,m) = x^m`
+- Rising factorials: `P(x,1,m) = x(x+1)⋯(x+m-1)`
+- Falling factorials: `P(x,-1,m) = x(x-1)⋯(x-m+1)`
+
+**Transfer Coefficients:**
 ## Special Cases
 
 ### Case: \( S_{m,n}(0, b) \)

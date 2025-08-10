@@ -120,15 +120,15 @@ $$(x)_n = \sum_{k=0}^n s(n,k) x^k = \sum_{k=0}^n s(n,k) P(x,0,k)$$
 where $s(n,k)$ are **Stirling numbers of the first kind**.
 
 #### Rising Factorial Expansion
-$$x^{(n)} = \sum_{k=0}^n \begin{bmatrix} n \\ k \end{bmatrix} x^k = \sum_{k=0}^n \begin{bmatrix} n \\ k \end{bmatrix} P(x,0,k)$$
+$$x^{(n)} = \sum_{k=0}^n \left[\begin{array}{c}n\\k\end{array}\right] x^k = \sum_{k=0}^n \left[\begin{array}{c}n\\k\end{array}\right] P(x,0,k)$$
 
-where $\begin{bmatrix} n \\ k \end{bmatrix}$ are **unsigned Stirling numbers of the first kind**.
+where $\left[\begin{array}{c}n\\k\end{array}\right]$ are **unsigned Stirling numbers of the first kind**.
 
 ### Inverse Transformations
 
 The monomial-to-factorial expansions use **Stirling numbers of the second kind**:
 
-$$x^n = \sum_{k=0}^n \begin{Bmatrix} n \\ k \end{Bmatrix} (x)_k = \sum_{k=0}^n \begin{Bmatrix} n \\ k \end{Bmatrix} P(x,-1,k)$$
+$$x^n = \sum_{k=0}^n \left\{\begin{array}{c}n\\k\end{array}\right\} (x)_k = \sum_{k=0}^n \left\{\begin{array}{c}n\\k\end{array}\right\} P(x,-1,k)$$
 
 ### Unified Stirling Framework
 
@@ -138,7 +138,7 @@ $$P(x,a,m) = \sum_{n=0}^m S_{m,n}(a,b) \cdot P(x,b,n)$$
 
 **Classical cases:**
 - $S_{m,n}(0,-1) = s(m,n)$ (Stirling first kind)
-- $S_{m,n}(-1,0) = \begin{Bmatrix} m \\ n \end{Bmatrix}$ (Stirling second kind, with appropriate scaling)
+- $S_{m,n}(-1,0) = \left\{\begin{array}{c}m\\n\end{array}\right\}$ (Stirling second kind, with appropriate scaling)
 
 ## Lah Numbers Connection
 
