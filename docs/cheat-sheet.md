@@ -59,9 +59,9 @@ $$P(x,a,m+1) = P(x,a,m) \cdot (x + ma)$$
 
 $$S_{m,n}(a,0) = a^{m-n} \left\{\begin{array}{c}m\\n\end{array}\right\}$$
 
-$$S_{m,n}(0,b) = b^{-n} s(m,n)$$
+$$S_{m,n}(0,b) = \left(\frac{1}{b}\right)^n s(m,n)$$
 
-$$S_{m,n}(0,-b) = (-1)^n b^{-n} \left[\begin{array}{c}m\\n\end{array}\right]$$
+$$S_{m,n}(0,-b) = \left(\frac{-1}{b}\right)^n \left[\begin{array}{c}m\\n\end{array}\right]$$
 
 ## Gamma Function Representation
 
