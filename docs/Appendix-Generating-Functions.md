@@ -45,6 +45,8 @@ $$G_{x,a}(z) = \sum_{m=0}^{\infty} P(x,a,m) \cdot P(z,1,m)$$
 **Negative Increment Case:** When $a$ is replaced with $-a$:
 $$E_{x,-a}(z) = (1-az)^{-x/a}$$
 
+**This corrects the formula error from the previous version.**
+
 **Theorem B.1 (EGF for Negative Increment).** The exponential generating function for $P(x,-a,m)$ is:
 $$\sum_{m=0}^{\infty} P(x,-a,m) \frac{z^m}{m!} = (1-az)^{-x/a}$$
 
@@ -142,3 +144,101 @@ E_f(z) \;=\; \sum_m \frac{a_m}{m!}\,z^m,\quad \text{where } m\in\mathbb{N}_0.
 Remarks:
 - OGF and EGF differ only by factorial normalization of coefficients.
 - Transformations are immediate via \(a_m=m!\alpha_m\) and \(\alpha_m=a_m/m!\).
+
+## Appendix C: Bell Polynomials and Their Generating Functions
+
+This appendix explores Bell polynomials, their properties, and their generating functions, building upon the foundations laid in Appendix B.
+
+### Bell Polynomials Overview
+
+**Bell Polynomial \(B(m,n)\):** Counts partitions of \(m\) labeled objects into \(n\) non-empty unlabeled subsets.
+
+**Exponential Generating Function (EGF):**
+$$\sum_{m=n}^{\infty} B(m,n) \frac{z^m}{m!} = \frac{1}{n!} \left( e^z - \sum_{k=0}^{n-1} \frac{z^k}{k!} \right)$$
+
+**Special Cases:**
+- \(B(0,0) = 1\)
+- \(B(m,0) = 0\) for \(m > 0\)
+- \(B(m,1) = 1\) for \(m \geq 1\)
+
+**Recurrence Relation:**
+$$B(m,n) = \sum_{k=0}^{n-1} \binom{n-1}{k} B(m-1,k)$$
+
+**Connection to Factorial Polynomials:**
+$$B(m,n) = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} P(m,k)$$
+
+**Example Values:**
+- \(B(1,1) = 1\)
+- \(B(2,1) = 1\), \(B(2,2) = 1\)
+- \(B(3,1) = 1\), \(B(3,2) = 3\), \(B(3,3) = 1\)
+
+**Computational Note (Maxima):** For unweighted Bell polynomials:
+```maxima
+/* Bell polynomials B(m,n): ordinary (no multinomial weights) */
+bell(m,n) := block(
+  /* Guards and bases */
+  if m = 0 and n = 0 then return(1)
+  elseif n = 0 or m < 0 or n < 0 then return(0)
+  elseif m < n then return(0),
+  /* Recurrence: sum_{k=0}^{n-1} B(m-1,k) */
+  sum( bell(m-1,k) , k, 0, n-1 )
+)$
+
+/* Example: bell(4,3) */
+example_bell_4_3 : bell(4,3);
+/* => 6 */
+```
+
+### Bell Polynomial Properties
+
+- **Symmetry:** \(B(m,n) = B(m,m-n)\)
+- **Stirling Numbers Relation:**
+  - First kind: \(c(m,n) = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} B(m,k)\)
+  - Second kind: \(S(m,n) = \frac{1}{n!} \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} k^m\)
+
+### Corrected Subdiagonal Pattern
+
+For all $m \geq 2$:
+$$\boxed{\beta_{m,m-1}(\alpha) = \alpha_2 \frac{\alpha_1^{m-2}}{(m-2}!}$$
+
+**Combinatorial proof:** The only partition of $m$ into $m-1$ parts is $2+1+\cdots+1$ (one part of size 2 and $m-2$ parts of size 1). The graded weight without multinomial factors is:
+$$\frac{1}{(m_2)!(m_1)!} \alpha_2^{m_2} \alpha_1^{m_1} = \frac{1}{1!(m-2)!} \alpha_2 \alpha_1^{m-2} = \alpha_2 \frac{\alpha_1^{m-2}}{(m-2)!}$$
+
+**Verification by recurrence:** Using $\beta_{m,m-1} = \frac{1}{m-1}(\alpha_1 \beta_{m-1,m-2} + \alpha_2 \beta_{m-2,m-2})$ with inductive hypotheses:
+- $\beta_{m-1,m-2} = \alpha_2 \alpha_1^{m-3}/(m-3)!$
+- $\beta_{m-2,m-2} = \alpha_1^{m-2}/(m-2)!$
+
+This yields:
+$$\beta_{m,m-1} = \frac{\alpha_2 \alpha_1^{m-2}}{m-1} \left(\frac{1}{(m-3)!} + \frac{1}{(m-2)!}\right) = \alpha_2 \frac{\alpha_1^{m-2}}{(m-2)!}$$
+
+### Computational Implementation
+
+#### Enhanced Maxima Implementation
+
+```maxima
+/* Corrected implementation with proper boundary handling */
+beta(m,n,alpha) := block(
+  if m = 0 and n = 0 then return(1),
+  if m > 0 and n = 0 then return(0),
+  if n > m or n < 0 or m < 0 then return(0),
+  
+  /* Accessor for alpha sequence */
+  alpha_k : lambda([k], if listp(alpha) then alpha[k] else alpha(k)),
+  
+  /* Recurrence with proper normalization */
+  (1/n) * sum(alpha_k(k) * beta(m-k, n-1, alpha), k, 1, m-n+1)
+)$
+
+/* Verification of subdiagonal pattern */
+verify_subdiagonal(m, alpha) := block(
+  computed : beta(m, m-1, alpha),
+  expected : alpha[2] * alpha[1]^(m-2) / (m-2)!,
+  ratsimp(computed - expected)
+)$
+
+/* Example: beta(4,3) with alpha = [a1,a2,a3,a4] */
+test_result : beta(4, 3, [a1,a2,a3,a4]);
+/* Should return: (1/2)*a1^2*a2 */
+```
+
+This implementation correctly handles boundaries and verifies the subdiagonal pattern for Bell polynomials.

@@ -32,13 +32,18 @@ This normalization is crucial because it separates the scaling factor $\alpha_0^
 
 ### 2.1 Statement of the Main Result
 
-**Theorem 2.1 (OGF Power Expansion).** Let $f(x) = \sum_{m=0}^{\infty} \alpha_m x^m$ with $\alpha_0 \neq 0$, and define $a_m = \alpha_m/\alpha_0$ for $m \geq 1$. Then:
+**Theorem 2.1 (OGF Power Expansion).** Let $f(x) = \sum_{m=0}^{\infty} \alpha_m x^m$ with $\alpha_0 \neq 0$. Then:
 
-$$\boxed{[x^m] [f(x)]^z = \alpha_0^{z-m} \sum_{k=0}^{m} P(z,-1,k) \beta_{m,k}(a_1, a_2, a_3, \ldots)}$$
+$$\boxed{[x^m] [f(x)]^z = \alpha_0^z \sum_{k=0}^{m} P(z,-1,k) \beta_{m,k}\left(\frac{\alpha_1}{\alpha_0^2}, \frac{\alpha_2}{\alpha_0^3}, \frac{\alpha_3}{\alpha_0^4}, \ldots\right)}$$
 
 where:
 - $P(z,-1,k) = z(z-1)(z-2)\cdots(z-k+1)$ is the falling factorial polynomial
-- $\beta_{m,k}(a_1, a_2, \ldots)$ are the normalized graded Bell polynomials in the sequence $(a_1, a_2, a_3, \ldots)$
+- $\beta_{m,k}$ are the normalized graded Bell polynomials
+
+**Alternative Form using Scalar Factorization:**
+Using the property $\beta_{m,k}(ca_1, ca_2, \ldots) = c^m \beta_{m,k}(a_1, a_2, \ldots)$:
+
+$$\boxed{[x^m] [f(x)]^z = \alpha_0^{z-m} \sum_{k=0}^{m} P(z,-1,k) \beta_{m,k}\left(\frac{\alpha_1}{\alpha_0}, \frac{\alpha_2}{\alpha_0}, \frac{\alpha_3}{\alpha_0}, \ldots\right)}$$
 
 ### 2.2 Derivation via Multinomial Theorem
 
@@ -91,25 +96,35 @@ This identity is crucial for connecting the multinomial expansion to our Bell po
 
 ### 4.1 The Complete Expansion
 
-Combining all elements, the coefficient of $x^m$ in $[f(x)]^z$ is:
+The coefficient of $x^m$ in $[f(x)]^z$ can be expressed in two equivalent forms:
 
+**Form 1 (Direct):**
+$$[x^m] [f(x)]^z = \alpha_0^z \sum_{k=0}^{m} P(z,-1,k) \beta_{m,k}\left(\frac{\alpha_1}{\alpha_0^2}, \frac{\alpha_2}{\alpha_0^3}, \frac{\alpha_3}{\alpha_0^4}, \ldots\right)$$
+
+**Form 2 (Using Scalar Factorization):**
 $$\boxed{[x^m] [f(x)]^z = \alpha_0^{z-m} \sum_{k=0}^{m} P(z,-1,k) \beta_{m,k}\left(\frac{\alpha_1}{\alpha_0}, \frac{\alpha_2}{\alpha_0}, \frac{\alpha_3}{\alpha_0}, \ldots\right)}$$
+
+The equivalence follows from the Bell polynomial scalar factorization:
+$$\beta_{m,k}\left(\frac{\alpha_1}{\alpha_0^2}, \frac{\alpha_2}{\alpha_0^3}, \ldots\right) = \left(\frac{1}{\alpha_0}\right)^m \beta_{m,k}\left(\frac{\alpha_1}{\alpha_0}, \frac{\alpha_2}{\alpha_0}, \ldots\right)$$
 
 ### 4.2 Special Cases and Verification
 
 **Case 1: Geometric Series**
 For $f(x) = \frac{1}{1-ax} = \sum_{m=0}^{\infty} a^m x^m$:
 - $\alpha_0 = 1$ and $\alpha_m/\alpha_0 = a$ for all $m \geq 1$
-- $\beta_{m,k}(a, a, a, \ldots) = a^m [k = m]$ (only singleton partitions contribute)
+- Using scalar factorization: $\beta_{m,k}(a, a, a, \ldots) = a^m \beta_{m,k}(1, 1, 1, \ldots) = a^m [k = m]$
 
 Result: $\left(\frac{1}{1-ax}\right)^z = \sum_{m=0}^{\infty} P(z,-1,m) a^m x^m = (1-ax)^{-z}$ ✓
 
 **Case 2: Exponential-Type Series**
 For $f(x) = \sum_{m=0}^{\infty} \frac{a^m}{m!} x^m$:
 - $\alpha_0 = 1$ and $\alpha_m/\alpha_0 = a^m/m!$
-- Bell polynomials have factorial-weighted variables
+- The scalar factorization reveals the exponential structure more clearly
 
-This connects to exponential generating functions and moment generating functions in probability theory.
+**Case 3: Polynomial $f(x) = 1 + cx$**
+For the simple case where only $\alpha_0 = 1$ and $\alpha_1 = c$ are non-zero:
+- Using scalar factorization: $\beta_{m,k}(c, 0, 0, \ldots) = c^m \beta_{m,k}(1, 0, 0, \ldots)$
+- Only $\beta_{1,1}(1, 0, 0, \ldots) = 1$ contributes, giving the binomial expansion
 
 ## 5. Advanced Topics and Extensions
 
@@ -182,4 +197,3 @@ The framework's power lies not just in coefficient calculation, but in revealing
 
 **Mathematical Subject Classification:** 05A15, 05A19, 33B15, 33C05  
 **Keywords:** generating functions, Bell polynomials, falling factorials, coefficient extraction, combinatorial enumeration
-````

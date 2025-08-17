@@ -67,6 +67,8 @@ for k = n to m:
 
 **Scaling:** $S_{m,n}(ca,cb) = c^{m-n} S_{m,n}(a,b)$ for $c \neq 0$
 
+**Infinite Matrices:** Transformation matrices are infinite-dimensional but mathematically valid by induction. For computations up to degree $N$, only finite $(N+1) \times (N+1)$ submatrices are needed.
+
 ## Recurrence Relations
 
 **Universal Recurrence:**

@@ -32,14 +32,13 @@ This normalization is crucial because it separates the scaling factor $\alpha_0^
 
 ### 2.1 Statement of the Main Result
 
-**Theorem 2.1 (OGF Power Expansion).** Let $f(x) = \sum_{m=0}^{\infty} \alpha_m x^m$ with $\alpha_0 \neq 0$, and define $a_m = \alpha_m/\alpha_0$ for $m \geq 1$. Then:
+**Theorem 2.1 (OGF Power Expansion).** Let $f(x) = \sum_{m=0}^{\infty} \alpha_m x^m$ with $\alpha_0 \neq 0$. Then:
 
-$$[f(x)]^z = \sum_{m=0}^{\infty} \alpha_0^{z-m} \cdot P(z,-1,m) \cdot \beta_{m,k}(a_1, a_2, a_3, \ldots) x^m$$
+$$\boxed{[x^m] [f(x)]^z = \alpha_0^{z-m} \sum_{k=0}^{m} P(z,-1,k) \beta_{m,k}\left(\frac{\alpha_1}{\alpha_0}, \frac{\alpha_2}{\alpha_0}, \frac{\alpha_3}{\alpha_0}, \ldots\right)}$$
 
 where:
-- $P(z,-1,m) = z(z-1)(z-2)\cdots(z-m+1)$ is the falling factorial polynomial
-- $\beta_{m,k}(a_1, a_2, \ldots)$ are the normalized graded Bell polynomials in the sequence $(a_1, a_2, a_3, \ldots)$
-- The index $k$ is determined by the constraint that exactly $k$ parts are used in the partition
+- $P(z,-1,k) = z(z-1)(z-2)\cdots(z-k+1)$ is the falling factorial polynomial
+- $\beta_{m,k}(a_1, a_2, a_3, \ldots)$ are the normalized graded Bell polynomials
 
 ### 2.2 Derivation via Multinomial Theorem
 
@@ -106,11 +105,11 @@ $$\left(\frac{1}{1-ax}\right)^z = \sum_{m=0}^{\infty} P(z,-1,m) a^m x^m = (1-ax)
 
 This recovers the binomial series, confirming our formula.
 
-**Case 2: Exponential Function**
-While $e^{ax}$ is not an OGF in the strict sense, its truncation provides insight:
-$$e^{ax} = \sum_{m=0}^{\infty} \frac{a^m}{m!} x^m$$
+**Case 2: Polynomial Case $f(x) = 1 + cx$**
+When only $\alpha_0 = 1$ and $\alpha_1 = c$ are non-zero:
+$$[x^m](1+cx)^z = \sum_{k=0}^{m} P(z,-1,k) \beta_{m,k}(c, 0, 0, \ldots)$$
 
-Here $\alpha_0 = 1$ and $\alpha_m/\alpha_0 = a^m/m!$, leading to Bell polynomials with factorial-weighted variables.
+Only $\beta_{1,1}(c, 0, 0, \ldots) = c$ contributes, recovering the standard binomial expansion.
 
 ### 4.3 Computational Algorithm
 
@@ -188,30 +187,31 @@ The expansion appears in:
 - Virial expansions in gas theory
 - Phase transition analysis
 
-## 8. Computational Implementation
+## 8. Conclusion
 
-### 8.1 Maxima Implementation
+The power expansion of ordinary generating functions provides a unifying framework that connects:
 
-```maxima
-/* Normalized graded Bell polynomial beta(m,k,a_list) */
-beta(m,k,a_list) := block(
-  if m = 0 and k = 0 then return(1),
-  if k = 0 or k > m then return(0),
-  (1/k) * sum(a_list[j] * beta(m-j, k-1, a_list), j, 1, m-k+1)
-)$
+1. **Falling factorial polynomials** - encoding the algebraic structure
+2. **Normalized graded Bell polynomials** - capturing combinatorial constraints  
+3. **Generating function coefficients** - providing the weights
 
-/* Falling factorial P(z,-1,m) */
-falling_P(z, m) := product(z - j, j, 0, m-1)$
+This trinity reveals deep connections between combinatorics, special functions, and generating function theory. The explicit formula $[f(x)]^z = \sum_{m=0}^{\infty} \alpha_0^{z-m} P(z,-1,m) \beta_{m,k}(a_1, a_2, \ldots) x^m$ serves as both a computational tool and a theoretical bridge between discrete and continuous mathematics.
 
-/* OGF power coefficient */
-ogf_power_coeff(alpha_list, z, m) := block(
-  alpha_0 : alpha_list[1],
-  a_list : makelist(alpha_list[k+1]/alpha_0, k, 1, length(alpha_list)-1),
-  result : 0,
-  
-  for k : 0 thru m do (
-    result : result + falling_P(z, k) * beta(m, k, a_list)
-  ),
+The framework's power lies not just in coefficient calculation, but in revealing the underlying mathematical structures that govern generating function behavior. As demonstrated through applications in probability, combinatorics, and mathematical physics, this approach provides both practical computational advantages and deep theoretical insights.
+
+## References
+
+1. Comtet, L. (1974). *Advanced Combinatorics: The Art of Finite and Infinite Expansions*. D. Reidel Publishing Company.
+2. Stanley, R. P. (2012). *Enumerative Combinatorics* (2nd ed.). Cambridge University Press.
+3. Riordan, J. (1968). *Combinatorial Identities*. John Wiley & Sons.
+4. Bergeron, F., Labelle, G., & Leroux, P. (1998). *Combinatorial Species and Tree-like Structures*. Cambridge University Press.
+5. Andrews, G. E., Askey, R., & Roy, R. (1999). *Special Functions*. Cambridge University Press.
+6. Flajolet, P., & Sedgewick, R. (2009). *Analytic Combinatorics*. Cambridge University Press.
+
+---
+
+**Mathematical Subject Classification:** 05A15, 05A19, 33B15, 33C05  
+**Keywords:** generating functions, Bell polynomials, falling factorials, coefficient extraction, combinatorial enumeration
   
   alpha_0^(z-m) * result
 )$
