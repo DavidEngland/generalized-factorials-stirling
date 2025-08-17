@@ -1,0 +1,16 @@
+Let c = (c_1,c_2,\ldots) be a sequence. Define the family \{\beta_{m,n}(c)\}_{m,n \ge 0} by the bases
+\[
+\beta_{0,0}(c)=1,\qquad
+\beta_{m,0}(c)=0\ \ (m>0),\qquad
+\beta_{m,n}(c)=0\ \ \text{if } n>m \text{ or } n<0,
+\]
+and for m,n \ge 1 the recurrence
+\[
+\beta_{m,n}(c)
+= \frac{1}{n}\sum_{j=n-1}^{m-1} c_{\,m-j}\, \beta_{j,\,n-1}(c).
+\]
+Equivalently, with the index shift k = m-j,
+\[
+\beta_{m,n}(c)
+= \frac{1}{n}\sum_{k=1}^{m-n+1} c_k\, \beta_{\,m-k,\,n-1}(c).
+\]

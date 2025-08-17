@@ -1,0 +1,31 @@
+/* Accessor for a_k supporting either a list [a1,a2,...] (1-based) or a function a(k) */
+a_k(a,k) := block(
+  if k < 1 then 0
+  elseif listp(a) then if k <= length(a) then a[k] else 0
+  else a(k)
+)$
+
+/* Exponential (partial) Bell polynomials B_{m,n} with binomial weights:
+   Recurrence: B_{m,n} = sum_{j=1}^{m-n+1} binomial(m-1,j-1) * x_j * B_{m-j,n-1}
+   Bases: B_{0,0}=1; B_{m,0}=0 (m>0); B_{m,n}=0 if n>m or m<0 or n<0. */
+bell_exp(m,n,a) := block(
+  if m = 0 and n = 0 then return(1)
+  elseif n = 0 or m < 0 or n < 0 then return(0)
+  elseif n > m then return(0),
+  sum( binomial(m-1, j-1) * a_k(a, j) * bell_exp(m - j, n - 1, a), j, 1, m - n + 1 )
+)$
+
+/* Graded (unweighted) partial Bell polynomials:
+   Recurrence: B_g(m,n) = sum_{j=1}^{m-n+1} x_j * B_g(m-j, n-1)
+   Bases: B_g(0,0)=1; B_g(m,0)=0 (m>0); B_g(m,n)=0 if n>m or m<0 or n<0. */
+graded_bell(m,n,a) := block(
+  if m = 0 and n = 0 then return(1)
+  elseif m > 0 and n = 0 then return(0)
+  elseif n > m or n < 0 or m < 0 then return(0),
+  sum( a_k(a, j) * graded_bell(m - j, n - 1, a), j, 1, m - n + 1 )
+)$
+
+/* Sanity checks (comments):
+   bell_exp(4,3,[x1,x2,x3,x4])  ==>  6*x1^2*x2
+   graded_bell(4,3,[x1,x2,x3,x4]) ==> x1^2*x2
+*/

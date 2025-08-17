@@ -1,0 +1,65 @@
+I notice a couple of subtle but important things in this draft that we could tighten up so the framework hangs together without contradictions.
+
+⸻
+
+1. Classical recovery from the general generating function
+
+Right now, in Theorem B.1 (Classical Recovery) you start with
+\mathcal{F}{a,b}^{(r,s)}(z) = \sum{m=0}^\infty \frac{P(x,a,m)}{P(y,b,r+m)} z^m \cdot \frac{s!}{(s+m)!}
+and then for OGF you say r=0, s=0, b=0, y=1, but the algebra actually gives you an EGF because \frac{s!}{(s+m)!} = 1/m! when s=0.
+
+So unless you remove the factorial normalization for the OGF case, you will always get something in EGF form. This means the recovery table should be:
+
+Case	Parameters	Normalization	Result
+OGF	r=0, b=0, y=1	no factorial factor	\mathcal{G}_{x,a}(z)
+EGF	r=0, b=0, y=1	factorial factor 1/m!	\mathcal{E}_{x,a}(z)
+
+You might want to explicitly write that the general definition is with factorial normalization, but for OGF you define a variant:
+\mathcal{F}^{(r)}{a,b}(z) := \sum{m\ge 0} \frac{P(x,a,m)}{P(y,b,r+m)} z^m
+and recover \mathcal{G}_{x,a} from there.
+
+⸻
+
+2. Binomial-series sign in Theorem B.1 (Negative Increment)
+
+In the negative increment EGF proof, you write
+\sum_{m=0}^\infty P(x,-a,m) \frac{z^m}{m!} = (1-az)^{x/a}
+but then in the gamma/binomial derivation you end with (1-az)^{-x/a}.
+
+They differ by a sign in the exponent. The consistent statement is:
+\mathcal{E}{x,-a}(z) = (1-az)^{-x/a}
+because:
+P(x,-a,m) = (-a)^m \frac{\Gamma(-x/a+m)}{\Gamma(-x/a)}
+and the binomial series identity
+(1+w)^{\alpha} = \sum{m=0}^\infty \frac{\Gamma(\alpha+m)}{\Gamma(\alpha)} \frac{w^m}{m!}
+with w=-az, \alpha=-x/a gives the -x/a exponent.
+
+⸻
+
+3. Graded vs exponential Bell polynomials
+
+When you define graded Bell polynomials \mathcal{B}^{(g)}_{n,k}, you drop binomial factors, which is fine in a pure OGF context, but your Lemma B.3 proof starts from multinomial expansion, which naturally produces binomial/multinomial coefficients.
+
+The correct link is:
+[z^n] f(z)^k = \sum_{\substack{\sum i m_i = n \\ \sum m_i = k}} \frac{k!}{\prod_i m_i!} \prod_i a_i^{m_i}
+and the “graded” Bell polynomials in the no-binomial-coefficient sense are:
+\mathcal{B}^{(g)}{n,k}(a_1, a_2, \dots) = \sum{\substack{\sum i m_i = n \\ \sum m_i = k}} \prod_i a_i^{m_i}
+So your formula really says:
+[z^n] f(z)^k = \sum_{\text{partitions}} \frac{k!}{\prod_i m_i!} \mathcal{B}^{(g)}_{n,k}(a_1, \dots)
+It’s worth clarifying this so the reader doesn’t think multinomial factors disappear automatically in OGFs.
+
+⸻
+
+4. Functional equation constants \mathcal{K}(z) and \mathcal{L}(z)
+
+Since you’ve already got:
+P(x,a,m+1) = (x+ma) P(x,a,m)
+you can derive explicit recursion for \mathcal{F}_{a,b}^{(r,s)}(z) in r:
+	•	\mathcal{K}(z) is essentially \frac{1}{y+rb} times something in z,
+	•	\mathcal{L}(z) comes from the initial term m=0.
+
+Giving even one fully worked instance here would make the functional equation theorem more tangible.
+
+⸻
+
+If you want, I can go through and rewrite the OGF/EGF recovery section and the negative increment theorem so they’re completely consistent and have no sign or factorial mismatches. That would lock down the framework. Would you like me to do that?

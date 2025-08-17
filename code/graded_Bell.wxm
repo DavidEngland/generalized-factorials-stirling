@@ -1,0 +1,56 @@
+/* Accessor for a_k supporting either a list [a1,a2,...] (1-based) or a function a(k) */
+a_k(a,k) := block(
+  if k < 1 then 0
+  elseif listp(a) then if k <= length(a) then a[k] else 0
+  else a(k)
+)$
+
+/*
+  Custom Bell Polynomials Beta_{m,n}(c)
+  Recurrence: Beta_{m,n} = sum_{j=n-1}^{m-1} (c_{m-j} * Beta_{j,n-1}) / n
+  Bases: Beta_{m,0}(c) = [m=0] for all c; Beta_{m,n}(c)=0 if m<n or n<0.
+*/
+bell_beta(m,n,c) := block(
+  if n = 0 then
+    if m = 0 then return(1)
+    else return(0)
+  elseif n > m or n < 0 then
+    return(0),
+  sum( a_k(c, m - j) * bell_beta(j, n - 1, c), j, n-1, m-1) / n
+)$
+
+/* LaTeX documentation for \beta_{m,n}(c)
+
+Let c = (c_1,c_2,\ldots) be a sequence. Define the family \{\beta_{m,n}(c)\}_{m,n \ge 0} by the bases
+\[
+\beta_{0,0}(c)=1,\qquad
+\beta_{m,0}(c)=0\ \ (m>0),\qquad
+\beta_{m,n}(c)=0\ \ \text{if } n>m \text{ or } n<0,
+\]
+and for m,n \ge 1 the recurrence
+\[
+\beta_{m,n}(c)
+= \frac{1}{n}\sum_{j=n-1}^{m-1} c_{\,m-j}\, \beta_{j,\,n-1}(c).
+\]
+Equivalently, with the index shift k = m-j,
+\[
+\beta_{m,n}(c)
+= \frac{1}{n}\sum_{k=1}^{m-n+1} c_k\, \beta_{\,m-k,\,n-1}(c).
+\]
+
+Sanity checks:
+\[
+\beta_{1,1}(c)=c_1,\qquad
+\beta_{2,1}(c)=c_2,\qquad
+\beta_{3,2}(c)=c_1c_2,\qquad
+\beta_{4,3}(c)=\tfrac{1}{2}c_1^{2}c_2.
+\]
+*/
+
+/*
+Sanity checks:
+bell_beta(3,2,[c1,c2,c3]) ==> (c2*bell_beta(1,1,c)+c1*bell_beta(2,1,c))/2
+bell_beta(1,1,[c1,c2,c3]) ==> c1*bell_beta(0,0,c)/1 ==> c1
+bell_beta(2,1,[c1,c2,c3]) ==> c2*bell_beta(0,0,c)/1 ==> c2
+bell_beta(3,2,[c1,c2,c3]) ==> (c2*c1+c1*c2)/2 ==> c1*c2
+*/

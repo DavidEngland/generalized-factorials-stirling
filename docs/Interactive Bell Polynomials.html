@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Bell Polynomials</title>
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#0ea5e9">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!--
+    Chosen Palette: "Calm Harmony" - A palette grounded in warm neutrals (bg-stone-50, bg-stone-100) with a complementary soft blue (bg-sky-100, text-sky-800) and a subtle, dark accent for text and borders (text-slate-800, border-slate-300). This creates a supportive, academic, and visually pleasing environment.
+    Application Structure Plan: The SPA is designed with a thematic, single-column flow to guide the user from concept to application.
+    1.  **Header & Intro:** Defines Graded Bell Polynomials.
+    2.  **Recurrence Relation:** Explains the core logic with a step-by-step, interactive HTML/CSS visualization that the user can click through. This is chosen over a static diagram to make the abstract process of partitioning tangible and self-paced.
+    3.  **Interactive Explorer:** A hands-on calculator where users can input 'm' and 'n' to compute a polynomial. The output includes the polynomial string and a Chart.js bar chart showing the part-size distribution. This encourages active learning and experimentation.
+    4.  **Key Takeaway:** Summarizes the main difference between graded and exponential Bell polynomials. This structure was chosen to build understanding progressively, from definition to interactive exploration, which is more effective for a mathematical concept than a simple text dump.
+    Visualization & Content Choices:
+    - **Report Info:** Definition of Graded Bell Polynomials. **Goal:** Inform. **Viz/Method:** Clear typography, highlighted formula. **Interaction:** None. **Justification:** Establishes the core concept clearly.
+    - **Report Info:** Recurrence relation logic. **Goal:** Explain a process. **Viz/Method:** Step-by-step animated diagram using HTML/CSS/JS. **Interaction:** "Next Step" button to control the animation. **Justification:** Breaks down the abstract combinatorial argument into digestible, visual steps.
+    - **Report Info:** Example calculation (B(4,3)). **Goal:** Allow exploration and application. **Viz/Method:** Interactive calculator with input fields, text output for the polynomial, and a Chart.js bar chart for the partition structure. **Interaction:** User inputs 'm' and 'n', clicks "Calculate". **Justification:** Promotes active learning and provides immediate visual feedback on the structure of the resulting partition.
+    - **Report Info:** "Unweighted" nature. **Goal:** Reinforce key concept. **Viz/Method:** Summary text block. **Interaction:** None. **Justification:** Provides a concise conclusion.
+    CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        :root {
+            --bg: #fafaf9;          /* stone-50 */
+            --card: #ffffff;
+            --text: #0f172a;        /* slate-900 */
+            --muted: #475569;       /* slate-600 */
+            --border: #cbd5e1;      /* slate-300 */
+            --accent: #0284c7;      /* sky-600 */
+            --accent-600: #0369a1;  /* sky-700 */
+            --tone: #0ea5e9;        /* sky-500/600 */
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b1220;
+                --card: #111827;
+                --text: #e5e7eb;
+                --muted: #94a3b8;
+                --border: #1f2937;
+                --accent: #0284c7;
+                --accent-600: #0369a1;
+                --tone: #38bdf8;
+            }
+        }
+        body { background-color: var(--bg); color: var(--text); }
+        .katex-display { display: block; text-align: center; font-size: 1.25em; margin: 1em 0; }
+        .step-item { transition: opacity 0.5s, transform 0.5s; }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800">
+    <noscript>
+        <div class="mx-auto max-w-4xl p-4 m-4 border border-red-300 rounded bg-red-50 text-red-800">
+            This interactive page requires JavaScript enabled.
+        </div>
+    </noscript>
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-slate-900 mb-2">The Combinatorial Interpretation of Graded Bell Polynomials</h1>
+            <p class="text-lg text-slate-600">An Interactive Exploration of Set Partitions</p>
+        </header>
+
+        <main>
+            <!-- Section 1: Introduction -->
+            <section id="intro" class="mb-16 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold mb-4 text-sky-800">What are Graded Bell Polynomials?</h2>
+                <p class="mb-4 text-slate-700">Graded Bell polynomials, also known as partial ordinary Bell polynomials, provide a powerful way to count the number of ways to partition a set. Imagine you have a set of <strong class="font-semibold text-slate-900">'m' labeled objects</strong> that you want to divide into <strong class="font-semibold text-slate-900">'n' non-empty, unlabeled groups</strong> (called "parts"). The polynomial is a summary of all possible ways to do this.</p>
+                <p class="text-slate-700">Each partition is represented by a monomial (e.g., <code class="bg-stone-100 p-1 rounded">x₁²x₂</code>), where the subscript indicates the size of a part and the exponent indicates how many parts of that size exist. For example, <code class="bg-stone-100 p-1 rounded">x₁²x₂</code> corresponds to a partition with two parts of size 1 and one part of size 2.</p>
+            </section>
+
+            <!-- Section 2: Recurrence Relation -->
+            <section id="recurrence" class="mb-16">
+                <h2 class="text-2xl font-bold text-center mb-8 text-sky-800">Building Partitions: The Recurrence Relation</h2>
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                    <p class="text-center mb-4 text-slate-700">The polynomials are built using a recurrence relation, which is a rule for constructing larger partitions from smaller ones. The core idea is to focus on how the "first part" of a partition is created.</p>
+                    <div class="katex-display bg-stone-100 p-4 rounded-lg">
+                        B<sub>m,n</sub><sup>(g)</sup> = &sum;<sub>j=1</sub><sup>m-n+1</sup> x<sub>j</sub> &middot; B<sub>m-j, n-1</sub><sup>(g)</sup>
+                    </div>
+
+                    <div id="viz-container" class="mt-8 p-6 bg-sky-50/50 rounded-lg border border-sky-200">
+                        <h3 class="text-xl font-semibold text-center mb-4 text-sky-900">Visualizing the Logic</h3>
+                        <div id="steps-container" class="relative min-h-[200px] flex flex-col items-center justify-center space-y-4">
+                            <!-- Steps will be injected here by JS -->
+                        </div>
+                        <div class="text-center mt-6">
+                            <button id="next-step-btn" class="bg-sky-600 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-sky-700 transition-colors">Next Step</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Interactive Explorer -->
+            <section id="explorer" class="mb-16">
+                <h2 class="text-2xl font-bold text-center mb-8 text-sky-800">Interactive Explorer</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-semibold mb-4 text-slate-900">Calculate a Polynomial</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="m-input" class="block text-sm font-medium text-slate-700">Number of objects (m):</label>
+                                <input type="number" id="m-input" value="4" min="1" max="12" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
+                            </div>
+                            <div>
+                                <label for="n-input" class="block text-sm font-medium text-slate-700">Number of parts (n):</label>
+                                <input type="number" id="n-input" value="3" min="1" max="12" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500">
+                            </div>
+                            <button id="calculate-btn" class="w-full bg-sky-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-sky-700 transition-colors">Calculate</button>
+                        </div>
+                        <div id="result-container" class="mt-6 min-h-[80px] p-4 bg-stone-100 rounded-lg text-center" aria-live="polite">
+                            <p id="result-text" class="text-lg font-mono text-slate-800"></p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                         <h3 class="text-xl font-semibold mb-4 text-slate-900">Partition Structure</h3>
+                         <div class="chart-container flex-grow h-64 md:h-auto max-h-[400px] w-full max-w-xl mx-auto">
+                            <canvas id="partitionChart" role="img" aria-label="Bar chart of part sizes for the first monomial term"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Key Takeaway -->
+            <section id="takeaway" class="bg-sky-100 p-8 rounded-xl border border-sky-200">
+                <h2 class="text-2xl font-bold mb-4 text-sky-800">The "Graded" or "Unweighted" Nature</h2>
+                <p class="text-slate-700">The key difference between <strong class="font-semibold">graded Bell polynomials</strong> and their more common cousins, the <strong class="font-semibold">exponential Bell polynomials</strong>, lies in the counting process. Graded polynomials are "unweighted" because they do not include binomial coefficients in their recurrence. This means they count the structural ways to partition a number (e.g., 4 can be partitioned into 3 parts as 2+1+1), without counting the different ways to choose which specific labeled objects go into those parts. This makes them a pure tool for studying the structure of integer partitions.</p>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Make results live for screen readers -->
+    <script>
+        // no-op: marker to indicate we adjusted attributes below
+    </script>
+
+    <script type="module">
+        // Dynamic import Chart.js UMD for browser compatibility
+        const { Chart } = await import('https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js');
+
+        // Utility: requestIdleCallback fallback
+        const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 0));
+
+        // Memoization using Map for structured keys
+        const memo = new Map();
+
+        function keyOf(m, n) {
+            return `${m},${n}`;
+        }
+
+        // Graded (unweighted) Bell partials builder
+        function gradedBell(m, n) {
+            const key = keyOf(m, n);
+            if (memo.has(key)) return memo.get(key);
+
+            if (m === 0 && n === 0) { const base = { const: 1 }; memo.set(key, base); return base; }
+            if (m > 0 && n === 0)   { const z = {}; memo.set(key, z); return z; }
+            if (n > m || n < 0 || m < 0) { const z = {}; memo.set(key, z); return z; }
+
+            const total = {};
+            for (let j = 1; j <= m - n + 1; j++) {
+                const sub = gradedBell(m - j, n - 1);
+                for (const term in sub) {
+                    const json = toJson(term);
+                    json[`x${j}`] = (json[`x${j}`] || 0) + 1;
+                    const newKey = toTerm(json);
+                    total[newKey] = (total[newKey] || 0) + sub[term];
+                }
+            }
+            memo.set(key, total);
+            return total;
+        }
+
+        function toJson(termStr) {
+            if (termStr === 'const') return {};
+            const json = {};
+            for (const part of termStr.split('*')) {
+                if (!part) continue;
+                if (part.includes('^')) {
+                    const [base, exp] = part.split('^');
+                    json[base] = parseInt(exp, 10);
+                } else {
+                    json[part] = 1;
+                }
+            }
+            return json;
+        }
+
+        function toTerm(json) {
+            const entries = Object.entries(json);
+            if (entries.length === 0) return 'const';
+            return entries
+                .sort(([a], [b]) => parseInt(a.slice(1), 10) - parseInt(b.slice(1), 10))
+                .map(([base, exp]) => (exp > 1 ? `${base}^${exp}` : base))
+                .join('*');
+        }
+
+        function formatPolynomial(poly) {
+            const keys = Object.keys(poly);
+            if (keys.length === 0) return '0';
+            return keys.map((term) => {
+                const coeff = poly[term];
+                if (term === 'const') return `${coeff}`;
+                const html = term
+                    .replace(/\*/g, '')
+                    .replace(/x(\d+)/g, 'x<sub>$1</sub>')
+                    .replace(/\^(\d+)/g, '<sup>$1</sup>');
+                return coeff > 1 ? `${coeff}${html}` : html;
+            }).join(' + ');
+        }
+
+        // DOM
+        const mInput = document.getElementById('m-input');
+        const nInput = document.getElementById('n-input');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const resultText = document.getElementById('result-text');
+        const resultContainer = document.getElementById('result-container');
+        const chartCanvas = document.getElementById('partitionChart');
+        const stepsContainer = document.getElementById('steps-container');
+        const nextStepBtn = document.getElementById('next-step-btn');
+
+        // Ensure aria-live on result container
+        if (resultContainer && !resultContainer.hasAttribute('aria-live')) {
+            resultContainer.setAttribute('aria-live', 'polite');
+        }
+
+        let partitionChart = null;
+
+        function updateChart(poly) {
+            if (partitionChart) {
+                partitionChart.destroy();
+                partitionChart = null;
+            }
+            const labels = [];
+            const data = [];
+
+            const firstTerm = Object.keys(poly)[0];
+            if (firstTerm && firstTerm !== 'const') {
+                const parts = toJson(firstTerm);
+                Object.entries(parts).forEach(([base, exp]) => {
+                    const size = parseInt(base.slice(1), 10);
+                    for (let i = 0; i < exp; i++) {
+                        labels.push(`Part of size ${size}`);
+                        data.push(size);
+                    }
+                });
+            }
+
+            const ctx = chartCanvas.getContext('2d');
+            partitionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Part Size',
+                        data,
+                        backgroundColor: 'rgba(56, 189, 248, 0.6)',
+                        borderColor: 'rgba(56, 189, 248, 1)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Size of Part' } },
+                        x: { title: { display: true, text: 'Parts' } },
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: true },
+                    },
+                },
+            });
+        }
+
+        function calculate() {
+            const m = parseInt(mInput.value, 10);
+            const n = parseInt(nInput.value, 10);
+            if (Number.isNaN(m) || Number.isNaN(n) || m < 1 || n < 1 || n > m) {
+                resultText.textContent = '';
+                resultContainer.setAttribute('data-error', 'true');
+                resultContainer.innerText = 'Invalid input (require m ≥ n ≥ 1)';
+                if (partitionChart) partitionChart.destroy();
+                return;
+            }
+            resultContainer.removeAttribute('data-error');
+            memo.clear();
+            const poly = gradedBell(m, n);
+            resultText.innerHTML = `B<sub>${m},${n}</sub><sup>(g)</sup> = ${formatPolynomial(poly)}`;
+            ric(() => updateChart(poly));
+            // Persist state in URL hash
+            history.replaceState(null, '', `#m=${m}&n=${n}`);
+        }
+
+        // Keyboard and click handlers
+        calculateBtn.addEventListener('click', calculate);
+        [mInput, nInput].forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculate();
+                }
+            });
+        });
+
+        const steps = [
+            { text: "Start with m objects and a goal of n parts." },
+            { text: "1) Choose the size j of the first part (j ≥ 1)." },
+            { text: "2) Add a factor x_j to record creating a part of size j." },
+            { text: "3) Recurse on (m−j, n−1) to build remaining parts." },
+            { text: "4) Sum over j = 1..(m−n+1) to obtain B^{(g)}_{m,n}." },
+        ];
+        let currentStep = 0;
+
+        function showStep(idx) {
+            stepsContainer.innerHTML = '';
+            const el = document.createElement('div');
+            el.className = 'step-item absolute text-center p-4';
+            el.innerHTML = `<p class="text-lg">${steps[idx].text}</p>`;
+            stepsContainer.appendChild(el);
+            requestAnimationFrame(() => {
+                el.style.opacity = 1;
+                el.style.transform = 'translateY(0)';
+            });
+        }
+
+        function nextStep() {
+            const currentEl = stepsContainer.querySelector('.step-item');
+            if (currentEl) {
+                currentEl.style.opacity = 0;
+                currentEl.style.transform = 'translateY(-20px)';
+            }
+            setTimeout(() => {
+                currentStep = (currentStep + 1) % steps.length;
+                showStep(currentStep);
+            }, 250);
+        }
+
+        nextStepBtn.addEventListener('click', nextStep);
+        nextStepBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                nextStep();
+            }
+        });
+
+        // Init from URL hash if present
+        (function init() {
+            const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+            const m = parseInt(hash.get('m') || mInput.value, 10);
+            const n = parseInt(hash.get('n') || nInput.value, 10);
+            if (!Number.isNaN(m) && !Number.isNaN(n)) {
+                mInput.value = m;
+                nInput.value = n;
+            }
+            showStep(0);
+            calculate();
+        })();
+    </script>
+</body>
+</html>
