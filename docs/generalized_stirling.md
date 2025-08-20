@@ -6,9 +6,9 @@ This document explains the theory of generalized Stirling numbers $L_{n,k}^{\alp
 
 Stirling numbers are important combinatorial quantities with well-known interpretations:
 
-- **Stirling numbers of the first kind** $\stirlingf{n}{k}$ count permutations of $n$ elements with exactly $k$ cycles
-- **Stirling numbers of the second kind** $\stirlings{n}{k}$ count partitions of $n$ elements into exactly $k$ non-empty subsets
-- **Lah numbers** $\lah{n}{k}$ count partitions of $n$ elements into exactly $k$ non-empty ordered lists
+- **Stirling numbers of the first kind** $s(n,k)$ count permutations of $n$ elements with exactly $k$ cycles
+- **Stirling numbers of the second kind** $S(n,k)$ count partitions of $n$ elements into exactly $k$ non-empty subsets
+- **Lah numbers** $L(n,k)$ count partitions of $n$ elements into exactly $k$ non-empty ordered lists
 
 The paper introduces a generalization, denoted $L_{n,k}^{\alpha,\beta}$, that unifies these and provides additional flexibility through parameters $\alpha$ and $\beta$.
 
