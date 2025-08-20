@@ -8,6 +8,28 @@ by Belbachir, Belkhir, and Bousbaa.
 The generalized Stirling numbers have a combinatorial interpretation as the
 total weight of distributing n elements into k ordered non-empty lists with
 specific weighting rules.
+
+Examples:
+    Basic usage:
+        >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+        >>> gs.compute(3, 2)
+        6.0
+    
+    Special cases:
+        >>> # Stirling numbers of the first kind
+        >>> s1 = GeneralizedStirling(alpha=1.0, beta=0.0)
+        >>> s1.compute(4, 2)
+        11.0
+        
+        >>> # Stirling numbers of the second kind
+        >>> s2 = GeneralizedStirling(alpha=0.0, beta=1.0)
+        >>> s2.compute(4, 2)
+        7.0
+        
+        >>> # Lah numbers
+        >>> lah = GeneralizedStirling(alpha=1.0, beta=1.0)
+        >>> lah.compute(4, 2)
+        36.0
 """
 
 import math
@@ -16,6 +38,14 @@ import numpy as np
 import warnings
 from collections import defaultdict
 import time
+import os
+import pickle
+from typing import Dict, List, Tuple, Union, Optional, Callable, Iterator, Any, Set, DefaultDict
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 class GeneralizedStirling:
     """
@@ -26,42 +56,94 @@ class GeneralizedStirling:
     1. The head of each list has weight β
     2. Other elements in lists have weight α
     3. The first element placed in each list has weight 1
+    
+    Attributes:
+        alpha (float): Weight parameter for non-head elements
+        beta (float): Weight parameter for head elements
+        cache_size (int): Maximum size for LRU cache
+        use_disk_cache (bool): Whether to use disk-based caching for large computations
+        cache_dir (str): Directory for disk cache
+        _memory_cache (Dict): In-memory cache for quick lookups
+        _precomputed (Dict): Cache for precomputed values
+        compute_time (DefaultDict): Time spent in each computation method
+        cache_hits (DefaultDict): Number of cache hits for each method
+        cache_misses (DefaultDict): Number of cache misses for each method
     """
     
-    def __init__(self, alpha=1.0, beta=1.0, cache_size=10000, use_disk_cache=False, cache_dir=None):
+    def __init__(self, alpha: float = 1.0, beta: float = 1.0, 
+                 cache_size: int = 10000, use_disk_cache: bool = False, 
+                 cache_dir: Optional[str] = None) -> None:
         """
         Initialize with parameters α and β.
         
         Args:
-            alpha (float): Weight parameter for non-head elements
-            beta (float): Weight parameter for head elements
-            cache_size (int): Maximum size for LRU cache
-            use_disk_cache (bool): Whether to use disk-based caching for large computations
-            cache_dir (str): Directory for disk cache (if None, uses temporary directory)
+            alpha: Weight parameter for non-head elements
+            beta: Weight parameter for head elements
+            cache_size: Maximum size for LRU cache
+            use_disk_cache: Whether to use disk-based caching for large computations
+            cache_dir: Directory for disk cache (if None, uses temporary directory)
+            
+        Raises:
+            ValueError: If alpha or beta are not valid floating point numbers
         """
-        self.alpha = alpha
-        self.beta = beta
+        # Validate input parameters
+        if not isinstance(alpha, (int, float)) or math.isnan(alpha) or math.isinf(alpha):
+            raise ValueError(f"alpha must be a valid number, got {alpha}")
+        if not isinstance(beta, (int, float)) or math.isnan(beta) or math.isinf(beta):
+            raise ValueError(f"beta must be a valid number, got {beta}")
+            
+        self.alpha = float(alpha)
+        self.beta = float(beta)
         self.cache_size = cache_size
         self.use_disk_cache = use_disk_cache
-        self.cache_dir = cache_dir
+        
+        # Set up disk cache directory
+        if use_disk_cache:
+            if cache_dir is None:
+                import tempfile
+                self.cache_dir = os.path.join(tempfile.gettempdir(), f"gsn_cache_{hash((alpha, beta))}")
+            else:
+                self.cache_dir = cache_dir
+                
+            # Create cache directory if it doesn't exist
+            if not os.path.exists(self.cache_dir):
+                os.makedirs(self.cache_dir)
+                logger.info(f"Created disk cache directory: {self.cache_dir}")
+        else:
+            self.cache_dir = cache_dir
         
         # In-memory cache for quick lookups
-        self._memory_cache = {}
+        self._memory_cache: Dict[Any, float] = {}
         
         # Special cache for precomputed values
-        self._precomputed = {}
+        self._precomputed: Dict[Tuple[int, int], float] = {}
         
         # Performance metrics
-        self.compute_time = defaultdict(float)
-        self.cache_hits = defaultdict(int)
-        self.cache_misses = defaultdict(int)
+        self.compute_time: DefaultDict[str, float] = defaultdict(float)
+        self.cache_hits: DefaultDict[str, int] = defaultdict(int)
+        self.cache_misses: DefaultDict[str, int] = defaultdict(int)
         
         # Initialize precomputed tables for common special cases
         if (self.alpha, self.beta) in [(1.0, 0.0), (0.0, 1.0), (1.0, 1.0)]:
             self._precompute_common_values()
     
-    def _precompute_common_values(self, max_n=20, max_k=20):
-        """Precompute values for common special cases"""
+    def _precompute_common_values(self, max_n: int = 20, max_k: int = 20) -> None:
+        """
+        Precompute values for common special cases.
+        
+        This method calculates and stores values for common parameters to improve performance
+        for frequently used values.
+        
+        Args:
+            max_n: Maximum value of n to precompute
+            max_k: Maximum value of k to precompute
+            
+        Returns:
+            None
+        """
+        logger.info(f"Precomputing common values for α={self.alpha}, β={self.beta}")
+        
+        count = 0
         for n in range(min(max_n, 21)):
             for k in range(min(n+1, max_k+1)):
                 if n == k or k == 0 or n == 0:
@@ -71,24 +153,93 @@ class GeneralizedStirling:
                 # Compute and store in precomputed cache
                 try:
                     self._precomputed[(n, k)] = self.triangular_recurrence_internal(n, k)
+                    count += 1
                 except (OverflowError, ValueError):
                     # Stop precomputation if we hit numerical limits
+                    logger.warning(f"Stopped precomputation at n={n}, k={k} due to numerical issues")
                     return
+        
+        logger.info(f"Precomputed {count} values for α={self.alpha}, β={self.beta}")
     
-    def rising_factorial(self, x, n, increment=1.0):
+    def _get_disk_cache_key(self, method: str, n: int, k: int) -> str:
+        """
+        Generate a filename for disk caching based on method and parameters.
+        
+        Args:
+            method: The calculation method used
+            n: First parameter
+            k: Second parameter
+            
+        Returns:
+            A unique filename for the cache entry
+        """
+        return os.path.join(self.cache_dir, f"{method}_{n}_{k}_{self.alpha}_{self.beta}.pkl")
+    
+    def _save_to_disk_cache(self, key: str, value: float) -> None:
+        """
+        Save a value to the disk cache.
+        
+        Args:
+            key: Cache key
+            value: Value to cache
+            
+        Returns:
+            None
+        """
+        if not self.use_disk_cache:
+            return
+            
+        try:
+            with open(key, 'wb') as f:
+                pickle.dump(value, f)
+        except (OSError, pickle.PickleError) as e:
+            logger.warning(f"Failed to save to disk cache: {e}")
+    
+    def _load_from_disk_cache(self, key: str) -> Optional[float]:
+        """
+        Load a value from the disk cache.
+        
+        Args:
+            key: Cache key
+            
+        Returns:
+            The cached value or None if not found
+        """
+        if not self.use_disk_cache or not os.path.exists(key):
+            return None
+            
+        try:
+            with open(key, 'rb') as f:
+                return pickle.load(f)
+        except (OSError, pickle.PickleError) as e:
+            logger.warning(f"Failed to load from disk cache: {e}")
+            return None
+    
+    def rising_factorial(self, x: float, n: int, increment: float = 1.0) -> float:
         """
         Compute generalized rising factorial (x|α)^n̄
         
         This calculates x(x+α)(x+2α)...(x+(n-1)α)
         
         Args:
-            x (float): Base value
-            n (int): Number of terms
-            increment (float): The increment between terms
+            x: Base value
+            n: Number of terms
+            increment: The increment between terms
             
         Returns:
-            float: The value of the rising factorial
+            The value of the rising factorial
+            
+        Examples:
+            >>> gs = GeneralizedStirling()
+            >>> gs.rising_factorial(2.0, 3, 0.5)
+            8.75  # 2.0 * 2.5 * 3.0
+            
+            >>> gs.rising_factorial(1.0, 4, 1.0)
+            24.0  # 1 * 2 * 3 * 4
         """
+        if n < 0:
+            raise ValueError(f"n must be non-negative, got {n}")
+            
         if n == 0:
             return 1.0
         
@@ -103,25 +254,52 @@ class GeneralizedStirling:
         try:
             log_result = 0.0
             for i in range(n):
-                log_result += math.log(x + i * increment)
+                factor = x + i * increment
+                if factor <= 0:
+                    # Handle possible negative or zero factors
+                    if factor == 0:
+                        return 0.0
+                    else:
+                        log_result += math.log(abs(factor))
+                        # If n is odd, the result is negative
+                        if i == n - 1 and factor < 0:
+                            return -math.exp(log_result)
+                else:
+                    log_result += math.log(factor)
             return math.exp(log_result)
-        except (OverflowError, ValueError):
-            warnings.warn(f"Numerical overflow in rising factorial with x={x}, n={n}, increment={increment}")
+        except (OverflowError, ValueError) as e:
+            warnings.warn(f"Numerical overflow in rising factorial with x={x}, n={n}, increment={increment}: {e}")
             return float('inf')
     
-    def explicit_formula(self, n, k):
+    def explicit_formula(self, n: int, k: int) -> float:
         """
         Compute L{n,k}^{α,β} using the explicit formula.
         
         Formula: L{n,k}^{α,β} = (1/(β^k * k!)) * ∑_{j=0}^k (-1)^j * C(k,j) * (β(k-j)|α)^n̄
         
         Args:
-            n (int): Number of elements
-            k (int): Number of ordered lists
+            n: Number of elements
+            k: Number of ordered lists
             
         Returns:
-            float: Value of the generalized Stirling number
+            Value of the generalized Stirling number
+            
+        Raises:
+            ValueError: If n or k are negative
+            
+        Examples:
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+            >>> gs.explicit_formula(3, 2)
+            6.0
+            
+            >>> gs = GeneralizedStirling(alpha=0.0, beta=1.0)
+            >>> gs.explicit_formula(4, 2)  # Stirling number of the second kind
+            7.0
         """
+        # Validate inputs
+        if n < 0 or k < 0:
+            raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
+            
         # Handle base cases
         if k == 0:
             return 1.0 if n == 0 else 0.0
@@ -130,11 +308,20 @@ class GeneralizedStirling:
         if k == n:
             return 1.0
         
-        # Check cache
+        # Check memory cache
         cache_key = ('explicit', n, k)
         if cache_key in self._memory_cache:
             self.cache_hits['explicit'] += 1
             return self._memory_cache[cache_key]
+        
+        # Check disk cache if enabled
+        if self.use_disk_cache:
+            disk_key = self._get_disk_cache_key('explicit', n, k)
+            cached_value = self._load_from_disk_cache(disk_key)
+            if cached_value is not None:
+                self.cache_hits['explicit'] += 1
+                self._memory_cache[cache_key] = cached_value  # Also cache in memory
+                return cached_value
         
         self.cache_misses['explicit'] += 1
         start_time = time.time()
@@ -148,20 +335,24 @@ class GeneralizedStirling:
             if n > 50 or k > 20:
                 try:
                     result = self._explicit_formula_log_space(n, k)
-                except (OverflowError, ValueError):
-                    warnings.warn(f"Numerical issues in explicit formula with n={n}, k={k}")
+                except (OverflowError, ValueError) as e:
+                    warnings.warn(f"Numerical issues in explicit formula with n={n}, k={k}: {e}")
                     # Fall back to triangular recurrence
                     result = self.triangular_recurrence(n, k)
             else:
                 result = self._explicit_formula_direct(n, k)
         
-        # Update cache and timing
+        # Update caches and timing
         self._memory_cache[cache_key] = result
+        if self.use_disk_cache:
+            disk_key = self._get_disk_cache_key('explicit', n, k)
+            self._save_to_disk_cache(disk_key, result)
+            
         self.compute_time['explicit'] += time.time() - start_time
         
         return result
     
-    def _explicit_formula_direct(self, n, k):
+    def _explicit_formula_direct(self, n: int, k: int) -> float:
         """Direct computation of explicit formula for moderate values"""
         result = 0.0
         for j in range(k+1):
@@ -180,7 +371,7 @@ class GeneralizedStirling:
         denominator = (self.beta ** k) * math.factorial(k)
         return result / denominator if denominator != 0 else 0.0
     
-    def _explicit_formula_log_space(self, n, k):
+    def _explicit_formula_log_space(self, n: int, k: int) -> float:
         """Compute explicit formula in log space for numerical stability"""
         log_result = float('-inf')  # log(0)
         sign = 1.0
@@ -228,7 +419,7 @@ class GeneralizedStirling:
         
         return result
     
-    def triangular_recurrence_internal(self, n, k):
+    def triangular_recurrence_internal(self, n: int, k: int) -> float:
         """Internal implementation of triangular recurrence without caching"""
         # Handle base cases
         if k == 0:
@@ -251,37 +442,71 @@ class GeneralizedStirling:
         return term1 + term2
     
     @lru_cache(maxsize=10000)  # Increased cache size
-    def triangular_recurrence(self, n, k):
+    def triangular_recurrence(self, n: int, k: int) -> float:
         """
         Compute L{n,k}^{α,β} using the triangular recurrence relation.
         
         L{n,k}^{α,β} = L{n-1,k-1}^{α,β} + (α(n-1) + βk) * L{n-1,k}^{α,β}
         
+        This recurrence relation has a clear combinatorial interpretation:
+        - The first term represents placing element n in its own list
+        - The second term represents placing element n into an existing list,
+          either after an element (weight α) or at the head (weight β)
+        
         Args:
-            n (int): Number of elements
-            k (int): Number of ordered lists
+            n: Number of elements
+            k: Number of ordered lists
             
         Returns:
-            float: Value of the generalized Stirling number
+            Value of the generalized Stirling number
+            
+        Raises:
+            ValueError: If n or k are negative
+            
+        Examples:
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+            >>> gs.triangular_recurrence(3, 2)
+            6.0
+            
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=0.0)
+            >>> gs.triangular_recurrence(4, 2)  # Stirling number of the first kind
+            11.0
         """
-        # Check cache
+        # Validate inputs
+        if n < 0 or k < 0:
+            raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
+            
+        # Check memory cache
         cache_key = ('triangular', n, k)
         if cache_key in self._memory_cache:
             self.cache_hits['triangular'] += 1
             return self._memory_cache[cache_key]
+        
+        # Check disk cache if enabled
+        if self.use_disk_cache:
+            disk_key = self._get_disk_cache_key('triangular', n, k)
+            cached_value = self._load_from_disk_cache(disk_key)
+            if cached_value is not None:
+                self.cache_hits['triangular'] += 1
+                self._memory_cache[cache_key] = cached_value  # Also cache in memory
+                return cached_value
         
         self.cache_misses['triangular'] += 1
         start_time = time.time()
         
         result = self.triangular_recurrence_internal(n, k)
         
-        # Update cache and timing
+        # Update caches and timing
         self._memory_cache[cache_key] = result
+        if self.use_disk_cache:
+            disk_key = self._get_disk_cache_key('triangular', n, k)
+            self._save_to_disk_cache(disk_key, result)
+            
         self.compute_time['triangular'] += time.time() - start_time
         
         return result
     
-    def bottom_up_computation(self, n, k):
+    def bottom_up_computation(self, n: int, k: int) -> float:
         """
         Compute L{n,k}^{α,β} using a bottom-up dynamic programming approach.
         
@@ -289,12 +514,28 @@ class GeneralizedStirling:
         which is more efficient for computing a single value when n and k are large.
         
         Args:
-            n (int): Number of elements
-            k (int): Number of ordered lists
+            n: Number of elements
+            k: Number of ordered lists
             
         Returns:
-            float: Value of the generalized Stirling number
+            Value of the generalized Stirling number
+            
+        Raises:
+            ValueError: If n or k are negative
+            
+        Examples:
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+            >>> gs.bottom_up_computation(3, 2)
+            6.0
+            
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=0.0)
+            >>> gs.bottom_up_computation(4, 2)  # Stirling number of the first kind
+            11.0
         """
+        # Validate inputs
+        if n < 0 or k < 0:
+            raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
+            
         # Handle base cases
         if k == 0:
             return 1.0 if n == 0 else 0.0
@@ -344,18 +585,27 @@ class GeneralizedStirling:
         
         return result
     
-    def horizontal_recurrence(self, n, k):
+    def horizontal_recurrence(self, n: int, k: int) -> float:
         """
         Compute L{n,k}^{α,β} using the horizontal recurrence relation.
         
         L{n,k}^{α,β} = ∑_{j=0}^{n-k} (-1)^j * ((k+1)β + nα|α)^j̄ * L{n+1,k+j+1}^{α,β}
         
         Args:
-            n (int): Number of elements
-            k (int): Number of ordered lists
+            n: Number of elements
+            k: Number of ordered lists
             
         Returns:
-            float: Value of the generalized Stirling number
+            Value of the generalized Stirling number
+            
+        Examples:
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+            >>> gs.horizontal_recurrence(3, 2)
+            6.0
+            
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=0.0)
+            >>> gs.horizontal_recurrence(4, 2)  # Stirling number of the first kind
+            11.0
         """
         result = 0.0
         for j in range(n-k+1):
@@ -371,7 +621,7 @@ class GeneralizedStirling:
         
         return result
     
-    def vertical_recurrence(self, n, k):
+    def vertical_recurrence(self, n: int, k: int) -> float:
         """
         Compute L{n+1,k+1}^{α,β} using the vertical recurrence relation.
         
@@ -400,7 +650,7 @@ class GeneralizedStirling:
         
         return result
     
-    def special_case(self, n, k=1):
+    def special_case(self, n: int, k: int = 1) -> float:
         """
         Compute L{n,1}^{α,β} using the special case formula.
         
@@ -457,7 +707,7 @@ class GeneralizedStirling:
         
         return result
     
-    def symmetric_function(self, n, k):
+    def symmetric_function(self, n: int, k: int) -> float:
         """
         Compute L{n+k,n}^{α,β} using the symmetric function formula.
         
@@ -465,13 +715,33 @@ class GeneralizedStirling:
         
         This implementation uses dynamic programming for efficiency.
         
+        The symmetric function formula provides an alternative way to compute
+        generalized Stirling numbers, expressing them in terms of elementary
+        symmetric functions of weighted sequences.
+        
         Args:
-            n (int): First parameter
-            k (int): Second parameter
+            n: First parameter
+            k: Second parameter
             
         Returns:
-            float: Value of L{n+k,n}^{α,β}
+            Value of L{n+k,n}^{α,β}
+            
+        Raises:
+            ValueError: If n or k are negative
+            
+        Examples:
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+            >>> gs.symmetric_function(3, 2)  # Computes L{5,3}
+            60.0
+            
+            >>> gs = GeneralizedStirling(alpha=0.0, beta=1.0)
+            >>> gs.symmetric_function(2, 1)  # Computes L{3,2} = S(3,2)
+            3.0
         """
+        # Validate inputs
+        if n < 0 or k < 0:
+            raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
+            
         if k == 0:
             return 1.0
         
@@ -482,20 +752,30 @@ class GeneralizedStirling:
                 result += (self.alpha + self.beta) * i
             return result
         
-        # Check cache
+        # Check memory cache
         cache_key = ('symmetric', n, k)
         if cache_key in self._memory_cache:
             self.cache_hits['symmetric'] += 1
             return self._memory_cache[cache_key]
+        
+        # Check disk cache if enabled
+        if self.use_disk_cache:
+            disk_key = self._get_disk_cache_key('symmetric', n, k)
+            cached_value = self._load_from_disk_cache(disk_key)
+            if cached_value is not None:
+                self.cache_hits['symmetric'] += 1
+                self._memory_cache[cache_key] = cached_value  # Also cache in memory
+                return cached_value
         
         self.cache_misses['symmetric'] += 1
         start_time = time.time()
         
         # Dynamic programming approach
         # dp[d][i] = sum of products for sequences starting at index i with depth d
-        dp = {}
+        dp: Dict[Tuple[int, int], float] = {}
         
-        def compute_dp(depth, start):
+        def compute_dp(depth: int, start: int) -> float:
+            """Recursively compute the sum using dynamic programming"""
             if depth == k:
                 return 1.0
             
@@ -512,34 +792,87 @@ class GeneralizedStirling:
         
         result = compute_dp(0, 1)
         
-        # Update cache and timing
+        # Update caches and timing
         self._memory_cache[cache_key] = result
+        if self.use_disk_cache:
+            disk_key = self._get_disk_cache_key('symmetric', n, k)
+            self._save_to_disk_cache(disk_key, result)
+            
         self.compute_time['symmetric'] += time.time() - start_time
         
         return result
     
-    def clear_cache(self):
-        """Clear all caches to free memory"""
+    def clear_cache(self) -> None:
+        """
+        Clear all caches to free memory.
+        
+        This clears both the in-memory cache and disk cache if enabled.
+        
+        Returns:
+            None
+        
+        Examples:
+            >>> gs = GeneralizedStirling()
+            >>> gs.compute(10, 5)  # Compute a value
+            >>> gs.clear_cache()   # Clear all caches
+            >>> stats = gs.get_performance_stats()  # Should show 0 cache hits
+        """
         self._memory_cache.clear()
         self.triangular_recurrence.cache_clear()
+        
+        # Clear disk cache if enabled
+        if self.use_disk_cache and os.path.exists(self.cache_dir):
+            try:
+                for filename in os.listdir(self.cache_dir):
+                    if filename.endswith('.pkl'):
+                        os.remove(os.path.join(self.cache_dir, filename))
+                logger.info(f"Cleared disk cache in {self.cache_dir}")
+            except OSError as e:
+                logger.warning(f"Failed to clear disk cache: {e}")
+        
         # Reset performance counters
         self.compute_time.clear()
         self.cache_hits.clear()
         self.cache_misses.clear()
     
-    def compute(self, n, k, method='auto'):
+    def compute(self, n: int, k: int, method: str = 'auto') -> float:
         """
         Compute L{n,k}^{α,β} using the specified method.
         
+        This method automatically selects the most appropriate algorithm
+        based on the input size if method='auto'.
+        
         Args:
-            n (int): Number of elements
-            k (int): Number of ordered lists
-            method (str): Method to use ('auto', 'triangular', 'explicit', 
-                         'horizontal', 'vertical', 'bottom_up', 'symmetric')
+            n: Number of elements
+            k: Number of ordered lists
+            method: Method to use ('auto', 'triangular', 'explicit', 
+                   'horizontal', 'vertical', 'bottom_up', 'symmetric')
             
         Returns:
-            float: Value of the generalized Stirling number
+            Value of the generalized Stirling number
+            
+        Raises:
+            ValueError: If n or k are negative, or if method is not recognized
+            
+        Examples:
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+            >>> gs.compute(3, 2)  # Auto-select method
+            6.0
+            
+            >>> gs.compute(5, 3, method='explicit')  # Use explicit formula
+            60.0
+            
+            >>> gs.compute(4, 2, method='bottom_up')  # Use bottom-up approach
+            36.0
         """
+        # Validate inputs
+        if n < 0 or k < 0:
+            raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
+            
+        valid_methods = {'auto', 'triangular', 'explicit', 'horizontal', 'vertical', 'bottom_up', 'symmetric'}
+        if method not in valid_methods:
+            raise ValueError(f"Unknown method: {method}. Valid methods are: {valid_methods}")
+        
         # Handle base cases first for efficiency
         if k == 0:
             return 1.0 if n == 0 else 0.0
@@ -566,6 +899,8 @@ class GeneralizedStirling:
             else:
                 # For medium-large values, bottom-up approach is generally best
                 method = 'bottom_up'
+            
+            logger.debug(f"Auto-selected method '{method}' for n={n}, k={k}")
         
         # Use the selected method
         if method == 'explicit':
@@ -585,7 +920,7 @@ class GeneralizedStirling:
         else:  # Default to triangular
             return self.triangular_recurrence(n, k)
     
-    def generate_triangle(self, n_max, format_str="{:.0f}", method='auto', sparse=False):
+    def generate_triangle(self, n_max: int, format_str: str = "{:.0f}", method: str = 'auto', sparse: bool = False):
         """
         Generate a triangle of generalized Stirling numbers.
         
@@ -597,7 +932,19 @@ class GeneralizedStirling:
             
         Returns:
             list or dict: Triangle of generalized Stirling numbers
+            
+        Raises:
+            ValueError: If n_max is negative
+            
+        Examples:
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+            >>> triangle = gs.generate_triangle(5)
+            >>> print(triangle)
+            [[1.0], [1.0, 1.0], [1.0, 2.0, 1.0], [1.0, 3.0, 3.0, 1.0], [1.0, 4.0, 6.0, 4.0, 1.0]]
         """
+        if n_max < 0:
+            raise ValueError(f"n_max must be non-negative, got {n_max}")
+        
         if sparse:
             # Return a sparse representation as a dictionary
             triangle = {}
@@ -617,13 +964,29 @@ class GeneralizedStirling:
                 triangle.append(row)
             return triangle
     
-    def get_performance_stats(self):
-        """Get performance statistics for the different computation methods"""
+    def get_performance_stats(self) -> Dict[str, Any]:
+        """
+        Get performance statistics for the different computation methods.
+        
+        Returns:
+            Dictionary containing computation times, cache hits/misses, and hit ratios
+            
+        Examples:
+            >>> gs = GeneralizedStirling()
+            >>> for n in range(1, 10):
+            ...     for k in range(1, n+1):
+            ...         gs.compute(n, k)
+            >>> stats = gs.get_performance_stats()
+            >>> print(f"Cache hit ratio: {stats['hit_ratio']}")
+        """
         stats = {
             'compute_time': dict(self.compute_time),
             'cache_hits': dict(self.cache_hits),
             'cache_misses': dict(self.cache_misses),
-            'hit_ratio': {}
+            'hit_ratio': {},
+            'disk_cache_enabled': self.use_disk_cache,
+            'disk_cache_dir': self.cache_dir if self.use_disk_cache else None,
+            'disk_cache_size': 0
         }
         
         # Calculate hit ratios
@@ -634,31 +997,142 @@ class GeneralizedStirling:
             else:
                 stats['hit_ratio'][method] = 0
         
+        # Calculate disk cache size if enabled
+        if self.use_disk_cache and os.path.exists(self.cache_dir):
+            try:
+                total_size = 0
+                for filename in os.listdir(self.cache_dir):
+                    if filename.endswith('.pkl'):
+                        total_size += os.path.getsize(os.path.join(self.cache_dir, filename))
+                stats['disk_cache_size'] = total_size
+            except OSError:
+                pass
+        
         return stats
 
-# ... existing code for stirling_first_kind, stirling_second_kind, lah_number ...
+
+def stirling_first_kind(n: int, k: int) -> float:
+    """
+    Compute the unsigned Stirling number of the first kind.
+    
+    This is equivalent to L{n,k}^{1,0}.
+    
+    Args:
+        n: Number of elements
+        k: Number of cycles
+        
+    Returns:
+        Value of the Stirling number of the first kind
+        
+    Raises:
+        ValueError: If n or k are negative
+        
+    Examples:
+        >>> stirling_first_kind(4, 2)
+        11.0
+        >>> stirling_first_kind(5, 3)
+        35.0
+    """
+    if n < 0 or k < 0:
+        raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
+        
+    gs = GeneralizedStirling(alpha=1.0, beta=0.0)
+    return gs.compute(n, k)
+
+
+def stirling_second_kind(n: int, k: int) -> float:
+    """
+    Compute the Stirling number of the second kind.
+    
+    This is equivalent to L{n,k}^{0,1}.
+    
+    Args:
+        n: Number of elements
+        k: Number of subsets
+        
+    Returns:
+        Value of the Stirling number of the second kind
+        
+    Raises:
+        ValueError: If n or k are negative
+        
+    Examples:
+        >>> stirling_second_kind(4, 2)
+        7.0
+        >>> stirling_second_kind(5, 3)
+        10.0
+    """
+    if n < 0 or k < 0:
+        raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
+        
+    gs = GeneralizedStirling(alpha=0.0, beta=1.0)
+    return gs.compute(n, k)
+
+
+def lah_number(n: int, k: int) -> float:
+    """
+    Compute the Lah number.
+    
+    This is equivalent to L{n,k}^{1,1}.
+    
+    Args:
+        n: Number of elements
+        k: Number of ordered lists
+        
+    Returns:
+        Value of the Lah number
+        
+    Raises:
+        ValueError: If n or k are negative
+        
+    Examples:
+        >>> lah_number(4, 2)
+        36.0
+        >>> lah_number(5, 3)
+        60.0
+    """
+    if n < 0 or k < 0:
+        raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
+        
+    gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+    return gs.compute(n, k)
+
 
 # Add new utility functions
-def parallel_generate_triangle(n_max, alpha=1.0, beta=1.0, method='auto', processes=None):
+def parallel_generate_triangle(n_max: int, alpha: float = 1.0, beta: float = 1.0, 
+                              method: str = 'auto', processes: Optional[int] = None) -> List[List[float]]:
     """
     Generate a triangle of generalized Stirling numbers using parallel processing.
     
+    This function uses multiple CPU cores to compute the triangle faster.
+    
     Args:
-        n_max (int): Maximum row number
-        alpha (float): Weight parameter for non-head elements
-        beta (float): Weight parameter for head elements
-        method (str): Method to use for computation
-        processes (int): Number of processes to use (None = use all available cores)
+        n_max: Maximum row number
+        alpha: Weight parameter for non-head elements
+        beta: Weight parameter for head elements
+        method: Method to use for computation
+        processes: Number of processes to use (None = use all available cores)
         
     Returns:
-        list: Triangle of generalized Stirling numbers
+        Triangle of generalized Stirling numbers as list of lists
+        
+    Raises:
+        ValueError: If n_max is negative
+        
+    Examples:
+        >>> triangle = parallel_generate_triangle(5, alpha=1.0, beta=1.0)
+        >>> print(triangle[2])  # Row for n=3
+        [6.0, 6.0, 1.0]
     """
     import concurrent.futures
+    
+    if n_max < 0:
+        raise ValueError(f"n_max must be non-negative, got {n_max}")
     
     gs = GeneralizedStirling(alpha=alpha, beta=beta)
     triangle = [[] for _ in range(n_max)]
     
-    def compute_value(n, k):
+    def compute_value(n: int, k: int) -> Tuple[int, int, float]:
         return (n, k, gs.compute(n, k, method=method))
     
     # Generate all (n,k) pairs to compute
@@ -674,7 +1148,9 @@ def parallel_generate_triangle(n_max, alpha=1.0, beta=1.0, method='auto', proces
     
     return triangle
 
-def memory_efficient_iterator(n_max, alpha=1.0, beta=1.0, method='auto'):
+
+def memory_efficient_iterator(n_max: int, alpha: float = 1.0, beta: float = 1.0, 
+                             method: str = 'auto') -> Iterator[Tuple[int, int, float]]:
     """
     Memory-efficient iterator for generalized Stirling numbers.
     
@@ -682,14 +1158,26 @@ def memory_efficient_iterator(n_max, alpha=1.0, beta=1.0, method='auto'):
     yields values one at a time to conserve memory.
     
     Args:
-        n_max (int): Maximum row number
-        alpha (float): Weight parameter for non-head elements
-        beta (float): Weight parameter for head elements
-        method (str): Method to use for computation
+        n_max: Maximum row number
+        alpha: Weight parameter for non-head elements
+        beta: Weight parameter for head elements
+        method: Method to use for computation
         
     Yields:
-        tuple: (n, k, value) for each generalized Stirling number
+        Tuples of (n, k, value) for each generalized Stirling number
+        
+    Raises:
+        ValueError: If n_max is negative
+        
+    Examples:
+        >>> for n, k, value in memory_efficient_iterator(3, alpha=1.0, beta=1.0):
+        ...     if n == 3 and k == 2:
+        ...         print(f"L{{3,2}}^{{1,1}} = {value}")
+        L{3,2}^{1,1} = 6.0
     """
+    if n_max < 0:
+        raise ValueError(f"n_max must be non-negative, got {n_max}")
+        
     gs = GeneralizedStirling(alpha=alpha, beta=beta)
     
     for n in range(1, n_max + 1):
