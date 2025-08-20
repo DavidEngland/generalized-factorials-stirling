@@ -32,17 +32,18 @@ This outline focuses on the core mathematical contributions, which are best suit
 * **Section 3: Bell Polynomial Framework:** Develop the theory of normalized graded Bell polynomials, their combinatorial interpretations as weighted partitions, and scaling properties.
 * **Section 4: Computational Verification:** Provide extensive verification through geometric series, polynomial cases, and exponential-type generating functions.
 * **Section 5: Applications and Extensions:** Explore connections to symmetric functions, q-analogues, multivariate cases, and applications in statistical physics and representation theory.
+* **Appendix A: Special Cases and Computational Details:** Include detailed analysis of special cases like P(-1,-1,n) and their role in OGF reciprocals, computational algorithms, and numerical considerations.
 * **Conclusion:** Summarize the trinity of falling factorials, Bell polynomials, and generating function coefficients as a unifying mathematical framework.
 
 **Series Connections and Cross-References:**
 
 * Article 1 establishes the foundational polynomial and coefficient theory
 * Article 2 develops the generating function analytical machinery  
-* Article 3 applies the framework to the specific but fundamental problem of OGF powers
+* Article 3 applies the framework to the specific but fundamental problem of OGF powers, with special cases like P(-1,-1,n) relegated to appendices
 * Together, they provide a complete theoretical foundation for generalized factorial polynomial transformations
 
 **Publication Strategy:**
 
 Each article can stand alone but gains strength from the series context. Article 1 should be published first to establish the notation and fundamental results. Articles 2 and 3 can be developed in parallel, with cross-references to Article 1's established framework.
 
-The series demonstrates the power of unified mathematical frameworks - starting from a simple generalization (factorial polynomials with arbitrary increments), building systematic transformation theory (transfer coefficients), developing analytical tools (generating functions), and culminating in powerful applications (OGF power expansions).
+Special cases like P(-1,-1,n) provide interesting mathematical insights but are more appropriate as appendix material that supports the main theoretical development rather than as standalone articles.

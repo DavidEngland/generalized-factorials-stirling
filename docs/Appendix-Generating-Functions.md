@@ -192,7 +192,7 @@ example_bell_4_3 : bell(4,3);
 ### Bell Polynomial Properties
 
 - **Symmetry:** \(B(m,n) = B(m,m-n)\)
-- **Stirling Numbers Relation:**
+- **Stirling Numbers Relation:
   - First kind: \(c(m,n) = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} B(m,k)\)
   - Second kind: \(S(m,n) = \frac{1}{n!} \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} k^m\)
 
@@ -211,34 +211,40 @@ $$\frac{1}{(m_2)!(m_1)!} \alpha_2^{m_2} \alpha_1^{m_1} = \frac{1}{1!(m-2)!} \alp
 This yields:
 $$\beta_{m,m-1} = \frac{\alpha_2 \alpha_1^{m-2}}{m-1} \left(\frac{1}{(m-3)!} + \frac{1}{(m-2)!}\right) = \alpha_2 \frac{\alpha_1^{m-2}}{(m-2)!}$$
 
-### Computational Implementation
+## Special Case: P(-1,-1,n) and OGF Reciprocals
 
-#### Enhanced Maxima Implementation
+### Definition and Basic Properties
 
-```maxima
-/* Corrected implementation with proper boundary handling */
-beta(m,n,alpha) := block(
-  if m = 0 and n = 0 then return(1),
-  if m > 0 and n = 0 then return(0),
-  if n > m or n < 0 or m < 0 then return(0),
-  
-  /* Accessor for alpha sequence */
-  alpha_k : lambda([k], if listp(alpha) then alpha[k] else alpha(k)),
-  
-  /* Recurrence with proper normalization */
-  (1/n) * sum(alpha_k(k) * beta(m-k, n-1, alpha), k, 1, m-n+1)
-)$
+The special case P(-1,-1,n) represents a falling factorial starting at -1:
 
-/* Verification of subdiagonal pattern */
-verify_subdiagonal(m, alpha) := block(
-  computed : beta(m, m-1, alpha),
-  expected : alpha[2] * alpha[1]^(m-2) / (m-2)!,
-  ratsimp(computed - expected)
-)$
+$$P(-1,-1,n) = (-1)(-2)(-3)\cdots(-n) = (-1)^n \cdot n!$$
 
-/* Example: beta(4,3) with alpha = [a1,a2,a3,a4] */
-test_result : beta(4, 3, [a1,a2,a3,a4]);
-/* Should return: (1/2)*a1^2*a2 */
-```
+**Key Properties:**
+- **Sign alternation**: Even n gives positive values, odd n gives negative values
+- **Magnitude**: $|P(-1,-1,n)| = n!$ 
+- **Recurrence**: $P(-1,-1,n+1) = -(n+1) \cdot P(-1,-1,n)$
 
-This implementation correctly handles boundaries and verifies the subdiagonal pattern for Bell polynomials.
+### Connection to OGF Reciprocals
+
+This case provides coefficients for the "power rule" in OGF reciprocal expansions. For the basic geometric series:
+
+$$\frac{1}{1+x} = \sum_{n=0}^{\infty} (-1)^n x^n = \sum_{n=0}^{\infty} \frac{P(-1,-1,n)}{n!} x^n$$
+
+**Verification:**
+- $P(-1,-1,0) = 1 \Rightarrow$ coefficient of $x^0$ is $1/0! = 1$ ✓
+- $P(-1,-1,1) = -1 \Rightarrow$ coefficient of $x^1$ is $-1/1! = -1$ ✓  
+- $P(-1,-1,2) = 2 \Rightarrow$ coefficient of $x^2$ is $2/2! = 1$ ✓
+
+### Exponential Generating Function
+
+$$\sum_{n=0}^{\infty} P(-1,-1,n) \frac{x^n}{n!} = \sum_{n=0}^{\infty} (-1)^n x^n = \frac{1}{1+x}$$
+
+This is the key connection showing how alternating factorials encode OGF reciprocal structure.
+
+### Computational Notes
+
+For large n, use logarithmic computation:
+- $\log|P(-1,-1,n)| = \log(n!)$
+- $\text{sign}(P(-1,-1,n)) = (-1)^n$
+
+Direct computation becomes numerically challenging around n = 20 due to factorial growth.

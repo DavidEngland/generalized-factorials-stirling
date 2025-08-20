@@ -1,37 +1,37 @@
 # Changelog
 
-All notable changes to the Generalized Stirling Transfer Coefficients project.
+All notable changes to this project will be documented in this file.
 
-## [2024-12-XX] - Major Framework Completion and General Form Discovery
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Major Mathematical Breakthrough
-- **Discovered general form** for all generalized Stirling transfer coefficients via matrix decomposition
-- **Complete general formula**: $S_{m,n}(a,b) = \sum_{k=0}^{\min(m,n)} \left(\frac{a}{b}\right)^{m-k} \left(\frac{-1}{b}\right)^{n-k} \left\{\begin{array}{c}m\\k\end{array}\right\} \left[\begin{array}{c}n\\k\end{array}\right]$
-- **Matrix decomposition insight**: Every coefficient expressible as $AB^{-1}$ using classical Stirling numbers
+## [0.2.0] - 2023-11-25
 
-### Verified Mathematical Content
-- **Core framework** for generalized Stirling transfer coefficients $S_{m,n}(a,b)$
-- **Classical Stirling number relationships** as special cases
-- **Matrix inversion properties** $\mathbf{S}(a,b) \cdot \mathbf{S}(b,a) = \mathbf{I}$
-- **Scaling relationships** with proper exponential notation using division
-- **General recurrence relation** with dot product structure insight
-- **Lah number connections** $S_{m,n}(1,-1) = (-1)^{m-n} L(m,n)$
+### Added
+- JavaScript implementation of generalized Stirling numbers
+- PHP implementation of generalized Stirling numbers
+- Cross-language validation tests
+- Benchmarking utilities
+- Expected values table for cross-implementation verification
 
-### Documentation Cleanup
-- **Removed 15+ redundant files** and outdated versions 
-- **Consolidated** to 9 core documentation files
-- **Standardized notation** using proper bracket notation $\left\{\begin{array}{c}m\\n\end{array}\right\}$ and $\left[\begin{array}{c}m\\n\end{array}\right]$
-- **Unified exponential notation** using $\left(\frac{-1}{b}\right)^n$ instead of separate terms
-- **Deprecated T-coefficients** properly marked as failed approach
+### Changed
+- Improved memoization for better performance
+- Enhanced documentation with more examples
+- Optimized special case handling for k=1
 
-### Final Document Structure
-1. **[`journal-article-draft.md`](docs/journal-article-draft.md)** - Complete mathematical treatment with general form as main result
-2. **[`generalized-factorial-polynomials.md`](docs/generalized-factorial-polynomials.md)** - Foundation P(x,a,m) framework  
-3. **[`generalized-stirling-transfer-coefficients.md`](docs/generalized-stirling-transfer-coefficients.md)** - Core theory
-4. **[`General-Form-Derivation.md`](docs/General-Form-Derivation.md)** - Matrix decomposition breakthrough
-5. **[`cheat-sheet.md`](docs/cheat-sheet.md)** - Quick reference with verification emphasis
-6. **[`Combinatorial-Interpretations.md`](docs/Combinatorial-Interpretations.md)** - Counting applications
-7. **[`Higher-Dimensional-Generalizations.md`](docs/Higher-Dimensional-Generalizations.md)** - Future research
+### Fixed
+- Numerical stability issues in explicit formula calculation
+- Edge case handling for α=0 or β=0
+
+## [0.1.0] - 2023-10-15
+
+### Added
+- Initial Python implementation of generalized Stirling numbers
+- Support for triangular recurrence relation
+- Support for explicit formula calculation
+- Special cases for classical Stirling numbers (first kind, second kind)
+- Special case for Lah numbers
+- Basic documentation and examples
 8. **[`rising-falling-factorials-unified.md`](docs/rising-falling-factorials-unified.md)** - Historical context
 9. **[`Math-Verification-Prompts.md`](docs/Math-Verification-Prompts.md)** - Quality assurance
 

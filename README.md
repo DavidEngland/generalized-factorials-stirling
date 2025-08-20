@@ -1,52 +1,205 @@
-# Generalized Stirling Transfer Coefficients
+# Generalized Stirling Numbers
 
-A unified framework for polynomial basis transformations using generalized factorial polynomials and their associated transfer coefficients.
+A cross-language implementation of generalized Stirling numbers based on the combinatorial approach developed by Belbachir, Belkhir, and Bousbaa.
 
 ## Overview
 
-This repository contains a comprehensive mathematical framework for **Generalized Stirling Transfer Coefficients** $S_{m,n}(a,b)$, which provide a unified approach to transformations between different polynomial bases. These coefficients generalize the classical Stirling numbers of both kinds and enable systematic conversion between polynomial representations including monomials, rising factorials, falling factorials, and their generalizations.
+This library provides implementations of generalized Stirling numbers $L_{n,k}^{\alpha,\beta}$ in multiple programming languages. These numbers unify and generalize classical Stirling numbers of both kinds and Lah numbers, providing a flexible framework for combinatorial problems.
 
-## Major Mathematical Result
+## Mathematical Background
 
-### General Form Discovery
+The generalized Stirling numbers $L_{n,k}^{\alpha,\beta}$ represent the total weight of distributing $n$ elements into $k$ ordered non-empty lists, where:
 
-**The main theoretical breakthrough**: Every generalized Stirling transfer coefficient can be expressed using only classical Stirling numbers:
+1. The first element placed in each list has weight 1
+2. Elements placed at the head of a list have weight $\beta$
+3. Other elements in the lists have weight $\alpha$
 
-$$\boxed{S_{m,n}(a,b) = \sum_{k=0}^{\min(m,n)} \left(\frac{a}{b}\right)^{m-k} \left(\frac{-1}{b}\right)^{n-k} \left\{\begin{array}{c}m\\k\end{array}\right\} \left[\begin{array}{c}n\\k\end{array}\right]}$$
+### Special Cases
 
-This formula shows that every transformation can be computed as a matrix decomposition $AB^{-1}$ where:
-- Matrix $A$ contains Stirling numbers of the second kind with scaling
-- Matrix $B^{-1}$ contains unsigned Stirling numbers of the first kind with scaling
+- $(\alpha,\beta) = (1,0)$: Unsigned Stirling numbers of the first kind
+- $(\alpha,\beta) = (0,1)$: Stirling numbers of the second kind
+- $(\alpha,\beta) = (1,1)$: Lah numbers
 
-## Key Features
+### Key Properties
 
-- **Unified Framework**: Single notation $P(x,a,m)$ encompasses monomials, rising factorials, falling factorials
-- **Complete General Form**: All coefficients expressible using classical Stirling numbers
-- **Matrix Theory**: Systematic decomposition and inversion relationships
-- **Combinatorial Interpretations**: Extends classical counting problems to weighted scenarios
-- **Computational Tools**: Efficient algorithms based on the general form
+- Triangular recurrence: $L_{n,k}^{\alpha,\beta} = L_{n-1,k-1}^{\alpha,\beta} + (\alpha(n-1) + \beta k)L_{n-1,k}^{\alpha,\beta}$
+- Special case: $L_{n,1}^{\alpha,\beta} = \prod_{j=1}^{n-1}(j\alpha + \beta)$
+- Explicit formula: $L_{n,k}^{\alpha,\beta} = \frac{1}{\beta^k k!}\sum_{j=0}^{k}(-1)^j \binom{k}{j}(\beta(k-j)|\alpha)^{\overline{n}}$
 
-## Mathematical Framework
+## Implementations
 
-### Core Definitions
+### Python
 
-**Generalized Factorial Polynomial:**
-- [`journal-article-draft.md`](docs/journal-article-draft.md) - Complete mathematical exposition
+```python
+from generalized_stirling import GeneralizedStirling
 
-### Practical Resources  
-- [`cheat-sheet.md`](docs/cheat-sheet.md) - Quick reference formulas and tables
-- [`Combinatorial-Interpretations.md`](docs/Combinatorial-Interpretations.md) - Counting interpretations and applications
+# Create instance with α=2, β=3
+gs = GeneralizedStirling(alpha=2.0, beta=3.0)
 
-### Advanced Topics
-- [`Higher-Dimensional-Generalizations.md`](docs/Higher-Dimensional-Generalizations.md) - Future research directions
-- [`Math-Verification-Prompts.md`](docs/Math-Verification-Prompts.md) - Systematic verification procedures
+# Compute L{5,3}^{2,3}
+result = gs.compute(5, 3)
+print(f"L{{5,3}}^{{2,3}} = {result}")
 
-### Reference Materials
-- [`rising-falling-factorials-unified.md`](docs/rising-falling-factorials-unified.md) - Historical context and notation
-- [`Alternative Transfer Coefficients.md`](docs/Alternative%20Transfer%20Coefficients.md) - **DEPRECATED** (failed T-coefficient approach)
+# For classical cases
+from generalized_stirling import stirling_first_kind, stirling_second_kind, lah_number
 
-## Quick Start
+s1 = stirling_first_kind(5, 3)  # Stirling numbers of first kind
+s2 = stirling_second_kind(5, 3)  # Stirling numbers of second kind
+l = lah_number(5, 3)  # Lah numbers
+```
 
-### Basic Definitions
+### JavaScript (Implementation template)
 
-**Generalized Factorial Polynomial:**
+```javascript
+class GeneralizedStirling {
+  constructor(alpha = 1.0, beta = 1.0) {
+    this.alpha = alpha;
+    this.beta = beta;
+  }
+  
+  // Compute generalized Stirling number using triangular recurrence
+  compute(n, k) {
+    // Base cases
+    if (k === 0) return n === 0 ? 1.0 : 0.0;
+    if (n === 0 || k > n) return 0.0;
+    if (k === n) return 1.0;
+    
+    // Recurrence relation
+    const term1 = this.compute(n-1, k-1);
+    const term2 = (this.alpha * (n-1) + this.beta * k) * this.compute(n-1, k);
+    
+    return term1 + term2;
+  }
+  
+  // Additional methods...
+}
+
+// Helper functions for specific cases
+function stirlingFirstKind(n, k) {
+  const gs = new GeneralizedStirling(1.0, 0.0);
+  return gs.compute(n, k);
+}
+
+function stirlingSecondKind(n, k) {
+  const gs = new GeneralizedStirling(0.0, 1.0);
+  return gs.compute(n, k);
+}
+
+function lahNumber(n, k) {
+  const gs = new GeneralizedStirling(1.0, 1.0);
+  return gs.compute(n, k);
+}
+```
+
+### PHP (Implementation template)
+
+```php
+class GeneralizedStirling {
+    private $alpha;
+    private $beta;
+    private $cache = [];
+    
+    public function __construct($alpha = 1.0, $beta = 1.0) {
+        $this->alpha = $alpha;
+        $this->beta = $beta;
+    }
+    
+    public function compute($n, $k) {
+        // Check cache
+        $key = "{$n}:{$k}";
+        if (isset($this->cache[$key])) {
+            return $this->cache[$key];
+        }
+        
+        // Base cases
+        if ($k === 0) {
+            return $n === 0 ? 1.0 : 0.0;
+        }
+        if ($n === 0 || $k > $n) {
+            return 0.0;
+        }
+        if ($k === $n) {
+            return 1.0;
+        }
+        
+        // Recurrence relation
+        $term1 = $this->compute($n-1, $k-1);
+        $term2 = ($this->alpha * ($n-1) + $this->beta * $k) * $this->compute($n-1, $k);
+        
+        $result = $term1 + $term2;
+        $this->cache[$key] = $result;
+        
+        return $result;
+    }
+    
+    // Additional methods...
+}
+
+function stirling_first_kind($n, $k) {
+    $gs = new GeneralizedStirling(1.0, 0.0);
+    return $gs.compute($n, $k);
+}
+
+function stirling_second_kind($n, $k) {
+    $gs = new GeneralizedStirling(0.0, 1.0);
+    return $gs.compute($n, $k);
+}
+
+function lah_number($n, $k) {
+    $gs = new GeneralizedStirling(1.0, 1.0);
+    return $gs.compute($n, $k);
+}
+```
+
+## Project Structure
+
+```
+generalized-stirling/
+├── docs/
+│   ├── algorithms.md            # Detailed algorithm explanations
+│   ├── math_background.md       # Mathematical theory
+│   └── language_specific/       # Language-specific documentation
+├── src/                         # Python implementation
+│   ├── __init__.py              # Package initialization
+│   └── generalized_stirling.py  # Core implementation
+├── tests/                       # Test cases
+│   └── test_generalized_stirling.py
+├── implementations/             # Implementations in other languages
+│   ├── javascript/
+│   │   └── generalized_stirling.js
+│   └── php/
+│       └── GeneralizedStirling.php
+├── examples/                    # Example usage in different languages
+├── README.md                    # Project documentation
+└── setup.py                     # Python package configuration
+```
+
+## Getting Started
+
+### Python Installation
+
+```bash
+# Install from PyPI (once published)
+pip install generalized-stirling
+
+# Or install from source
+git clone https://github.com/yourusername/generalized-stirling.git
+cd generalized-stirling
+pip install -e .
+```
+
+### Running Tests
+
+```bash
+python -m unittest discover tests
+```
+
+## References
+
+1. H. Belbachir, A. Belkhir, I.E. Bousbaa. "Combinatorial approach of certain generalized Stirling numbers." arXiv:1411.6271v1, 2014.
+2. L.C. Hsu, P.J.-S. Shiue. "A unified approach to generalized Stirling numbers." Adv. in Appl. Math., 20(3):366-384, 1998.
+3. A.Z. Broder. "The r-Stirling numbers." Discrete Math., 49(3):241-259, 1984.
+
+## License
+
+MIT License
