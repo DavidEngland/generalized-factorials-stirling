@@ -41,6 +41,14 @@ import time
 import os
 import pickle
 from typing import Dict, List, Tuple, Union, Optional, Callable, Iterator, Any, Set, DefaultDict
+
+# Try to import scipy for enhanced numerical stability
+try:
+    import scipy.special
+    HAS_SCIPY = True
+except ImportError:
+    HAS_SCIPY = False
+
 import logging
 
 # Configure logging
@@ -221,6 +229,8 @@ class GeneralizedStirling:
         
         This calculates x(x+α)(x+2α)...(x+(n-1)α)
         
+        Uses scipy.special.poch for enhanced numerical stability when available.
+        
         Args:
             x: Base value
             n: Number of terms
@@ -243,6 +253,13 @@ class GeneralizedStirling:
         if n == 0:
             return 1.0
         
+        # Use scipy's pochammer function if available (handles large values better)
+        if HAS_SCIPY and increment == 1.0:
+            try:
+                return scipy.special.poch(x, n)
+            except (OverflowError, ValueError):
+                pass  # Fall back to our implementation
+        
         # Fast path for small n
         if n <= 20:
             result = 1.0
@@ -253,6 +270,7 @@ class GeneralizedStirling:
         # For large n, use logarithms to avoid overflow
         try:
             log_result = 0.0
+            sign = 1.0
             for i in range(n):
                 factor = x + i * increment
                 if factor <= 0:
@@ -261,15 +279,14 @@ class GeneralizedStirling:
                         return 0.0
                     else:
                         log_result += math.log(abs(factor))
-                        # If n is odd, the result is negative
-                        if i == n - 1 and factor < 0:
-                            return -math.exp(log_result)
+                        if factor < 0:
+                            sign *= -1
                 else:
                     log_result += math.log(factor)
-            return math.exp(log_result)
+            return sign * math.exp(log_result)
         except (OverflowError, ValueError) as e:
             warnings.warn(f"Numerical overflow in rising factorial with x={x}, n={n}, increment={increment}: {e}")
-            return float('inf')
+            return float('inf') if sign > 0 else float('-inf')
     
     def explicit_formula(self, n: int, k: int) -> float:
         """
@@ -328,7 +345,7 @@ class GeneralizedStirling:
         
         # Special case for k=1
         if k == 1:
-            result = self.special_case(n)
+            result = self.single_list_case(n)
         else:
             # Main computation with numerical stability improvements
             # For large values, compute in log space
@@ -429,7 +446,7 @@ class GeneralizedStirling:
         if k == n:
             return 1.0
         if k == 1:
-            return self.special_case(n)
+            return self.single_list_case(n)
         
         # Check precomputed values
         if (n, k) in self._precomputed:
@@ -544,7 +561,7 @@ class GeneralizedStirling:
         if k == n:
             return 1.0
         if k == 1:
-            return self.special_case(n)
+            return self.single_list_case(n)
         
         # Check cache
         cache_key = ('bottom_up', n, k)
@@ -650,62 +667,113 @@ class GeneralizedStirling:
         
         return result
     
-    def special_case(self, n: int, k: int = 1) -> float:
+    def single_list_case(self, n: int, k: int = 1) -> float:
         """
-        Compute L{n,1}^{α,β} using the special case formula.
+        Compute L{n,1}^{α,β} using the special case formula for k=1.
         
         L{n,1}^{α,β} = ∏_{j=1}^{n-1} (jα + β)
         
+        This formula applies only when k=1 (single list case).
+        
         Args:
-            n (int): Number of elements
-            k (int): Should be 1 for this special case
+            n: Number of elements
+            k: Should be 1 for this special case
             
         Returns:
-            float: Value of L{n,1}^{α,β}
+            Value of L{n,1}^{α,β}
+            
+        Raises:
+            ValueError: If k is not 1 or n is negative
+            
+        Examples:
+            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
+            >>> gs.single_list_case(4)
+            24.0  # Factorial of 4
+            
+            >>> gs = GeneralizedStirling(alpha=0.0, beta=2.0)
+            >>> gs.single_list_case(3)
+            8.0  # 2^(3-1)
         """
         if k != 1:
             raise ValueError("This special case only applies for k=1")
             
-        if n <= 0:
-            return 0.0
+        if n < 0:
+            raise ValueError(f"n must be non-negative, got {n}")
+            
+        # Special base cases
+        if n == 0:
+            return 0.0  # L_{0,1} = 0 by definition
         if n == 1:
-            return 1.0
+            return 1.0  # L_{1,1} = 1 by definition
         
         # Check cache
-        cache_key = ('special', n, 1)
+        cache_key = ('single_list', n, 1)
         if cache_key in self._memory_cache:
-            self.cache_hits['special'] += 1
+            self.cache_hits['single_list'] += 1
             return self._memory_cache[cache_key]
         
-        self.cache_misses['special'] += 1
+        # Check disk cache if enabled
+        if self.use_disk_cache:
+            disk_key = self._get_disk_cache_key('single_list', n, 1)
+            cached_value = self._load_from_disk_cache(disk_key)
+            if cached_value is not None:
+                self.cache_hits['single_list'] += 1
+                self._memory_cache[cache_key] = cached_value
+                return cached_value
+                
+        self.cache_misses['single_list'] += 1
         start_time = time.time()
         
-        # For large n, compute in log space to avoid overflow
-        if n > 100:
-            log_result = 0.0
-            for j in range(1, n):
-                factor = j * self.alpha + self.beta
-                if factor <= 0:
-                    # Handle possible negative or zero factors
-                    if factor == 0:
-                        result = 0.0
-                        break
-                    else:
-                        log_result += math.log(abs(factor))
-                else:
-                    log_result += math.log(factor)
-            
-            result = math.exp(log_result)
-        else:
+        # Optimized calculation for special cases
+        if self.alpha == 1.0 and self.beta == 0.0:
+            # Stirling numbers of the first kind s(n,1) = (n-1)!
+            result = math.factorial(n-1)
+        elif self.alpha == 0.0 and self.beta == 1.0:
+            # Stirling numbers of the second kind S(n,1) = 1
             result = 1.0
-            for j in range(1, n):
-                result *= (j * self.alpha + self.beta)
+        elif self.alpha == 0.0:
+            # When alpha = 0: L_{n,1} = β^(n-1)
+            result = self.beta ** (n-1)
+        elif self.alpha == 1.0 and self.beta == 1.0:
+            # Lah numbers L(n,1) = n!
+            result = math.factorial(n)
+        else:
+            # For large n, compute in log space to avoid overflow
+            if n > 100:
+                log_result = 0.0
+                sign = 1.0
+                for j in range(1, n):
+                    factor = j * self.alpha + self.beta
+                    if factor <= 0:
+                        # Handle possible negative or zero factors
+                        if factor == 0:
+                            result = 0.0
+                            break
+                        else:
+                            log_result += math.log(abs(factor))
+                            if factor < 0:
+                                sign *= -1
+                    else:
+                        log_result += math.log(factor)
+                
+                result = sign * math.exp(log_result)
+            else:
+                result = 1.0
+                for j in range(1, n):
+                    result *= (j * self.alpha + self.beta)
         
         # Update cache and timing
         self._memory_cache[cache_key] = result
-        self.compute_time['special'] += time.time() - start_time
+        if self.use_disk_cache:
+            disk_key = self._get_disk_cache_key('single_list', n, 1)
+            self._save_to_disk_cache(disk_key, result)
+            
+        self.compute_time['single_list'] += time.time() - start_time
         
         return result
+    
+    # Maintain compatibility with old method name
+    special_case = single_list_case
     
     def symmetric_function(self, n: int, k: int) -> float:
         """
@@ -713,7 +781,7 @@ class GeneralizedStirling:
         
         L{n+k,n}^{α,β} = ∑_{1≤i₁≤...≤iₖ≤n} ∏_{j=1}^k ((α+β)iⱼ + α(j-1))
         
-        This implementation uses dynamic programming for efficiency.
+        This implementation uses lru_cache for efficient dynamic programming.
         
         The symmetric function formula provides an alternative way to compute
         generalized Stirling numbers, expressing them in terms of elementary
@@ -770,27 +838,20 @@ class GeneralizedStirling:
         self.cache_misses['symmetric'] += 1
         start_time = time.time()
         
-        # Dynamic programming approach
-        # dp[d][i] = sum of products for sequences starting at index i with depth d
-        dp: Dict[Tuple[int, int], float] = {}
-        
+        # Define a nested function with lru_cache for efficient DP
+        @lru_cache(maxsize=None)
         def compute_dp(depth: int, start: int) -> float:
-            """Recursively compute the sum using dynamic programming"""
+            """Recursively compute the sum using dynamic programming with lru_cache"""
             if depth == k:
                 return 1.0
             
-            if (depth, start) in dp:
-                return dp[(depth, start)]
-            
-            result = 0.0
-            for i in range(start, n+1):
-                factor = (self.alpha + self.beta) * i + self.alpha * depth
-                result += factor * compute_dp(depth+1, i)
-            
-            dp[(depth, start)] = result
-            return result
+            return sum(((self.alpha + self.beta) * i + self.alpha * depth) * 
+                      compute_dp(depth+1, i) for i in range(start, n+1))
         
         result = compute_dp(0, 1)
+        
+        # Clear the lru_cache to avoid memory leaks
+        compute_dp.cache_clear()
         
         # Update caches and timing
         self._memory_cache[cache_key] = result
@@ -801,39 +862,6 @@ class GeneralizedStirling:
         self.compute_time['symmetric'] += time.time() - start_time
         
         return result
-    
-    def clear_cache(self) -> None:
-        """
-        Clear all caches to free memory.
-        
-        This clears both the in-memory cache and disk cache if enabled.
-        
-        Returns:
-            None
-        
-        Examples:
-            >>> gs = GeneralizedStirling()
-            >>> gs.compute(10, 5)  # Compute a value
-            >>> gs.clear_cache()   # Clear all caches
-            >>> stats = gs.get_performance_stats()  # Should show 0 cache hits
-        """
-        self._memory_cache.clear()
-        self.triangular_recurrence.cache_clear()
-        
-        # Clear disk cache if enabled
-        if self.use_disk_cache and os.path.exists(self.cache_dir):
-            try:
-                for filename in os.listdir(self.cache_dir):
-                    if filename.endswith('.pkl'):
-                        os.remove(os.path.join(self.cache_dir, filename))
-                logger.info(f"Cleared disk cache in {self.cache_dir}")
-            except OSError as e:
-                logger.warning(f"Failed to clear disk cache: {e}")
-        
-        # Reset performance counters
-        self.compute_time.clear()
-        self.cache_hits.clear()
-        self.cache_misses.clear()
     
     def compute(self, n: int, k: int, method: str = 'auto') -> float:
         """
@@ -869,25 +897,32 @@ class GeneralizedStirling:
         if n < 0 or k < 0:
             raise ValueError(f"n and k must be non-negative, got n={n}, k={k}")
             
-        valid_methods = {'auto', 'triangular', 'explicit', 'horizontal', 'vertical', 'bottom_up', 'symmetric'}
+        valid_methods = {'auto', 'triangular', 'explicit', 'horizontal', 'vertical', 
+                         'bottom_up', 'symmetric', 'single_list'}
         if method not in valid_methods:
             raise ValueError(f"Unknown method: {method}. Valid methods are: {valid_methods}")
         
         # Handle base cases first for efficiency
         if k == 0:
             return 1.0 if n == 0 else 0.0
-        if n == 0 or k > n:
-            return 0.0
+        if n == 0:
+            return 0.0  # L_{0,k} = 0 for k > 0
+        if k > n:
+            return 0.0  # L_{n,k} = 0 for k > n
         if k == n:
-            return 1.0
+            return 1.0  # L_{n,n} = 1
         
-        # For k=1, use the special case formula which is more efficient
+        # For k=1, use the single_list_case formula which is more efficient
         if k == 1:
-            return self.special_case(n, k)
+            return self.single_list_case(n, k)
         
-        # Auto-select the best method based on input size
+        # Auto-select the best method based on input size and parameters
         if method == 'auto':
-            if n > 100 or k > 50:
+            # Special case for known parameter combinations
+            if self.alpha == 0.0 or self.beta == 0.0:
+                # For classical Stirling numbers, triangular recurrence is usually best
+                method = 'triangular'
+            elif n > 100 or k > 50:
                 # For very large values, use bottom-up to avoid recursion depth issues
                 method = 'bottom_up'
             elif n - k < 5 and n < 30:
@@ -917,110 +952,75 @@ class GeneralizedStirling:
                 return self.symmetric_function(k, n-k)
             else:
                 return self.triangular_recurrence(n, k)
+        elif method == 'single_list':
+            if k == 1:
+                return self.single_list_case(n, k)
+            else:
+                raise ValueError(f"single_list method only valid for k=1, got k={k}")
         else:  # Default to triangular
             return self.triangular_recurrence(n, k)
     
-    def generate_triangle(self, n_max: int, format_str: str = "{:.0f}", method: str = 'auto', sparse: bool = False):
+    def summary(self) -> None:
         """
-        Generate a triangle of generalized Stirling numbers.
+        Print a summary of performance statistics.
         
-        Args:
-            n_max (int): Maximum row number
-            format_str (str): Format string for displaying numbers
-            method (str): Method to use for computation
-            sparse (bool): If True, only store non-zero values
-            
-        Returns:
-            list or dict: Triangle of generalized Stirling numbers
-            
-        Raises:
-            ValueError: If n_max is negative
-            
-        Examples:
-            >>> gs = GeneralizedStirling(alpha=1.0, beta=1.0)
-            >>> triangle = gs.generate_triangle(5)
-            >>> print(triangle)
-            [[1.0], [1.0, 1.0], [1.0, 2.0, 1.0], [1.0, 3.0, 3.0, 1.0], [1.0, 4.0, 6.0, 4.0, 1.0]]
-        """
-        if n_max < 0:
-            raise ValueError(f"n_max must be non-negative, got {n_max}")
+        This method provides a nicely formatted display of cache performance,
+        computation times, and other metrics.
         
-        if sparse:
-            # Return a sparse representation as a dictionary
-            triangle = {}
-            for n in range(1, n_max + 1):
-                for k in range(1, n + 1):
-                    value = self.compute(n, k, method=method)
-                    if value != 0:
-                        triangle[(n, k)] = format_str.format(value)
-            return triangle
-        else:
-            # Return a dense representation as a list of lists
-            triangle = []
-            for n in range(1, n_max + 1):
-                row = []
-                for k in range(1, n + 1):
-                    row.append(format_str.format(self.compute(n, k, method=method)))
-                triangle.append(row)
-            return triangle
-    
-    def get_performance_stats(self) -> Dict[str, Any]:
-        """
-        Get performance statistics for the different computation methods.
-        
-        Returns:
-            Dictionary containing computation times, cache hits/misses, and hit ratios
-            
         Examples:
             >>> gs = GeneralizedStirling()
             >>> for n in range(1, 10):
             ...     for k in range(1, n+1):
             ...         gs.compute(n, k)
-            >>> stats = gs.get_performance_stats()
-            >>> print(f"Cache hit ratio: {stats['hit_ratio']}")
+            >>> gs.summary()
+            Performance Summary
+            ------------------
+            Cache hits: 30
+            Cache misses: 25
+            Hit ratio: 54.5%
+            ...
         """
-        stats = {
-            'compute_time': dict(self.compute_time),
-            'cache_hits': dict(self.cache_hits),
-            'cache_misses': dict(self.cache_misses),
-            'hit_ratio': {},
-            'disk_cache_enabled': self.use_disk_cache,
-            'disk_cache_dir': self.cache_dir if self.use_disk_cache else None,
-            'disk_cache_size': 0
-        }
+        stats = self.get_performance_stats()
         
-        # Calculate hit ratios
-        for method in self.cache_hits:
-            total = self.cache_hits[method] + self.cache_misses[method]
-            if total > 0:
-                stats['hit_ratio'][method] = self.cache_hits[method] / total
-            else:
-                stats['hit_ratio'][method] = 0
+        print("\nPerformance Summary")
+        print("-" * 50)
+        print(f"Parameters: α={self.alpha}, β={self.beta}")
         
-        # Calculate disk cache size if enabled
-        if self.use_disk_cache and os.path.exists(self.cache_dir):
-            try:
-                total_size = 0
-                for filename in os.listdir(self.cache_dir):
-                    if filename.endswith('.pkl'):
-                        total_size += os.path.getsize(os.path.join(self.cache_dir, filename))
-                stats['disk_cache_size'] = total_size
-            except OSError:
-                pass
+        # Cache statistics
+        total_hits = sum(stats['cache_hits'].values())
+        total_misses = sum(stats['cache_misses'].values())
+        total_operations = total_hits + total_misses
+        hit_ratio = total_hits / total_operations if total_operations > 0 else 0
         
-        return stats
-
-
-def stirling_first_kind(n: int, k: int) -> float:
-    """
-    Compute the unsigned Stirling number of the first kind.
+        print(f"\nCache Statistics:")
+        print(f"  Total operations: {total_operations}")
+        print(f"  Cache hits: {total_hits}")
+        print(f"  Cache misses: {total_misses}")
+        print(f"  Overall hit ratio: {hit_ratio:.1%}")
+        
+        # Per-method statistics
+        print("\nPer-Method Statistics:")
+        for method in sorted(set(list(stats['cache_hits'].keys()) + list(stats['cache_misses'].keys()))):
+            hits = stats['cache_hits'].get(method, 0)
+            misses = stats['cache_misses'].get(method, 0)
+            method_total = hits + misses
+            ratio = hits / method_total if method_total > 0 else 0
+            time = stats['compute_time'].get(method, 0)
+            
+            print(f"  {method}:")
+            print(f"    Operations: {method_total}")
+            print(f"    Hit ratio: {ratio:.1%}")
+            print(f"    Compute time: {time:.6f} seconds")
+        
+        # Disk cache info
+        if stats['disk_cache_enabled']:
+            print(f"\nDisk Cache:")
+            print(f"  Directory: {stats['disk_cache_dir']}")
+            print(f"  Size: {stats['disk_cache_size'] / 1024:.1f} KB")
+        
+        print("-" * 50)
     
-    This is equivalent to L{n,k}^{1,0}.
-    
-    Args:
-        n: Number of elements
-        k: Number of cycles
-        
+    # ... existing code ...
     Returns:
         Value of the Stirling number of the first kind
         
