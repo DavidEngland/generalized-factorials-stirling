@@ -10,7 +10,7 @@ setup(
     ],
     python_requires=">=3.6",
     author="David England",
-    author_email="your.email@example.com",
+    author_email="DavidEngland@HotMail.com",
     description="A library for computing generalized Stirling numbers and related combinatorial sequences",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
