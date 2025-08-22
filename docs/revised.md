@@ -51,22 +51,22 @@ Dividing the result of the inclusion-exclusion by $k!$ and $b^k$ gives the final
 ## Theorem 2: Triangular Recurrence
 
 The generalized Stirling numbers satisfy the following triangular recurrence relation:
-$$S_{n,k}(a,b) = S_{n-1,k-1}(a,b) + (a(n-1) + bk)S_{n-1,k}(a,b)$$
+$$S_{n+1,k}(a,b) = S_{n,k-1}(a,b) + (an + bk)S_{n,k}(a,b)$$
 
 **Combinatorial Proof:**
-We can derive this recurrence by considering the position of the last element, $n$. We are counting the total weight of distributing $n$ elements into $k$ ordered, non-empty lists.
+We can derive this recurrence by considering the position of the element $n+1$. We are counting the total weight of distributing $n+1$ elements into $k$ ordered, non-empty lists.
 
-There are two mutually exclusive cases for element $n$:
+There are two mutually exclusive cases for element $n+1$:
 
-* **Case 1: Element $n$ forms a new, single-element list.**
-    The total weight of distributing the remaining $n-1$ elements into $k-1$ lists is $S_{n-1,k-1}(a,b)$. The weight of element $n$ in this new list is $1$ (as it's the head). Thus, the total weight for this case is $S_{n-1,k-1}(a,b)$.
+* **Case 1: Element $n+1$ forms a new, single-element list.**
+    The total weight of distributing the remaining $n$ elements into $k-1$ lists is $S_{n,k-1}(a,b)$. The weight of element $n+1$ in this new list is $1$ (as it's the head). Thus, the total weight for this case is $S_{n,k-1}(a,b)$.
 
-* **Case 2: Element $n$ is added to an existing list.**
-    We start with a distribution of the $n-1$ elements into $k$ lists, which has a total weight of $S_{n-1,k}(a,b)$. Now we add element $n$ to one of these distributions. Where can it go?
+* **Case 2: Element $n+1$ is added to an existing list.**
+    We start with a distribution of the $n$ elements into $k$ lists, which has a total weight of $S_{n,k}(a,b)$. Now we add element $n+1$ to one of these distributions. Where can it go?
     * It can be placed as the head of any of the $k$ lists. There are $k$ such positions, and the weight is $b$.
-    * It can be placed after any of the other $n-1$ elements. There are $n-1$ such positions, and the weight is $a$.
+    * It can be placed after any of the other $n$ elements. There are $n$ such positions, and the weight is $a$.
     
-    So, for each existing distribution of $n-1$ elements, there are $k$ positions with weight $b$ and $n-1$ positions with weight $a$ to insert element $n$. The total weight from these new insertions is $(bk + a(n-1))$. This gives a total weight of $(a(n-1) + bk)S_{n-1,k}(a,b)$.
+    So, for each existing distribution of $n$ elements, there are $k$ positions with weight $b$ and $n$ positions with weight $a$ to insert element $n+1$. The total weight from these new insertions is $(bk + an)$. This gives a total weight of $(an + bk)S_{n,k}(a,b)$.
 
 Since these two cases cover all possibilities, summing their weights gives the desired recurrence relation.
 
