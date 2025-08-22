@@ -1,0 +1,34 @@
+{
+    "name": "generalized-stirling/php",
+    "description": "PHP implementation of generalized Stirling numbers with various computation methods",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David England",
+            "email": "your.email@example.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-bcmath": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "symfony/var-dumper": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "GeneralizedStirling\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GeneralizedStirling\\Tests\\": "tests/"
+        }
+    },
+    "suggest": {
+        "ext-gmp": "For handling large numbers more efficiently"
+    }
+}
