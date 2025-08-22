@@ -1,0 +1,182 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+
+% New commands for special notation
+\newcommand{\gsn}[2]{S_{#1,#2}(a,b)}
+\newcommand{\rising}[3]{P(#1,#2,#3)}
+
+\title{Generalized Stirling Numbers: Combinatorial Approach}
+\author{David England}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+This document recasts the theorems and proofs for generalized Stirling numbers using consistent notation with clear combinatorial explanations.
+
+\begin{definition}[Notation]
+Throughout this document, we use the following notation:
+\begin{itemize}
+    \item $\gsn{n}{k}$ represents the generalized Stirling number with parameters $a$ and $b$
+    \item $\phi$ is the set of all distributions of $n$ elements into $k$ ordered, labeled lists
+    \item $\rising{x}{a}{m}$ is the rising factorial $x(x+a)(x+2a)\cdots(x+(m-1)a)$
+\end{itemize}
+\end{definition}
+
+\section{Explicit Formula}
+
+\begin{theorem}[Explicit Formula]
+For any non-negative integers $n,k$, we have
+\begin{equation}
+\gsn{n}{k}=\frac{1}{b^{k}k!}\sum_{j=0}^{k}(-1)^{j}\binom{k}{j}\rising{b(k-j)}{a}{n}
+\end{equation}
+\end{theorem}
+
+\begin{definition}[Combinatorial Interpretation]
+We want to find the total weight of distributing $n$ distinct elements into $k$ ordered, non-empty, labeled lists. The distribution rules are:
+\begin{enumerate}
+    \item A newly started list (the first element in it) has a weight of $1$
+    \item The head of each list (the first element inserted) contributes a weight of $b$
+    \item All other elements contribute a weight of $a$
+\end{enumerate}
+The total weight of a specific distribution is the product of the weights of all its elements.
+\end{definition}
+
+\begin{proof}
+Let $\phi$ be the set of all ways to distribute $n$ elements into $k$ ordered, labeled lists (which can be empty). The total weight of $\phi$ is the sum of the weights of all these distributions.
+
+The total weight of distributing $n$ elements into $m$ ordered, labeled lists is given by the product of the weights assigned at each step. The correct total weight for distributing $n$ elements into $m$ lists is given by the generalized rising factorial $\rising{bm}{a}{n}$.
+
+Now, we use the Principle of Inclusion-Exclusion to find the total weight of distributions where no list is empty.
+
+Let $A_j$ be the set of distributions where the $j$-th list is empty. We want to find the total weight of the set $\bigcap_{j=1}^k \overline{A_j}$. By the inclusion-exclusion principle, this weight is given by:
+
+\begin{equation}
+\text{Total Weight} = \sum_{j=0}^k (-1)^j \sum_{1 \leq i_1 < \dots < i_j \leq k} \text{Weight of } \left( \bigcap_{l=1}^j A_{i_l} \right)
+\end{equation}
+
+The term $\bigcap_{l=1}^j A_{i_l}$ represents the set of distributions where at least $j$ specific lists are empty. This is equivalent to distributing the $n$ elements into the remaining $k-j$ lists. The total weight for this is $\rising{b(k-j)}{a}{n}$.
+
+There are $\binom{k}{j}$ ways to choose which $j$ lists are empty. Therefore, the sum for a fixed $j$ is:
+\begin{equation}
+\binom{k}{j} \rising{b(k-j)}{a}{n}
+\end{equation}
+
+Substituting this back into the inclusion-exclusion formula, we get:
+\begin{equation}
+\sum_{j=0}^k (-1)^j \binom{k}{j} \rising{b(k-j)}{a}{n}
+\end{equation}
+
+This sum gives the total weight of distributions into ordered, non-empty, labeled lists. To get the desired number, we must account for:
+\begin{enumerate}
+    \item The $k$ lists are not labeled, so we must divide by $k!$
+    \item The first element in each non-empty list has a weight of 1, not $b$. Since there are $k$ non-empty lists, we have overcounted by a factor of $b^k$
+\end{enumerate}
+
+Dividing the result of the inclusion-exclusion by $k!$ and $b^k$ gives the final formula.
+\end{proof}
+
+\section{Recurrence Relations}
+
+\begin{theorem}[Triangular Recurrence]
+The generalized Stirling numbers satisfy the following triangular recurrence relation:
+\begin{equation}
+\gsn{n}{k} = \gsn{n-1}{k-1} + (a(n-1) + bk)\gsn{n-1}{k}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We can derive this recurrence by considering the position of the last element, $n$. We are counting the total weight of distributing $n$ elements into $k$ ordered, non-empty lists.
+
+There are two mutually exclusive cases for element $n$:
+
+\textbf{Case 1: Element $n$ forms a new, single-element list.}
+The total weight of distributing the remaining $n-1$ elements into $k-1$ lists is $\gsn{n-1}{k-1}$. The weight of element $n$ in this new list is $1$ (as it's the head). Thus, the total weight for this case is $\gsn{n-1}{k-1}$.
+
+\textbf{Case 2: Element $n$ is added to an existing list.}
+We start with a distribution of the $n-1$ elements into $k$ lists, which has a total weight of $\gsn{n-1}{k}$. Now we add element $n$ to one of these distributions. Where can it go?
+\begin{itemize}
+    \item It can be placed as the head of any of the $k$ lists. There are $k$ such positions, and the weight is $b$.
+    \item It can be placed after any of the other $n-1$ elements. There are $n-1$ such positions, and the weight is $a$.
+\end{itemize}
+So, for each existing distribution of $n-1$ elements, there are $k$ positions with weight $b$ and $n-1$ positions with weight $a$ to insert element $n$. The total weight from these new insertions is $(bk + a(n-1))$. This gives a total weight of $(a(n-1) + bk)\gsn{n-1}{k}$.
+
+Since these two cases cover all possibilities, summing their weights gives the desired recurrence relation.
+\end{proof}
+
+\begin{theorem}[Vertical Recurrence]
+Let $n$ and $k$ be non-negative integers, we have
+\begin{equation}
+\gsn{n+1}{k+1}=\sum_{i=k}^{n}\binom{n}{i} \rising{a+b}{a}{n-i} \gsn{i}{k}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We are distributing $n+1$ elements into $k+1$ ordered, non-empty lists. Let's focus on the list containing element $n+1$.
+
+Assume element $n+1$ is in a list with $n-i$ other elements. We can choose these $n-i$ elements from the set $\{1, 2, \ldots, n\}$ in $\binom{n}{i}$ ways.
+
+\begin{itemize}
+    \item The remaining $i$ elements must be distributed into the other $k$ lists. The total weight for this is $\gsn{i}{k}$.
+    
+    \item For the list containing element $n+1$ and the other $n-i$ elements, we need to determine its weight. Since element $n+1$ is already placed in this list (with weight 1 as it's the first element), we need to arrange the remaining $n-i$ elements around it.
+\end{itemize}
+
+When arranging the $n-i$ elements around element $n+1$:
+\begin{enumerate}
+    \item The first element can be placed before $n+1$ (weight $b$) or after $n+1$ (weight $a$), giving total weight $a+b$.
+    \item The second element can be placed in 3 positions, giving weight $2a+b$ or $a+2b$ depending on existing arrangement.
+    \item And so on, with each new element having more positions with different weights.
+\end{enumerate}
+
+This arrangement exactly corresponds to the rising factorial $\rising{a+b}{a}{n-i}$, which represents the weight of distributing $n-i$ additional elements into a list that already contains element $n+1$.
+
+Combining all cases, we sum over all possible values of $i$ (from $k$ to $n$) to get the total weight:
+\begin{equation}
+\gsn{n+1}{k+1}=\sum_{i=k}^{n}\binom{n}{i} \rising{a+b}{a}{n-i} \gsn{i}{k}
+\end{equation}
+\end{proof}
+
+\section{Symmetric Functions and Convolution}
+
+\begin{theorem}[Symmetric Function Expression]
+For non-negative integers $n$, $k$, $a$, and $b$, we have:
+\begin{equation}
+\gsn{n+k}{n} = \sum_{1\leq i_1\leq \cdots \leq i_k\leq n}\prod_{j=1}^{k}\left((a+b)i_j + a(j-1)\right)
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[Multinomial Convolution Identity]
+The generalized Stirling numbers satisfy:
+\begin{equation}
+\binom{k}{k_1,\ldots,k_p}\gsn{n}{k} = \sum_{l_1+\cdots+l_p=n}\binom{n}{l_1,\ldots,l_p}\gsn{l_1}{k_1}\cdots \gsn{l_p}{k_p}
+\end{equation}
+\end{theorem}
+
+\section{Special Cases}
+
+The generalized Stirling numbers provide a unified framework that includes several classical number sequences as special cases:
+
+\begin{itemize}
+    \item Stirling numbers of the first kind: $\gsn{n}{k}$ with $a=1, b=0$
+    \item Stirling numbers of the second kind: $\gsn{n}{k}$ with $a=0, b=1$
+    \item Lah numbers: $\gsn{n}{k}$ with $a=1, b=1$
+\end{itemize}
+
+These special cases demonstrate how this framework unifies several important combinatorial sequences under a single mathematical structure.
+
+\end{document}
