@@ -18,18 +18,21 @@ Thumbs.db
 *.aux
 *.bbl
 *.blg
+*.dvi
 *.fdb_latexmk
 *.fls
+*.lof
 *.log
+*.lot
 *.out
+*.ps
 *.synctex.gz
 *.toc
 
 # Temporary files
 *.tmp
 *.temp
-temp/
-tmp/
+*~
 
 # Backup files
 *.bak
@@ -46,6 +49,8 @@ __pycache__/
 *.so
 .Python
 env/
+venv/
+.venv/
 build/
 develop-eggs/
 dist/
@@ -63,6 +68,8 @@ var/
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
+.nox/
 
 # R (if adding computational tools later)
 .RData
@@ -77,17 +84,13 @@ outputs/
 results/
 plots/
 figures/
+visualizations/
 
 # Draft and work-in-progress files
 draft_*
 wip_*
 scratch_*
 notes_*
-
-# Large data files (if any added later)
-*.csv
-*.dat
-*.bin
 
 # Business and sensitive documents
 /business/
@@ -103,3 +106,47 @@ linkedin_post.txt
 *_private.*
 *_confidential.*
 *_draft.*
+
+# Data files and datasets
+*.csv
+*.xlsx
+*.xls
+*.json
+*.parquet
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+online_retail.*
+segment_summary.*
+/data/
+/datasets/
+**/data/
+**/datasets/
+
+# Generated outputs and results
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.pdf
+*.html
+report.*
+outputs/
+results/
+plots/
+figures/
+visualizations/
+
+# Model files and caches
+*.model
+*.joblib
+*.sav
+__pycache__/
+.cache/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so

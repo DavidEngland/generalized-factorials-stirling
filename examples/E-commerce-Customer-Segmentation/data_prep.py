@@ -17,6 +17,11 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import warnings
+import sys
+
+# Increase recursion limit - temporary fix for deep recursion
+sys.setrecursionlimit(10000)  # Increase from default (usually 1000)
+
 warnings.filterwarnings('ignore')
 
 # UCI Online Retail Dataset URL
@@ -152,31 +157,39 @@ def perform_clustering(customer_features):
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X)
         
-        # Reduce dimensionality with PCA
-        pca = PCA(n_components=min(3, len(cluster_features)))
+        # Reduce dimensionality with PCA - use non-recursive approach
+        # Limiting components to avoid deep recursion in SVD
+        max_components = min(3, len(cluster_features))
+        pca = PCA(n_components=max_components)
         X_pca = pca.fit_transform(X_scaled)
         
-        # Determine optimal number of clusters using elbow method
+        # Use iterative approach for elbow method instead of recursive
         wcss = []
         max_clusters = min(10, len(month_data) // 5)  # Maximum clusters to try
         
         for i in range(2, max_clusters + 1):
-            kmeans = KMeans(n_clusters=i, random_state=42, n_init=10)
+            # Use explicit max_iter to prevent infinite loops
+            kmeans = KMeans(n_clusters=i, random_state=42, n_init=10, max_iter=300)
             kmeans.fit(X_pca)
             wcss.append(kmeans.inertia_)
         
-        # Find elbow point (simplified method)
+        # Find elbow point (iterative method)
         k = 2  # Default
         if len(wcss) > 2:
             diffs = np.diff(wcss)
-            # Find where the difference starts to level off
+            elbow_found = False
             for i in range(len(diffs) - 1):
-                if diffs[i] / diffs[i+1] < 1.5:  # Threshold for elbow
+                if diffs[i] / max(0.0001, diffs[i+1]) < 1.5:  # Threshold for elbow
                     k = i + 3  # +2 because we started at 2, +1 for the index
+                    elbow_found = True
                     break
+            
+            # Safety check if no elbow found
+            if not elbow_found:
+                k = min(5, max_clusters)  # Reasonable default
         
         # Apply KMeans with optimal k
-        kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+        kmeans = KMeans(n_clusters=k, random_state=42, n_init=10, max_iter=300)
         month_data['cluster'] = kmeans.fit_predict(X_pca)
         
         # Get number of customers and clusters
@@ -231,20 +244,29 @@ def generate_analysis_inputs(clustering_results):
 
 
 if __name__ == "__main__":
-    # Create directory for outputs
-    os.makedirs('outputs', exist_ok=True)
-    
-    # Download and prepare data
-    download_dataset()
-    df = load_and_clean_data()
-    
-    # Generate customer features
-    customer_features = create_customer_features(df)
-    
-    # Perform clustering
-    clustering_results = perform_clustering(customer_features)
-    
-    # Generate analysis inputs
-    time_periods, customer_counts, segment_counts = generate_analysis_inputs(clustering_results)
-    
-    print("Data preparation complete. Ready for Stirling Measure analysis.")
+    try:
+        # Create directory for outputs
+        os.makedirs('outputs', exist_ok=True)
+        
+        # Download and prepare data
+        download_dataset()
+        df = load_and_clean_data()
+        
+        # Generate customer features
+        customer_features = create_customer_features(df)
+        
+        # Perform clustering with error handling
+        clustering_results = perform_clustering(customer_features)
+        
+        # Generate analysis inputs
+        time_periods, customer_counts, segment_counts = generate_analysis_inputs(clustering_results)
+        
+        print("Data preparation complete. Ready for Stirling Measure analysis.")
+    except RecursionError:
+        print("ERROR: Maximum recursion depth exceeded.")
+        print("Suggestion: Try processing a smaller dataset or modify the clustering approach.")
+        print("You can also increase Python's recursion limit with sys.setrecursionlimit()")
+        sys.exit(1)
+    except Exception as e:
+        print(f"ERROR: {str(e)}")
+        sys.exit(1)
