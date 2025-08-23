@@ -45,6 +45,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -56,10 +57,12 @@ lib64/
 parts/
 sdist/
 var/
-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.pytest_cache/
+.coverage
+htmlcov/
 
 # R (if adding computational tools later)
 .RData
@@ -85,3 +88,18 @@ notes_*
 *.csv
 *.dat
 *.bin
+
+# Business and sensitive documents
+/business/
+/marketing/
+*_business_plan.md
+*_financial_projections.*
+*_strategy.*
+linkedin_post.txt
+
+# Private research notes and drafts
+/drafts/
+/private/
+*_private.*
+*_confidential.*
+*_draft.*
