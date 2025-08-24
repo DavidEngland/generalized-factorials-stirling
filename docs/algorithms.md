@@ -223,6 +223,116 @@ To ensure correctness across language implementations:
 3. **Cross-implementation testing**: Ensure different implementations produce the same results.
 4. **Boundary testing**: Verify behavior at edge cases (n=0, k=0, n=k, etc.).
 
+## Efficient Library Implementations
+
+Below are Python library code snippets for efficient computation of generalized Stirling numbers using memoization and bottom-up dynamic programming.
+
+### Memoized Triangular Recurrence (Python)
+
+```python
+from functools import lru_cache
+
+def triangular_recurrence(n, k, alpha, beta):
+    @lru_cache(maxsize=None)
+    def compute(n, k):
+        if k == 0:
+            return 1.0 if n == 0 else 0.0
+        if n == 0 or k > n:
+            return 0.0
+        if k == n:
+            return 1.0
+        return compute(n-1, k-1) + (alpha * (n-1) + beta * k) * compute(n-1, k)
+    return compute(n, k)
+```
+
+### Bottom-Up Dynamic Programming (Python)
+
+```python
+import numpy as np
+
+def bottom_up_stirling(n, k, alpha, beta):
+    table = np.zeros((n+1, k+1))
+    table[0,0] = 1.0
+    for i in range(1, n+1):
+        table[i,0] = 0.0
+    for j in range(1, k+1):
+        table[0,j] = 0.0
+    for i in range(1, n+1):
+        for j in range(1, min(i, k)+1):
+            if i == j:
+                table[i,j] = 1.0
+            else:
+                table[i,j] = table[i-1,j-1] + (alpha*(i-1) + beta*j) * table[i-1,j]
+    return table[n,k]
+```
+
+### Explicit Formula (Python)
+
+```python
+import math
+
+def rising_factorial(x, n, increment):
+    result = 1.0
+    for i in range(n):
+        result *= (x + i * increment)
+    return result
+
+def explicit_formula(n, k, alpha, beta):
+    if k == 0:
+        return 1.0 if n == 0 else 0.0
+    if n == 0 or k > n:
+        return 0.0
+    if k == n:
+        return 1.0
+    result = 0.0
+    for j in range(k+1):
+        binom = math.comb(k, j)
+        base = beta * (k - j)
+        rising_fact = rising_factorial(base, n, alpha)
+        result += ((-1)**j) * binom * rising_fact
+    denominator = (beta**k) * math.factorial(k) if beta != 0 else 1.0
+    return result / denominator
+```
+
+### Special Case for $k=1$ (Python)
+
+```python
+def special_case_k1(n, alpha, beta):
+    if n <= 0:
+        return 0.0
+    if n == 1:
+        return 1.0
+    result = 1.0
+    for j in range(1, n):
+        result *= (j * alpha + beta)
+    return result
+```
+
+### Symmetric Function Method (Python, Recursive)
+
+```python
+def symmetric_function(n, k, alpha, beta):
+    def recursive_sum(depth, start, product):
+        if depth == k:
+            return product
+        result = 0.0
+        for i in range(start, n+1):
+            factor = (alpha + beta) * i + alpha * depth
+            result += recursive_sum(depth + 1, i, product * factor)
+        return result
+    if k == 0:
+        return 1.0
+    return recursive_sum(0, 1, 1.0)
+```
+
+## Practical Tips for Library Code
+
+- Use `lru_cache` for recursive implementations to avoid recomputation.
+- Prefer bottom-up dynamic programming for large $n$ and $k$ to reduce stack usage and improve speed.
+- For explicit formulas, use `math.comb` and `math.factorial` for accuracy and performance.
+- For very large values, consider using `decimal.Decimal` or arbitrary-precision libraries.
+- Always validate input parameters and handle edge cases.
+
 ## References
 
 1. H. Belbachir, A. Belkhir, I.E. Bousbaa. "Combinatorial approach of certain generalized Stirling numbers." arXiv:1411.6271v1, 2014.

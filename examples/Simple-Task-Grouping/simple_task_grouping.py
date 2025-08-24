@@ -70,7 +70,21 @@ def create_visualizations(df, optimal_labels, optimal_k):
     plt.close()
     print("Task group distribution plot saved as 'visualizations/task_group_distribution.png'")
 
+    # Also save a table of the tasks with their features and assigned group
+    df_with_labels = df.copy()
+    df_with_labels['group'] = optimal_labels
+    df_with_labels.to_csv('visualizations/task_group_table.csv', index=False)
+    print("Task group table saved as 'visualizations/task_group_table.csv'")
+
 def create_report(optimal_k, a_fit, b_fit):
+    # Read the task table for HTML display
+    table_html = ""
+    try:
+        task_table = pd.read_csv('visualizations/task_group_table.csv')
+        table_html = task_table.head(10).to_html(index=False)
+    except Exception:
+        table_html = "<p>(Could not load task table)</p>"
+
     html = f"""
     <!DOCTYPE html>
     <html>
@@ -81,6 +95,9 @@ def create_report(optimal_k, a_fit, b_fit):
             h1, h2 {{ color: #2c3e50; }}
             .summary {{ background-color: #f8f9fa; padding: 20px; border-radius: 5px; }}
             img {{ max-width: 100%; height: auto; margin: 20px 0; }}
+            table {{ border-collapse: collapse; width: 100%; margin: 20px 0; }}
+            th, td {{ border: 1px solid #ddd; padding: 8px; text-align: center; }}
+            th {{ background-color: #f2f2f2; }}
         </style>
     </head>
     <body>
@@ -94,7 +111,17 @@ def create_report(optimal_k, a_fit, b_fit):
             </ul>
         </div>
         <h2>Task Group Distribution</h2>
-        <img src="visualizations/task_group_distribution.png" alt="Task Group Distribution">
+        <img src="task_group_distribution.png" alt="Task Group Distribution">
+        <h2>Sample of Tasks and Assigned Groups</h2>
+        <p>Below are the first 10 tasks with their features and assigned group:</p>
+        {table_html}
+        <p><b>Feature meanings:</b></p>
+        <ul>
+            <li><b>time</b>: Estimated time to complete the task (hours)</li>
+            <li><b>skill</b>: Required skill level (1 = easiest, 4 = hardest)</li>
+            <li><b>priority</b>: Task priority (1 = low, 3 = high)</li>
+            <li><b>group</b>: Assigned group label from clustering</li>
+        </ul>
         <p>Use these groupings to assign tasks efficiently based on similarity and resource constraints.</p>
     </body>
     </html>
