@@ -407,20 +407,21 @@ def create_interactive_plotly_dashboard(results, summary):
     a_range = np.linspace(0, 1, 20)
     b_range = np.linspace(0, 3, 20)
     A, B = np.meshgrid(a_range, b_range)
-    
+
     # Create strategy regions
     regions = np.zeros_like(A)
     regions[(A < 0.3) & (B < 1.0)] = 1  # Highly personalized
     regions[(A > 0.5) & (B > 2.0)] = 2  # Mass segment
     regions[(A < 0.3) & (B > 2.0)] = 3  # Micro-segment
     regions[(A > 0.5) & (B < 1.0)] = 4  # Adaptive mass
-    
+
+    # Use a valid Plotly colorscale instead of 'Set3'
     fig.add_trace(
         go.Heatmap(
             x=a_range,
             y=b_range,
             z=regions,
-            colorscale='Set3',
+            colorscale='Viridis',  # Changed from 'Set3' to 'Viridis'
             showscale=False,
             hovertemplate='a: %{x:.2f}<br>b: %{y:.2f}<extra></extra>'
         ),

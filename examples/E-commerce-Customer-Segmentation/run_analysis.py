@@ -13,6 +13,7 @@ from data_prep import download_dataset, load_and_clean_data, create_customer_fea
 from stirling_measure import analyze_customer_segments, interpret_parameters
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 
 def stirling_partitioning_algorithm_customer(features, min_k=2, max_k=None):
     """

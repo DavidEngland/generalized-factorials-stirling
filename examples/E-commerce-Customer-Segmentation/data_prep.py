@@ -15,6 +15,7 @@ from datetime import datetime
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
 import warnings
 import sys
@@ -209,6 +210,66 @@ def perform_clustering(customer_features):
     return results
 
 
+def stirling_partitioning_algorithm_customer(features, min_k=2, max_k=None):
+    """
+    Apply Stirling Partitioning Algorithm to customer features.
+    Returns optimal k, cluster labels, and proxy parameters.
+    """
+    n = len(features)
+    if max_k is None:
+        max_k = min(10, max(3, int(np.sqrt(n))))
+    results = []
+
+    scaler = StandardScaler()
+    data = scaler.fit_transform(features)
+
+    for k in range(min_k, max_k + 1):
+        kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+        labels = kmeans.fit_predict(data)
+        centroids = kmeans.cluster_centers_
+
+        affinity = np.mean([
+            np.mean(np.linalg.norm(data[labels == i] - centroids[i], axis=1))
+            for i in range(k)
+        ])
+        if k > 1:
+            centroid_distances = [
+                np.linalg.norm(centroids[i] - centroids[j])
+                for i in range(k) for j in range(i+1, k)
+            ]
+            cost = np.mean(centroid_distances)
+        else:
+            cost = 0.0
+
+        sil_score = silhouette_score(data, labels) if k > 1 else 0.0
+
+        results.append({
+            'k': k,
+            'affinity': affinity,
+            'cost': cost,
+            'silhouette': sil_score,
+            'labels': labels
+        })
+
+    ks = np.array([r['k'] for r in results])
+    affinities = np.array([r['affinity'] for r in results])
+    costs = np.array([r['cost'] for r in results])
+
+    a_fit = np.polyfit(ks, affinities, 1)
+    b_fit = np.polyfit(ks, costs, 1)
+
+    best_result = max(results, key=lambda r: r['silhouette'])
+    optimal_k = best_result['k']
+    optimal_labels = best_result['labels']
+
+    print(f"\nStirling Partitioning Algorithm (Customer Segmentation):")
+    print(f"Optimal number of segments (k): {optimal_k}")
+    print(f"Affinity (slope): {a_fit[0]:.4f}, Cost (slope): {b_fit[0]:.4f}")
+    print(f"Max silhouette score: {best_result['silhouette']:.4f}")
+
+    return optimal_k, optimal_labels, a_fit, b_fit, results
+
+
 def generate_analysis_inputs(clustering_results):
     """Generate inputs for Stirling Measure analysis."""
     # Extract time periods, customer counts, and segment counts
@@ -254,18 +315,37 @@ if __name__ == "__main__":
         
         # Generate customer features
         customer_features = create_customer_features(df)
-        
-        # Perform clustering with error handling
-        clustering_results = perform_clustering(customer_features)
-        
-        # Generate analysis inputs
-        time_periods, customer_counts, segment_counts = generate_analysis_inputs(clustering_results)
-        
-        print("Data preparation complete. Ready for Stirling Measure analysis.")
+
+        # Use customer features for clustering
+        cluster_features = [
+            'orders', 'total_value', 'avg_order_value',
+            'total_quantity', 'unique_products', 'recency'
+        ]
+        features = customer_features[cluster_features].fillna(0).values
+
+        # Apply Stirling Partitioning Algorithm
+        optimal_k, optimal_labels, a_fit, b_fit, stirling_results = stirling_partitioning_algorithm_customer(features)
+
+        # Visualize clustering results
+        plt.figure(figsize=(10, 6))
+        plt.hist(optimal_labels, bins=optimal_k, color='lightgreen', edgecolor='black')
+        plt.title(f'Customer Segment Distribution (k={optimal_k})')
+        plt.xlabel('Segment Label')
+        plt.ylabel('Number of Customers')
+        plt.tight_layout()
+        plt.savefig('customer_segment_distribution.png')
+        plt.close()
+
+        print("Customer segment distribution plot saved as 'customer_segment_distribution.png'")
+
+        # Remove or comment out any code that references 'clustering_results'
     except RecursionError:
         print("ERROR: Maximum recursion depth exceeded.")
         print("Suggestion: Try processing a smaller dataset or modify the clustering approach.")
         print("You can also increase Python's recursion limit with sys.setrecursionlimit()")
+        sys.exit(1)
+    except Exception as e:
+        print(f"ERROR: {str(e)}")
         sys.exit(1)
     except Exception as e:
         print(f"ERROR: {str(e)}")

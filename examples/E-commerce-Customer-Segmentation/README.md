@@ -115,22 +115,65 @@ These parameters can inform:
 - When to create new targeted segments vs. expanding existing ones
 - How aggressively to pursue cross-selling between segments
 
-## Getting Started
+## How to Run This Example
 
-Follow these steps to run the example:
+You can run the analysis either by executing Python scripts directly or by using Jupyter notebooks for interactive exploration.
 
-```bash
-# Install dependencies
-pip install -r requirements.txt
+### Option 1: Run Python Scripts
 
-# Download and prepare the data
-python data_prep.py
+1. **Install dependencies** (recommended in a virtual environment):
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
 
-# Run the complete analysis
-python run_analysis.py
+2. **Prepare the data**:
+   ```bash
+   python data_prep.py
+   ```
 
-# Generate visualizations
-python visualize.py
-```
+3. **Run the analysis**:
+   ```bash
+   python run_analysis.py
+   ```
+
+4. **Generate visualizations** (optional):
+   ```bash
+   python visualize.py
+   ```
+
+5. **View results**:
+   - Open `report.html` and generated images in your browser or image viewer.
+
+### Option 2: Use Jupyter Notebook
+
+1. **Install Jupyter** (if not already installed):
+   ```bash
+   pip install notebook
+   ```
+
+2. **Start Jupyter Notebook**:
+   ```bash
+   jupyter notebook
+   ```
+
+3. **Open and run** `E-commerce_Segmentation.ipynb` for a step-by-step interactive analysis.
+
+### Option 3: Use an IDE
+
+- Open the project folder in VS Code, PyCharm, or another Python IDE.
+- Run `data_prep.py`, `run_analysis.py`, or open and run the notebook as needed.
+
+### Troubleshooting
+
+- If you get `ModuleNotFoundError`, ensure your environment is activated and dependencies are installed.
+- If you see permission errors, try running your IDE or terminal as administrator.
+- If plots or HTML reports do not appear, check that you have write permissions in the output directory.
+
+### Resetting the Example
+
+- To reset, delete any generated data files (e.g., `segment_summary.csv`) and output files (e.g., images, HTML reports).
+- Rerun the scripts as above.
 
 See the Jupyter notebook `E-commerce_Segmentation.ipynb` for a step-by-step walkthrough.
