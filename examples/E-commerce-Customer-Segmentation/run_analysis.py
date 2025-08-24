@@ -11,6 +11,67 @@ import numpy as np
 import matplotlib.pyplot as plt
 from data_prep import download_dataset, load_and_clean_data, create_customer_features, perform_clustering, generate_analysis_inputs
 from stirling_measure import analyze_customer_segments, interpret_parameters
+from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import StandardScaler
+
+def stirling_partitioning_algorithm_customer(features, min_k=2, max_k=None):
+    """
+    Apply Stirling Partitioning Algorithm to customer features.
+    Returns optimal k, cluster labels, and proxy parameters.
+    """
+    n = len(features)
+    if max_k is None:
+        max_k = min(10, max(3, int(np.sqrt(n))))
+    results = []
+
+    scaler = StandardScaler()
+    data = scaler.fit_transform(features)
+
+    for k in range(min_k, max_k + 1):
+        kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+        labels = kmeans.fit_predict(data)
+        centroids = kmeans.cluster_centers_
+
+        affinity = np.mean([
+            np.mean(np.linalg.norm(data[labels == i] - centroids[i], axis=1))
+            for i in range(k)
+        ])
+        if k > 1:
+            centroid_distances = [
+                np.linalg.norm(centroids[i] - centroids[j])
+                for i in range(k) for j in range(i+1, k)
+            ]
+            cost = np.mean(centroid_distances)
+        else:
+            cost = 0.0
+
+        sil_score = silhouette_score(data, labels) if k > 1 else 0.0
+
+        results.append({
+            'k': k,
+            'affinity': affinity,
+            'cost': cost,
+            'silhouette': sil_score,
+            'labels': labels
+        })
+
+    ks = np.array([r['k'] for r in results])
+    affinities = np.array([r['affinity'] for r in results])
+    costs = np.array([r['cost'] for r in results])
+
+    a_fit = np.polyfit(ks, affinities, 1)
+    b_fit = np.polyfit(ks, costs, 1)
+
+    best_result = max(results, key=lambda r: r['silhouette'])
+    optimal_k = best_result['k']
+    optimal_labels = best_result['labels']
+
+    print(f"\nStirling Partitioning Algorithm (Customer Segmentation):")
+    print(f"Optimal number of segments (k): {optimal_k}")
+    print(f"Affinity (slope): {a_fit[0]:.4f}, Cost (slope): {b_fit[0]:.4f}")
+    print(f"Max silhouette score: {best_result['silhouette']:.4f}")
+
+    return optimal_k, optimal_labels, a_fit, b_fit, results
 
 def main():
     """Run the complete E-commerce Customer Segmentation analysis."""

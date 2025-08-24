@@ -1,4 +1,6 @@
-# ...existing code...
+from functools import lru_cache
+from typing import Optional
+import numpy as np
 
 class GeneralizedStirling:
     """
@@ -107,5 +109,3 @@ class GeneralizedStirling:
             
         except (ZeroDivisionError, OverflowError, ValueError):
             return None
-
-# ...existing code...
