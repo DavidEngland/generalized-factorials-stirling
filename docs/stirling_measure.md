@@ -124,6 +124,18 @@ To assess the reliability of parameter estimates:
 2. Perform cross-validation by estimating parameters from a subset of data and validating on the remaining data.
 3. Use bootstrapping to generate multiple estimates and examine their distribution.
 
+## Statistical Considerations and Hypothesis Testing
+
+When using regression or hypothesis testing with Stirling measures, it is important to consider the underlying statistical distribution of your data:
+
+- **Distributional Assumptions:** Standard hypothesis tests (e.g., t-tests, confidence intervals) assume that residuals are approximately normally distributed and independent. If your data is highly skewed or discrete, results may be misleading.
+- **Model Fit:** Before interpreting $a$ and $b$, check residuals for normality and independence. Use diagnostic plots (e.g., Q-Q plots, residual histograms) to assess fit.
+- **Bootstrapping:** If the underlying distribution is unknown or non-normal, use bootstrapping to estimate parameter variability and confidence intervals.
+- **Permutation Tests:** For non-parametric inference, permutation tests can assess the significance of estimated parameters without assuming a specific distribution.
+
+**Key Point:**  
+Parameter estimation and hypothesis testing with Stirling measures are most reliable when the underlying system or data distribution is well-understood or validated. Always check assumptions and use robust statistical methods when in doubt.
+
 ## Applications of Parameter Estimation
 
 The ability to estimate $a$ and $b$ from observed data enables several practical applications:
