@@ -7,62 +7,73 @@ This diagram shows where classical and generalized combinatorial sequences live 
 ## 📈 Visual Map
 
 ```plaintext
-        ↑ b (barrier)
-        │
-        │
-   Lah   │   Stirling 2nd kind
- (1,1)   │     (0,1)
-─────────┼───────────────→ a (affinity)
-         │
-         │
-Stirling 1st kind
-   (1,0)
+          b ↑ (barrier)
+            │
+   (+)      │          Touchard / Bell
+            │              (0,1) ●─────────────• Laguerre arc (α=-b)
+            │                    \
+            │                     \
+     -------●----------------------●--------→ a (affinity)
+    (0,0)   │        Classical     (1,0)
+            │      2nd kind S(n,k)   1st kind s(n,k)
+            │
+            │
+            │      exp ↔ log inverses
+            │           (1,-1) ●
+            │
+            │      geom/alt   sinh ↔ arsinh
+            │        (0,-1)●      (~0,-0.5)●
+   (-)      │
+            └──────────────────────────────────
 ```
 
 - **(a, b) = (1, 0)**: Stirling numbers of the first kind (cycles in permutations)
 - **(a, b) = (0, 1)**: Stirling numbers of the second kind (set partitions)
 - **(a, b) = (1, 1)**: Lah numbers (ordered partitions)
-- **Other points**: Translated Whitney, degenerate, and weighted numbers
+- **(a, b) = (1, -1)**: Exponential-logarithm inverse transforms
+- **Other points**: Whitney, degenerate, and weighted numbers
 
 ---
 
 ## 🔗 Connections
 
-- **Horizontal axis ($a$)**: Controls affinity — how strongly elements cluster together.
-- **Vertical axis ($b$)**: Controls barrier — the cost of starting a new group.
+### Classical Transform Formulas
+- **Powers to falling factorials**: $x^n = \sum_{k=0}^{n} S(n,k) x^{\underline{k}}$ corresponds to $(a,b) = (0,1)$
+- **Falling factorials to powers**: $x^{\underline{n}} = \sum_{k=0}^{n} s(n,k) x^k$ corresponds to $(a,b) = (1,0)$
 
-- **Classical sequences** are special points:
-    - Stirling 1st kind: $(1,0)$
-    - Stirling 2nd kind: $(0,1)$
-    - Lah: $(1,1)$
-    - Whitney: $(\alpha, 0)$ or $(0, \beta)$
-    - Degenerate: $(-\alpha, 1)$ or $(-1, \beta)$
+### Parameter Interpretation
+- **Horizontal axis ($a$)**: Controls affinity — how strongly elements cluster together. Also shifts the origin of the basis in umbral calculus terms.
+- **Vertical axis ($b$)**: Controls barrier — the cost of starting a new group. Also warps the spacing between degrees, encoding factorial-like growth or alternating behavior.
 
-- **Generalized sequences** fill in the plane, interpolating between classical cases.
-
----
-
-## 🗺️ How to Use
-
-- Pick $(a,b)$ to model your combinatorial system.
-- Move along $a$ for more affinity, $b$ for more barrier.
-- Classical numbers are just special cases in this landscape.
-- Families like Touchard, Bell, Laguerre, etc., correspond to specific $(a,b)$ or paths in the plane.
+**Note**: While this interpretation provides excellent intuition, the roles of $a$ and $b$ can be more complex and sometimes interchangeable depending on the specific form of the generalized Stirling numbers. For the standard definition used throughout this work, this interpretation is consistent.
 
 ---
 
 ## Example Table
 
-| Sequence                | $(a,b)$      | Combinatorial Meaning                |
+| Sequence                | $(a,b)$      | Transform Relation                   |
 |-------------------------|--------------|--------------------------------------|
-| Stirling 1st kind       | $(1,0)$      | Permutations, cycles                 |
-| Stirling 2nd kind       | $(0,1)$      | Set partitions                       |
+| Stirling 1st kind       | $(1,0)$      | $x^{\underline{n}} = \sum s(n,k) x^k$ |
+| Stirling 2nd kind       | $(0,1)$      | $x^n = \sum S(n,k) x^{\underline{k}}$ |
 | Lah                     | $(1,1)$      | Ordered partitions                   |
-| Whitney                 | $(\alpha,0)$ | Weighted cycles                      |
-| Degenerate Stirling     | $(-\alpha,1)$| Degenerate partitions                |
+| Exp-log inverses        | $(1,-1)$     | $e^x-1 \leftrightarrow \ln(1+x)$    |
+| Geometric-alternating   | $(0,-1)$     | $\frac{x}{1-x} \leftrightarrow \frac{x}{1+x}$ |
+| Laguerre-type           | $(0,b)$      | $b = -\alpha$ from $L_n^{(\alpha)}$ |
 | Touchard                | $(0,1)$      | Exponential polynomials              |
-| Bell                    | $(0,1)$      | Bell numbers                         |
-| Laguerre                | $(a,b)$      | Umbral/Sheffer sequence              |
+
+---
+
+## 🗺️ How to Navigate
+
+- **Origin $(0,0)$**: Trivial identity transform
+- **Axis endpoints**: $(0,1) \leftrightarrow (1,0)$ are inverse transforms (classical Stirling pairs)
+- **Horizontal movement**: Changes the "base point" — translation in umbral sense
+- **Vertical movement**: Alters growth/alternation patterns — from combinatorial $(b>0)$ to alternating $(b<0)$
+- **Diagonal flows**: Simultaneous scaling and translation in delta operator representation
+
+### Special Curves
+- **Laguerre arc**: $(a=0, b=-\alpha)$ for $\alpha \in \mathbb{R}$
+- **Inverse function pairs**: Often appear as mirror points across certain diagonals
 
 ---
 
