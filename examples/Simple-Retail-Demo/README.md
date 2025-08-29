@@ -1,6 +1,6 @@
-# Simple Retail Demo: Stirling Measure in Action
+# Product Affinity Analysis: Generalized Stirling Framework in Retail
 
-This example demonstrates the Stirling Measure approach for product clustering in a retail environment.
+This example demonstrates the application of polynomial moment analysis to identify natural product groupings in retail data.
 
 ## How to Run
 

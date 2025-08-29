@@ -1,21 +1,21 @@
-# Supply Chain Delivery Demo: Bell-Enhanced Stirling Partitioning
+# Delivery Route Optimization: Moment-Enhanced Partition Analysis
 
-This example demonstrates how the Bell-Enhanced Stirling Partitioning Algorithm can be applied to delivery and logistics data to optimize route grouping and fleet management.
+This example demonstrates how polynomial moment analysis can be applied to delivery and logistics data to optimize route grouping and fleet management.
 
-## Advanced Bell Polynomial Methodology
+## Advanced Methodology
 
-This demo uses Bell polynomials to derive higher-order corrections to clustering parameters:
+This demo employs Bell polynomial moment analysis to derive precise parameter estimates:
 
-- **Quadratic Parameter Fitting**: Captures non-linear scaling effects as route counts increase
-- **Higher-Order Moments**: Analyzes skewness and other higher-order patterns in delivery data 
-- **Multivariate Bell Polynomials**: Handles complex multidimensional feature spaces efficiently
+- **Multi-Order Coefficient Estimation**: Captures both linear and non-linear aspects of routing patterns
+- **Structural Refinement**: Analyzes higher-order moments to identify subtle spatial relationships
+- **Multivariate Pattern Recognition**: Handles complex interactions between distance, time, and priority features
 
 ## Scenario
 
-In supply chain management, each order has features such as delivery location, size, and urgency. The goal is to group orders into delivery routes (clusters) so that similar orders are delivered together, and to decide when to add a new truck (route) versus using existing ones.
+In supply chain management, each order has features such as delivery location, size, and urgency. The goal is to group orders into delivery routes so that similar orders are delivered together, and to determine when to create a new route versus extending existing ones.
 
-- **Affinity (Parameter a):** Measures how strongly orders tend to be grouped into the same route (e.g., nearby locations, similar delivery windows).
-- **Barrier (Parameter b):** Represents the cost of starting a new route (e.g., dispatching a new truck, driver cost, fuel).
+- **Cohesion Coefficient (a):** Measures how strongly orders tend to group together (e.g., nearby locations, similar delivery windows).
+- **Separation Coefficient (b):** Represents the threshold for creating a new route (e.g., dispatch costs, driver allocation).
 
 ## How to Run
 
@@ -34,16 +34,16 @@ In supply chain management, each order has features such as delivery location, s
 ## What You'll Learn
 
 - How to represent delivery orders as feature vectors
-- How to use Bell polynomial-enhanced clustering to optimize delivery routes
-- How higher-order corrections improve route assignments
-- How to visualize and interpret the enhanced parameters
+- How to apply moment-enhanced partition analysis to optimize routing
+- How non-linear scaling refinements improve route assignments
+- How to visualize and interpret structural coefficients
 
 ## Files
 
-- `supply_chain_delivery_demo.py`: Main script with Bell polynomial enhancements
+- `supply_chain_delivery_demo.py`: Main script with polynomial moment enhancements
 - `visualizations/`: Output charts and HTML report including:
-  - `bell_enhanced_analysis.png`: Advanced analysis of routing parameters
-  - `higher_order_metrics.png`: Visualization of Bell polynomial metrics
+  - `polynomial_moment_analysis.png`: Advanced visualization of routing parameters
+  - `structural_refinements.png`: Visualization of higher-order corrections
 
 ## Example Output
 

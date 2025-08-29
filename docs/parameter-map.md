@@ -43,29 +43,27 @@ This diagram shows where classical and generalized combinatorial sequences live 
 - **Rising to falling factorials**: $(x)^{\overline{n}} = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} (x)^{\underline{k}}$ 
 - **Falling to rising factorials**: $(x)^{\underline{n}} = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} (x)^{\overline{k}}$
 
-The rising-falling transforms correspond to points in the $(a,b)$-plane with $a=0$ and specific values of $b$ that encode the binomial relationships between these factorial bases.
+### Refined Parameter Interpretation
+- **Horizontal axis ($a$)**: The **Cohesion Coefficient** — controls how strongly elements cluster together. In umbral calculus, shifts the origin of the basis.
+- **Vertical axis ($b$)**: The **Separation Coefficient** — controls the barrier to forming new groups. In polynomial terms, warps the spacing between degrees.
 
-### Parameter Interpretation
-- **Horizontal axis ($a$)**: Controls affinity — how strongly elements cluster together. Also shifts the origin of the basis in umbral calculus terms.
-- **Vertical axis ($b$)**: Controls barrier — the cost of starting a new group. Also warps the spacing between degrees, encoding factorial-like growth or alternating behavior.
-
-**Note**: While this interpretation provides excellent intuition, the roles of $a$ and $b$ can be more complex and sometimes interchangeable depending on the specific form of the generalized Stirling numbers. For the standard definition used throughout this work, this interpretation is consistent.
+**Note**: While these interpretations provide powerful intuition, the mathematical roles of $a$ and $b$ can involve more complex interactions depending on the specific application domain and combinatorial structure being modeled.
 
 ---
 
 ## Example Table
 
-| Sequence                | $(a,b)$      | Transform Relation                   |
+| Sequence                | $(a,b)$      | Combinatorial Interpretation                |
 |-------------------------|--------------|--------------------------------------|
-| Stirling 1st kind       | $(1,0)$      | $x^{\underline{n}} = \sum s(n,k) x^k$ |
-| Stirling 2nd kind       | $(0,1)$      | $x^n = \sum S(n,k) x^{\underline{k}}$ |
-| Rising to falling       | $(0,-1)$     | $(x)^{\overline{n}} = \sum (-1)^{n-k}\binom{n}{k} (x)^{\underline{k}}$ |
-| Falling to rising       | $(0,-1)$     | $(x)^{\underline{n}} = \sum (-1)^{n-k}\binom{n}{k} (x)^{\overline{k}}$ |
-| Lah                     | $(1,1)$      | Ordered partitions                   |
-| Exp-log inverses        | $(1,-1)$     | $e^x-1 \leftrightarrow \ln(1+x)$    |
-| Geometric-alternating   | $(0,-1)$     | $\frac{x}{1-x} \leftrightarrow \frac{x}{1+x}$ |
-| Laguerre-type           | $(0,b)$      | $b = -\alpha$ from $L_n^{(\alpha)}$ |
-| Touchard                | $(0,1)$      | Exponential polynomials              |
+| Stirling 1st kind       | $(1,0)$      | Permutation cycle formation                 |
+| Stirling 2nd kind       | $(0,1)$      | Set partitioning structure                   |
+| Rising to falling       | $(0,-1)$     | Alternating binomial transformation |
+| Falling to rising       | $(0,-1)$     | Alternating binomial transformation |
+| Lah numbers             | $(1,1)$      | Ordered set partitioning                 |
+| Exp-log inverses        | $(1,-1)$     | Growth-decay balance in power series |
+| Geometric-alternating   | $(0,-1)$     | Alternating coefficient series |
+| Laguerre-type           | $(0,b)$      | Parameterized orthogonal polynomials |
+| Touchard                | $(0,1)$      | Exponential moment polynomials              |
 
 ---
 
