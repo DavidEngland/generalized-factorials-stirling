@@ -160,17 +160,17 @@ This connection highlights how the generalized Stirling framework unifies differ
 
 ## Bell-polynomial definition (operator form, refined)
 
-The Bell identity must carry the parameter dependence on the left via an $(a,b)$-dependent Sheffer operator. Let $A(t) = \sum_{m \geq 0} a_m \frac{t^m}{m!}$ be any exponential generating function (EGF), and let $(g_{a,b}(t), f_{a,b}(t))$ be the Sheffer pair whose basic sequence is the $(a,b)$-generalized factorial basis. Define the $(a,b)$-reweighted coefficients $x_m^{(a,b)}$ by:
-- $U_{a,b}[A](t) := g_{a,b}(t) \cdot A(f_{a,b}(t)) = \sum_{m \geq 0} x_m^{(a,b)} \frac{t^m}{m!}$.
+The Bell identity must carry the parameter dependence on the left via an $(a,b)$-dependent Sheffer operator. Let $A(t) = \sum_{m \geq 0} a_m \frac{t^m}{m!}$ be any exponential generating function (EGF), and let $(g_{a,b}(t), f_{a,b}(t))$ be the Sheffer pair whose basic sequence is the $(a,b)$-generalized factorial basis. Define the $(a,b)$-reweighted coefficients $c_m^{(a,b)}$ by:
+- $U_{a,b}[A](t) := g_{a,b}(t) \cdot A(f_{a,b}(t)) = \sum_{m \geq 0} c_m^{(a,b)} \frac{t^m}{m!}$.
 
 ### Definition (Bell-polynomial characterization)
 For fixed $(a,b)$, the generalized Stirling coefficients $S_{n,k}(a,b)$ are the unique lower-triangular array such that for all input sequences $\{a_m\}$,
 $$
-B_n\!\big(1! x_1^{(a,b)},\, 2! x_2^{(a,b)},\, \ldots,\, n! x_n^{(a,b)}\big)
+B_n\!\big(1! c_1^{(a,b)},\, 2! c_2^{(a,b)},\, \ldots,\, n! c_n^{(a,b)}\big)
 \;=\;
 n! \sum_{k=0}^{n} S_{n,k}(a,b) \frac{a_k}{k!},
 $$
-where $B_n$ are the complete Bell polynomials, and $x_m^{(a,b)}$ are the coefficients of $U_{a,b}[A](t)$ as defined above.
+where $B_n$ are the complete Bell polynomials, and $c_m^{(a,b)}$ are the coefficients of $U_{a,b}[A](t)$ as defined above.
 
 ### Notes
 - The left-hand side (LHS) depends on $(a,b)$ through $(g_{a,b}, f_{a,b})$, ensuring that $b$ is not "invisible."
@@ -184,9 +184,9 @@ S_{n,k} = S_{n-1,k-1} + (a(n-1) + b k) S_{n-1,k}.
 $$
 
 ### Example
-Consider the classical Stirling numbers of the second kind, $S_{n,k}(0,1)$. The Sheffer pair is $(g_{0,1}(t), f_{0,1}(t)) = (1, e^t - 1)$, and the operator $U_{0,1}[A](t)$ maps $A(t)$ to $A(e^t - 1)$. For $A(t) = t^n$, the coefficients $x_m^{(0,1)}$ are the Stirling numbers of the second kind:
+Consider the classical Stirling numbers of the second kind, $S_{n,k}(0,1)$. The Sheffer pair is $(g_{0,1}(t), f_{0,1}(t)) = (1, e^t - 1)$, and the operator $U_{0,1}[A](t)$ maps $A(t)$ to $A(e^t - 1)$. For $A(t) = t^n$, the coefficients $c_m^{(0,1)}$ are the Stirling numbers of the second kind:
 $$
-x_m^{(0,1)} = S(n,m), \quad \text{and} \quad B_n(1! S(n,1), 2! S(n,2), \ldots, n! S(n,n)) = n!.
+c_m^{(0,1)} = S(n,m), \quad \text{and} \quad B_n(1! S(n,1), 2! S(n,2), \ldots, n! S(n,n)) = n!.
 $$
 
 ### Sanity check
@@ -202,7 +202,7 @@ where $f_{a,b}(t)$ encodes the factorial basis, and $g_{a,b}(t)$ adjusts the wei
 ### Suggested visualization
 A diagram could illustrate the mapping:
 1. Input coefficients $\{a_m\}$.
-2. Transformation via $U_{a,b}$ to $\{x_m^{(a,b)}\}$.
+2. Transformation via $U_{a,b}$ to $\{c_m^{(a,b)}\}$.
 3. Aggregation into $B_n$.
 4. Output coefficients $\{S_{n,k}(a,b)\}$.
 
@@ -210,30 +210,78 @@ A diagram could illustrate the mapping:
 1. How do the choices of $g_{a,b}(t)$ and $f_{a,b}(t)$ affect the convergence properties of $U_{a,b}$?
 2. Can the Bell-polynomial definition be extended to multivariate EGFs?
 3. What are the computational trade-offs of using $U_{a,b}$ versus direct recurrence relations for $S_{n,k}(a,b)$?
-        b_coeffs = b_coeffs - b_coeffs[0]
-    
-    # Normalize to compositional inverse condition
-    scale = 1.0 / (a_coeffs[1] * b_coeffs[1])
-    a_scaled = a_coeffs * scale
-    
-    # Build moment equations using Bell polynomials
-    moment_equations = []
-    for n in range(2, max_terms):
-        combinatorial_sum = 0
-        for k in range(1, n):
-            # Bell polynomials precisely capture the partitioning structure
-            partition_moment = bell(n, k, [a_scaled[j] for j in range(1, n-k+2)])
-            combinatorial_sum += b_coeffs[k] * partition_moment
-        
-        # For compositional inverses, higher-order terms must vanish
-        moment_equations.append(combinatorial_sum)
-    
-    # Solve the moment equations for parameters
-    cohesion_param = np.polynomial.polynomial.polyfit(range(2, max_terms), moment_equations, 1)[1]
-    separation_param = a_scaled[2] - b_coeffs[2] * a_scaled[1]**2
-    
-    return cohesion_param, separation_param
-```
+
+### Example: Understanding $c_m^{(a,b)}$ in Classical and Simple Cases
+
+The coefficients $c_m^{(a,b)}$ represent the transformed function's coefficients after applying the Sheffer operator $U_{a,b}$ to an input function $A(t)$.
+
+#### Classical Example: Stirling Numbers of the Second Kind (a=0, b=1)
+
+For $(a,b) = (0,1)$, the Sheffer pair is $(g_{0,1}(t), f_{0,1}(t)) = (1, e^t-1)$.
+
+Given a simple input function $A(t) = \frac{t^n}{n!}$ (i.e., $a_n = 1$ and all other $a_i = 0$):
+
+$$U_{0,1}[A](t) = 1 \cdot A(e^t-1) = \frac{(e^t-1)^n}{n!} = \sum_{m=0}^{\infty} c_m^{(0,1)} \frac{t^m}{m!}$$
+
+For this specific case, the coefficients are:
+
+$$c_m^{(0,1)} = \frac{S(n,m) \cdot m!}{n!}$$
+
+where $S(n,m)$ are the Stirling numbers of the second kind.
+
+**Numerical Example:**
+For $n=3$ (input function $A(t) = \frac{t^3}{3!}$):
+- $c_0^{(0,1)} = 0$ (since $S(3,0) = 0$)
+- $c_1^{(0,1)} = \frac{S(3,1) \cdot 1!}{3!} = \frac{1 \cdot 1}{6} = \frac{1}{6}$
+- $c_2^{(0,1)} = \frac{S(3,2) \cdot 2!}{3!} = \frac{3 \cdot 2}{6} = 1$
+- $c_3^{(0,1)} = \frac{S(3,3) \cdot 3!}{3!} = \frac{1 \cdot 6}{6} = 1$
+
+This means:
+$$U_{0,1}[A](t) = \frac{(e^t-1)^3}{3!} = \frac{1}{6} \frac{t^1}{1!} + 1 \cdot \frac{t^2}{2!} + 1 \cdot \frac{t^3}{3!} + 0 \cdot \frac{t^4}{4!} + \ldots$$
+
+#### Simple Example: Lah Numbers (a=1, b=1)
+
+For $(a,b) = (1,1)$, the Sheffer pair is $(g_{1,1}(t), f_{1,1}(t)) = ((1-t)^{-1}, \frac{t}{1-t})$.
+
+Given $A(t) = \frac{t^n}{n!}$:
+
+$$U_{1,1}[A](t) = \frac{1}{(1-t)} \cdot A\left(\frac{t}{1-t}\right) = \frac{1}{(1-t)} \cdot \frac{1}{n!}\left(\frac{t}{1-t}\right)^n$$
+
+For this case, the coefficients are:
+
+$$c_m^{(1,1)} = \frac{L(n,m) \cdot m!}{n!}$$
+
+where $L(n,m)$ are the Lah numbers, which count the number of ways to distribute $n$ labeled objects into $m$ non-empty ordered lists.
+
+**Numerical Example:**
+For $n=3$:
+- $c_1^{(1,1)} = \frac{L(3,1) \cdot 1!}{3!} = \frac{6 \cdot 1}{6} = 1$
+- $c_2^{(1,1)} = \frac{L(3,2) \cdot 2!}{3!} = \frac{6 \cdot 2}{6} = 2$
+- $c_3^{(1,1)} = \frac{L(3,3) \cdot 3!}{3!} = \frac{1 \cdot 6}{6} = 1$
+
+#### General Pattern
+
+For any $(a,b)$ and input function $A(t) = \sum_{n=0}^{\infty} a_n \frac{t^n}{n!}$:
+
+$$c_m^{(a,b)} = m! \sum_{n=m}^{\infty} a_n \frac{S_{n,m}(a,b)}{n!}$$
+
+where $S_{n,m}(a,b)$ are the generalized Stirling numbers with parameters $(a,b)$.
+
+In the Bell polynomial characterization, these coefficients $c_m^{(a,b)}$ (multiplied by $m!$) are precisely the inputs to the complete Bell polynomials that generate the generalized Stirling numbers.
+
+## Moment-Based Polynomial Approach: Implementation Details
+
+Building on the theoretical foundation, we implement the moment-based polynomial approach for practical applications. This involves using the coefficients $c_m^{(a,b)}$ in conjunction with Bell polynomials to estimate the generalized Stirling coefficients $S_{n,k}(a,b)$.
+
+### Key Steps
+
+1. **Coefficient Transformation**: For a given EGF $A(t)$ with coefficients $\{a_n\}$, compute the transformed coefficients $\{c_m^{(a,b)}\}$ using the Sheffer operator $U_{a,b}$.
+
+2. **Moment Equations**: Construct moment equations based on the desired properties of the target function (e.g., compositional inverse conditions).
+
+3. **Parameter Estimation**: Solve the moment equations to estimate the parameters $(a,b)$ that best describe the transformation between the function pairs.
+
+4. **Polynomial Reconstruction**: Use the estimated parameters and the generalized Stirling coefficients to reconstruct the target polynomial or analyze its properties.
 
 ### Applications in Clustering and Partitioning
 
