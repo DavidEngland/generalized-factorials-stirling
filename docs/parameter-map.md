@@ -40,6 +40,10 @@ This diagram shows where classical and generalized combinatorial sequences live 
 ### Classical Transform Formulas
 - **Powers to falling factorials**: $x^n = \sum_{k=0}^{n} S(n,k) x^{\underline{k}}$ corresponds to $(a,b) = (0,1)$
 - **Falling factorials to powers**: $x^{\underline{n}} = \sum_{k=0}^{n} s(n,k) x^k$ corresponds to $(a,b) = (1,0)$
+- **Rising to falling factorials**: $(x)^{\overline{n}} = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} (x)^{\underline{k}}$ 
+- **Falling to rising factorials**: $(x)^{\underline{n}} = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} (x)^{\overline{k}}$
+
+The rising-falling transforms correspond to points in the $(a,b)$-plane with $a=0$ and specific values of $b$ that encode the binomial relationships between these factorial bases.
 
 ### Parameter Interpretation
 - **Horizontal axis ($a$)**: Controls affinity — how strongly elements cluster together. Also shifts the origin of the basis in umbral calculus terms.
@@ -55,6 +59,8 @@ This diagram shows where classical and generalized combinatorial sequences live 
 |-------------------------|--------------|--------------------------------------|
 | Stirling 1st kind       | $(1,0)$      | $x^{\underline{n}} = \sum s(n,k) x^k$ |
 | Stirling 2nd kind       | $(0,1)$      | $x^n = \sum S(n,k) x^{\underline{k}}$ |
+| Rising to falling       | $(0,-1)$     | $(x)^{\overline{n}} = \sum (-1)^{n-k}\binom{n}{k} (x)^{\underline{k}}$ |
+| Falling to rising       | $(0,-1)$     | $(x)^{\underline{n}} = \sum (-1)^{n-k}\binom{n}{k} (x)^{\overline{k}}$ |
 | Lah                     | $(1,1)$      | Ordered partitions                   |
 | Exp-log inverses        | $(1,-1)$     | $e^x-1 \leftrightarrow \ln(1+x)$    |
 | Geometric-alternating   | $(0,-1)$     | $\frac{x}{1-x} \leftrightarrow \frac{x}{1+x}$ |

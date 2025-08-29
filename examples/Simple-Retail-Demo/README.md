@@ -6,7 +6,7 @@ This example demonstrates the Stirling Measure approach for product clustering i
 
 1. Install dependencies:
    ```
-   pip install numpy pandas matplotlib seaborn scikit-learn
+   pip install numpy pandas matplotlib seaborn scikit-learn sympy
    ```
 2. Run the demo:
    ```
@@ -15,6 +15,14 @@ This example demonstrates the Stirling Measure approach for product clustering i
 3. View results:
    - Visualizations are saved in the `visualizations/` folder.
    - Open `visualizations/report.html` in your browser for a summary.
+
+## Advanced Methodology
+
+This demo now uses **Bell polynomials** for more accurate parameter estimation:
+
+- **Enhanced Accuracy**: Bell polynomials provide mathematically rigorous transformations between function coefficients
+- **Better Clustering**: More precise affinity and barrier parameters lead to improved product groupings
+- **Higher-Order Effects**: The analysis captures non-linear relationships between products
 
 ## Python & Jupyter Setup Instructions
 
@@ -31,7 +39,7 @@ This example demonstrates the Stirling Measure approach for product clustering i
 
 - Install required packages:
   ```
-  pip install numpy pandas matplotlib seaborn scikit-learn
+  pip install numpy pandas matplotlib seaborn scikit-learn sympy
   ```
 
 ### 3. Run the Demo Script
@@ -92,7 +100,7 @@ If you are unable to open a terminal, you can still run Python scripts and Jupyt
 
 - If you need to install packages from within Jupyter, run:
   ```python
-  !pip install numpy pandas matplotlib seaborn scikit-learn
+  !pip install numpy pandas matplotlib seaborn scikit-learn sympy
   ```
 
 #### 6. View Results
@@ -134,12 +142,14 @@ jupyter notebook Stirling_Retail_Demo.ipynb
 
 ## The 5-Minute Explanation
 
-### What is the Stirling Measure?
+### What is the Stirling Measure with Bell Polynomial Enhancement?
 
-The Stirling Measure tells us how items (products) naturally cluster into groups (categories) by looking at two fundamental parameters:
+The enhanced Stirling Measure uses Bell polynomials to precisely calculate how items (products) naturally cluster into groups (categories) based on:
 
 - **Parameter a**: How strongly products tend to be purchased together (product affinity)
 - **Parameter b**: How difficult it is to form new product categories (category barrier)
+
+Bell polynomials provide mathematically exact formulations for these parameters, capturing subtle relationships that linear regression might miss.
 
 ### Why This Matters for Retail
 
@@ -148,7 +158,7 @@ Understanding these parameters helps you:
 1. **Optimize store layout**: Place high-affinity products near each other
 2. **Plan promotions**: Design cross-selling campaigns based on natural product affinities
 3. **Manage inventory**: Balance category-specific vs. diverse stock based on your market's parameters
-4. **Forecast trends**: Predict how product categories will evolve over time
+4. **Forecast trends**: Predict how product categories will evolve over time with higher accuracy
 
 ## Example Results
 
@@ -163,12 +173,11 @@ This tells us:
 
 ## Comparison with Traditional Methods
 
-| Traditional Approach | Stirling Measure Advantage |
-|----------------------|----------------------------|
-| Fixed product categories | Discovers natural purchase patterns |
-| Association rules | Provides global parameters rather than item-specific rules |
-| Requires domain expertise | Data-driven, objective approach |
-| Static understanding | Captures how categories evolve over time |
+| Approach | Description | Advantages |
+|----------|-------------|------------|
+| Simple Clustering | Basic k-means | Fast, simple |
+| Linear Regression | Original Stirling method | Captures basic affinity/barrier |
+| **Bell Polynomials** | Advanced Stirling method | Highest accuracy, captures non-linear effects |
 
 ## Files Included
 

@@ -1,67 +1,67 @@
-# Generalized Stirling Numbers
+# Generalized Factorials and Stirling Numbers
 
-A cross-language implementation of generalized Stirling numbers based on the combinatorial approach developed by Belbachir, Belkhir, and Bousbaa.
+This repository explores generalized factorial polynomials and Stirling numbers with applications to clustering and classification.
 
-## Overview
+## Core Components
 
-This library provides implementations of generalized Stirling numbers $L_{n,k}^{\alpha,\beta}$ in multiple programming languages. These numbers unify and generalize classical Stirling numbers of both kinds and Lah numbers, providing a flexible framework for combinatorial problems.
+- **Generalized Stirling Numbers**: A unified framework for various combinatorial sequences
+- **Bell Polynomial Integration**: Mathematical rigor through Bell polynomial transformations
+- **Parameter Estimation**: Methods to derive parameters from data
+- **Applications**: Practical uses in clustering, supply chain, and network optimization
 
-## Mathematical Background
+## Examples
 
-The generalized Stirling numbers $L_{n,k}^{\alpha,\beta}$ represent the total weight of distributing $n$ elements into $k$ ordered non-empty lists, where:
+1. **Simple Retail Demo**: Product clustering using Bell-enhanced Stirling partitioning
+2. **Supply Chain Delivery**: Route optimization with higher-order Bell polynomial corrections
+3. **Data Packet Network**: Server allocation with multivariate Bell polynomials
+4. **Urban Planning**: Community design using generalized Stirling parameters
 
-1. The first element placed in each list has weight 1
-2. Elements placed at the head of a list have weight $\beta$
-3. Other elements in the lists have weight $\alpha$
+## Key Mathematical Concepts
 
-### Special Cases
+- **Generalized Stirling Numbers**: $S_{n,k}(a,b)$ with parameters $(a,b)$ controlling affinity and barrier
+- **Bell Polynomials**: Used for exact transformation between function coefficients
+- **Parameter Estimation**: Advanced methods leveraging Bell polynomials for higher-order corrections
 
-- $(\alpha,\beta) = (1,0)$: Unsigned Stirling numbers of the first kind
-- $(\alpha,\beta) = (0,1)$: Stirling numbers of the second kind
-- $(\alpha,\beta) = (1,1)$: Lah numbers
+## Installation
 
-### Key Properties
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/generalized-factorials-stirling.git
+cd generalized-factorials-stirling
 
-- Triangular recurrence: $L_{n,k}^{\alpha,\beta} = L_{n-1,k-1}^{\alpha,\beta} + (\alpha(n-1) + \beta k)L_{n-1,k}^{\alpha,\beta}$
-- Special case: $L_{n,1}^{\alpha,\beta} = \prod_{j=1}^{n-1}(j\alpha + \beta)$
-- Explicit formula: $L_{n,k}^{\alpha,\beta} = \frac{1}{\beta^k k!}\sum_{j=0}^{k}(-1)^j \binom{k}{j}(\beta(k-j)|\alpha)^{\overline{n}}$
+# Install dependencies
+pip install numpy pandas matplotlib scikit-learn sympy
+```
 
-## Notation
+## Library Usage
 
-You may also see the generalized Stirling numbers written as $S_{n,k}(a,b)$ instead of $L_{n,k}^{\alpha,\beta}$, where $a$ and $b$ play the roles of $\alpha$ and $\beta$. This notation is common in combinatorics and computer science literature.
+The repository now includes a comprehensive library (`src/`) with:
 
-- $S_{n,k}(a,b)$: Equivalent to $L_{n,k}^{\alpha,\beta}$, with $a = \alpha$ and $b = \beta$.
-- $a$ (affinity) and $b$ (cost) are used for practical interpretation and parameter estimation.
-
-## Alternative Recurrence
-
-The recurrence relation can also be written by looking at the $(n+1)$-th point:
-$$
-S_{n+1,k}(a,b) = S_{n,k-1}(a,b) + (a n + b k) S_{n,k}(a,b)
-$$
-This form emphasizes how adding a new element ($n+1$) affects the distribution into $k$ groups, and is often more intuitive for algorithmic implementations.
-
-## Interpreting Parameters $(\alpha, \beta)$: Affinity, Cost, and Clustering
-
-The parameters $(\alpha, \beta)$ in generalized Stirling numbers have practical interpretations:
-
-- **Affinity ($\alpha$):** Measures how strongly elements prefer to stay together in the same group. High affinity means elements naturally cluster, like friends forming tight-knit communities or products frequently bought together.
-- **Cost ($\beta$):** Represents the barrier or overhead to starting a new group. High cost means it's harder to create new clusters, like the expense of launching a new delivery route or the effort to form a new team.
-
-### Real-World Examples
-
-- **Healthcare:** Patients with similar conditions (high affinity) are grouped for specialized care, while forming new care units (high cost) requires resources.
-- **Education:** Students with similar learning styles cluster in classes (affinity), but opening new classes or programs (cost) depends on funding and demand.
-- **Logistics:** Packages destined for the same area are grouped for delivery (affinity); starting a new route (cost) involves fuel, time, and planning.
-- **Social Networks:** Users with shared interests form communities (affinity); creating new groups (cost) requires motivation and critical mass.
-
-By tuning $(\alpha, \beta)$, you can model, predict, and optimize clustering in systems to improve outcomes—reducing isolation, increasing efficiency, and supporting better resource allocation.
-
-## Implementations
-
-### Python
+- Core mathematical functions for generalized Stirling numbers
+- Bell polynomial implementations for higher-order corrections
+- Application-specific algorithms for clustering and partitioning
 
 ```python
+from src.stirling_core import StirlingComputation, BellPolynomials
+from src.stirling_applications import StirlingPartitioning
+
+# Create a Bell-enhanced partitioning algorithm
+partitioner = StirlingPartitioning(use_bell_polynomials=True)
+results = partitioner.fit(data)
+```
+
+## Documentation
+
+- See the `docs/` folder for mathematical background
+- Each example folder contains detailed documentation
+- The core library is documented with docstrings
+
+## Recent Enhancements
+
+- **Bell Polynomial Integration**: All examples now use Bell polynomials for higher accuracy
+- **Higher-Order Corrections**: Capturing non-linear effects in parameter estimation
+- **Multivariate Extensions**: Handling complex multidimensional feature spaces
+- **Core Library**: Unified implementation of algorithms across examples
 from generalized_stirling import GeneralizedStirling
 
 # Create instance with α=2, β=3

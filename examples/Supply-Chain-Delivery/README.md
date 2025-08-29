@@ -1,6 +1,14 @@
-# Supply Chain Delivery Demo: Stirling Partitioning for Logistics Optimization
+# Supply Chain Delivery Demo: Bell-Enhanced Stirling Partitioning
 
-This example demonstrates how the Stirling Partitioning Algorithm can be applied to delivery and logistics data to optimize route grouping and fleet management.
+This example demonstrates how the Bell-Enhanced Stirling Partitioning Algorithm can be applied to delivery and logistics data to optimize route grouping and fleet management.
+
+## Advanced Bell Polynomial Methodology
+
+This demo uses Bell polynomials to derive higher-order corrections to clustering parameters:
+
+- **Quadratic Parameter Fitting**: Captures non-linear scaling effects as route counts increase
+- **Higher-Order Moments**: Analyzes skewness and other higher-order patterns in delivery data 
+- **Multivariate Bell Polynomials**: Handles complex multidimensional feature spaces efficiently
 
 ## Scenario
 
@@ -13,7 +21,7 @@ In supply chain management, each order has features such as delivery location, s
 
 1. Install dependencies:
    ```
-   pip install numpy pandas matplotlib scikit-learn
+   pip install numpy pandas matplotlib scikit-learn sympy
    ```
 2. Run the demo:
    ```
@@ -26,14 +34,16 @@ In supply chain management, each order has features such as delivery location, s
 ## What You'll Learn
 
 - How to represent delivery orders as feature vectors
-- How to use clustering to optimize delivery routes
-- How affinity and barrier parameters guide fleet size and route assignment
-- How to visualize and report the results
+- How to use Bell polynomial-enhanced clustering to optimize delivery routes
+- How higher-order corrections improve route assignments
+- How to visualize and interpret the enhanced parameters
 
 ## Files
 
-- `supply_chain_delivery_demo.py`: Main script
-- `visualizations/`: Output charts and HTML report
+- `supply_chain_delivery_demo.py`: Main script with Bell polynomial enhancements
+- `visualizations/`: Output charts and HTML report including:
+  - `bell_enhanced_analysis.png`: Advanced analysis of routing parameters
+  - `higher_order_metrics.png`: Visualization of Bell polynomial metrics
 
 ## Example Output
 
