@@ -201,6 +201,69 @@ This parameter regime appears in:
 
 In summary, yes - the hyperbolic strip has zero affinity and half the barrier cost (or negative half), which leads to its clean mathematical structure and distinctive hyperbolic factorization properties.
 
+## 9) Dual Parameter Regimes: Double Barriers and High Affinity Cases
+
+While the hyperbolic strip (a=0, b=±1/2) examines zero affinity with half barriers, other parameter regimes offer complementary insights:
+
+### Double Barriers (a=0, b=±1)
+
+The "double barrier" cases represent full-strength boundary effects:
+
+- b=+1: **Classical Stirling numbers of the second kind**
+  - $S_{n,k}(0,1) = S(n,k)$
+  - EGF: $\sum_{n\ge k} S(n,k)\frac{t^n}{n!} = \frac{(e^t-1)^k}{k!}$
+  - Combinatorial interpretation: Standard set partitioning
+
+- b=-1: **Alternating Stirling numbers**
+  - $S_{n,k}(0,-1) = (-1)^{n-k}S(n,k)$
+  - EGF: $\sum_{n\ge k} S_{n,k}(0,-1)\frac{t^n}{n!} = \frac{(1-e^{-t})^k}{k!}$
+  - This represents "anti-clustering" where each boundary contributes a sign flip
+
+Comparing half vs. full barriers:
+- At b=±1/2, the magnitude scales as $2^{k-n}$ relative to classical S(n,k)
+- At b=±1, magnitudes match classical S(n,k), with possible sign alternation
+
+### High Affinity, Low Barrier (a>0, b≈0)
+
+The dual regime to the hyperbolic strip has strong internal cohesion but weak boundaries:
+
+- a>0, b=0: **Pure affinity regime**
+  - Recurrence: $S_{n,k}(a,0) = S_{n-1,k-1}(a,0) + a(n-1)S_{n-1,k}(a,0)$
+  - This is closely related to (unsigned) Stirling numbers of the first kind
+  - Combinatorial interpretation: Elements strongly prefer to stay together
+
+When a=1, b=0:
+- $S_{n,k}(1,0) = |s(n,k)|$ (unsigned Stirling numbers of the first kind)
+- EGF related to $\log(1-t)^{-1}$
+- Represents systems with maximal cohesion and no boundary effects
+
+### Comparing the Duality
+
+The parameter space shows interesting symmetries:
+
+1. **Zero Affinity Axis (a=0):**
+   - b=0: Degenerate case (identity transform)
+   - b=±1/2: Hyperbolic strip (half barriers)
+   - b=±1: Classical/alternating Stirling numbers (full barriers)
+
+2. **Zero Barrier Axis (b=0):**
+   - a=0: Degenerate case (identity transform)
+   - a=±1: Unsigned/signed Stirling numbers of the first kind
+   - a=±1/2: Would create "half-strength" cycle numbers
+
+3. **Complete Duality:**
+   The parameter transformation $(a,b) \mapsto (-a,-b)$ creates a duality relationship:
+   - If $S_{n,k}(a,b)$ counts partitions with certain weights
+   - Then $S_{n,k}(-a,-b)$ counts partitions with inverted weights
+   - Sign patterns may alternate based on parity of $n-k$
+
+This reveals that the Stirling parameter space has a rich structure with complementary regions:
+- Affinity-dominated regimes (a≠0, b≈0): Elements cluster by internal cohesion
+- Barrier-dominated regimes (a≈0, b≠0): Elements cluster based on boundary costs
+- Balanced regimes (|a|≈|b|): Both effects compete equally
+
+The hyperbolic strip is notable because b=±1/2 creates the particularly elegant hyperbolic factorizations we've explored, while a=0 ensures pure boundary-driven dynamics.
+
 ---
 Notes:
 - The entire (a=0,b) family is hyperbolic-factorizable since $e^{b t}=\cosh(b t)+\sinh(b t)$, but the cases b=±1/2 put the arguments at t/2 and yield crisp prefactors ($e^{\pm k t/4}$) and parity identities.
