@@ -1,8 +1,16 @@
+% !TeX root = GSN.tex
+% !TeX program = pdflatex
+% Quick preview in VS Code (LaTeX Workshop):
+%  - Ensure a TeX distribution is installed (macOS: `brew install --cask mactex-no-gui` or `basictex` + `tlmgr install latexmk` if needed)
+%  - Save this file to compile with pdflatex (no bibtex needed; uses GSN.bbl)
+
 \documentclass{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
 
 \setcounter{MaxMatrixCols}{10}
 \newcommand {\stirlingf}[2]{\genfrac[]{0pt}{}{#1}{#2}}
@@ -34,7 +42,7 @@
 \pagestyle{myheadings} \markboth{ } {}
 \parskip 2mm
 \def\baselinestretch{1.0}
-\include {mak}
+% \include{mak} % keep disabled for preview portability
 \parindent 0.5cc
 \oddsidemargin -.5cm
 \evensidemargin -.5cm
@@ -247,7 +255,7 @@ Now, to insert the element $n+2$, we consider the elements of the lists $1,\ldot
 where we consider all the situations. We have two possibilities :
 \begin{description}
   \item[(B1)] If we add the element $n+2$ to one of the lists $1,\ldots ,i_{1}$ with
-weight $\left( \left( \alpha +\beta \right) i_{1}+\alpha \right) $.
+weight $\left( \left( k+1\right) \beta -n\alpha \right) $.
 
   \item[(B2)] Else, it belongs to a list $i_{2}$ $\left( i_{1}+1\leq i_{2}\leq
 n\right) $, with weight $\left( \left( \alpha +\beta \right) i_{2}+\alpha
@@ -281,25 +289,17 @@ k-1\right) \right).
 \end{equation*}
 \end{proof}
 
-\section{Combinatorial Interpretation and explicit formula}
-Let $\Omega _{n,k}$ to be the set of all possible ways to distribute $n$
-elements, denoted $1,2,\ldots ,n$,\ into $k$ ordered \textit{no empty}
-lists, one element at a time, such that:
+% Add a concise exercise linking both viewpoints
+\begin{exercise}
+Using the exponential formula and Fa\`a di Bruno, show that the Bell-polynomial definition \eqref{eq:BellDef} is equivalent to the Hsu--Shiue inverse relations for the specialization $r=0$, and hence equivalent to the triangular recurrence proved in Theorem 3.
+\end{exercise}
 
-\begin{description}
-  \item[({\romannumeral 1})]  we assign a weight of $\beta $ to the head list,
-  \item[({\romannumeral 2})]  the remaining elements in the list have weight $\alpha$,
-  \item[({\romannumeral 3})]  the first element putted in the list have a weight $1$.
-\end{description}
+% Use bundled .bbl to avoid bibtex step for preview
+% \bibliographystyle{abbrv}
+% \bibliography{BD_Art}
+\input{GSN.bbl}
 
-
-Given a distribution $\varepsilon \in \Omega _{n,k},$ we define the weight
-of $\varepsilon $, denoted by $w\left( \varepsilon \right) $, to be the
-product of the weights of its elements. Since the total weight of $\Omega
-_{n,k}$ is given by the sum of weights of all distributions.
-
-To clarify the interpretation given above, we illustrate the case when $n=3$
-and $k=1.$ First, the weight of the first element is $w\left( \left\{ \left(
+\end{document}
 1\right) \right\} \right) =1.$ Next, there are two ways to add the second
 element either after the first element $\varepsilon _{1}=\left\{ \left(
 1,2\right) \right\} $ with $w\left( \varepsilon _{1}\right) =\alpha $ or
