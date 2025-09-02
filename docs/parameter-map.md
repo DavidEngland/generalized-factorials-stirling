@@ -1,103 +1,84 @@
-# Parameter Map: The Generalized Stirling Ecosystem
+# Parameter Map for Generalized Stirling Numbers
 
-This diagram shows where classical and generalized combinatorial sequences live in the $(a,b)$-plane, and how they connect through the generalized Stirling numbers $S_{n,k}(a,b)$.
+This diagram maps the important families of generalized Stirling numbers in the $(a,b)$ parameter space, showing landmark points, axes, and regions of special behavior.
 
----
-
-## 📈 Visual Map
-
-```plaintext
-          b ↑ (barrier)
-            │
-   (+)      │          Touchard / Bell
-            │              (0,1) ●─────────────• Laguerre arc (α=-b)
-            │                    \
-            │                     \
-     -------●----------------------●--------→ a (affinity)
-    (0,0)   │        Classical     (1,0)
-            │      2nd kind S(n,k)   1st kind s(n,k)
-            │
-            │
-            │      exp ↔ log inverses
-            │           (1,-1) ●
-            │
-            │      geom/alt   sinh ↔ arsinh
-            │        (0,-1)●      (~0,-0.5)●
-   (-)      │
-            └──────────────────────────────────
+```
+                         b (barrier/separation)
+                             ↑
+                             │
+                   Laguerre  │  Touchard/Bell
+         (-1,1) ●───────────●───────────● (0,1) Second Kind
+                │            │            │
+                │            │            │
+                │            │            │
+                │   Double   │   Classical│
+         (-1,0) ●───────────●───────────● (0,0)
+                │  Barriers  │    Forms   │
+                │            │            │
+                │            │            │
+                │            │            │
+         (-1,-1)●───────────●───────────● (0,-1)
+                             │  ● (0,-1/2) Hyperbolic Strip
+                             │  ● (0,1/2)
+                             │
+←────────────────────────────┼────────────────────────────→
+                             │            a (affinity/cohesion)
+                             │
+                 Signed      │
+         (1,-1) ●───────────●───────────● (2,-1)
+                │  First Kind│            │
+                │            │            │
+                │            │            │
+                │            │            │
+         (1,0)  ●───────────●───────────● (2,0)
+                │            │            │
+                │            │            │
+                │            │            │
+                │            │            │
+         (1,1)  ●───────────●───────────● (2,1) Lah Numbers
+                             │
+                             │
+                             ↓
 ```
 
-- **(a, b) = (1, 0)**: Stirling numbers of the first kind (cycles in permutations)
-- **(a, b) = (0, 1)**: Stirling numbers of the second kind (set partitions)
-- **(a, b) = (1, 1)**: Lah numbers (ordered partitions)
-- **(a, b) = (1, -1)**: Exponential-logarithm inverse transforms
-- **Other points**: Whitney, degenerate, and weighted numbers
+## Legend
+- ● Landmark basis pair (specific parameter values with known interpretations)
+- ─ Axis or boundary between parameter regions
+- Region labels indicate families with similar characteristics
 
----
+## Special Regions and Points
 
-## 🔗 Connections
+### Classical Forms
+- **(0,1)**: Stirling numbers of the second kind $S(n,k)$
+- **(1,0)**: Stirling numbers of the first kind $s(n,k)$ (signed)
+- **(1,1)**: Lah numbers
 
-### Classical Transform Formulas
-- **Powers to falling factorials**: $x^n = \sum_{k=0}^{n} S(n,k) x^{\underline{k}}$ corresponds to $(a,b) = (0,1)$
-- **Falling factorials to powers**: $x^{\underline{n}} = \sum_{k=0}^{n} s(n,k) x^k$ corresponds to $(a,b) = (1,0)$
-- **Rising to falling factorials**: $(x)^{\overline{n}} = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} (x)^{\underline{k}}$ 
-- **Falling to rising factorials**: $(x)^{\underline{n}} = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} (x)^{\overline{k}}$
+### The Hyperbolic Strip (a=0, b=±1/2)
+The vertical line at $a=0$ with $b=\pm 1/2$ forms the "hyperbolic strip" where:
+- Zero affinity (a=0): No internal cohesion within clusters
+- Half barriers (b=±1/2): Half-strength boundary effects
+- Special hyperbolic factorizations: $e^{\pm k t/4}\sinh(t/4)^k$
 
-### Refined Parameter Interpretation
-- **Horizontal axis ($a$)**: The **Cohesion Coefficient** — controls how strongly elements cluster together. In umbral calculus, shifts the origin of the basis.
-- **Vertical axis ($b$)**: The **Separation Coefficient** — controls the barrier to forming new groups. In polynomial terms, warps the spacing between degrees.
+### Touchard/Bell Region (a=0, b>0)
+The positive b-axis represents the family of Touchard-type polynomials:
+- **(0,1)**: Classical Touchard (Bell) polynomials
+- Generalized EGF: $\exp(x\frac{e^{bt}-1}{b})$
+- Counts partitions with weighted boundaries
 
-**Note**: While these interpretations provide powerful intuition, the mathematical roles of $a$ and $b$ can involve more complex interactions depending on the specific application domain and combinatorial structure being modeled.
+### Laguerre Connection
+Laguerre polynomials appear in a region near $(-1,1)$ with:
+- Generalized Laguerre polynomials $L_n^{(\alpha)}(x)$ have connections to certain parameter ranges
+- Their EGF: $\frac{e^{-xt/(1-t)}}{(1-t)^{\alpha+1}}$
 
----
+### Duality Relations
+- The transform $(a,b) \mapsto (-a,-b)$ maps each point to its dual parameter set
+- The parameter transformation $(a,b) \mapsto (b,a)$ is related to inverse relations
 
-## Example Table
+## Parameter Interpretations
 
-| Sequence                | $(a,b)$      | Combinatorial Interpretation                |
-|-------------------------|--------------|--------------------------------------|
-| Stirling 1st kind       | $(1,0)$      | Permutation cycle formation                 |
-| Stirling 2nd kind       | $(0,1)$      | Set partitioning structure                   |
-| Rising to falling       | $(0,-1)$     | Alternating binomial transformation |
-| Falling to rising       | $(0,-1)$     | Alternating binomial transformation |
-| Lah numbers             | $(1,1)$      | Ordered set partitioning                 |
-| Exp-log inverses        | $(1,-1)$     | Growth-decay balance in power series |
-| Geometric-alternating   | $(0,-1)$     | Alternating coefficient series |
-| Laguerre-type           | $(0,b)$      | Parameterized orthogonal polynomials |
-| Touchard                | $(0,1)$      | Exponential moment polynomials              |
+In combinatorial terms:
+- **a parameter**: Controls internal cohesion/affinity within clusters
+- **b parameter**: Controls boundary/barrier effects between clusters
+- **r parameter** (not shown): Controls initial conditions/shifts
 
----
-
-## 🗺️ How to Navigate
-
-- **Origin $(0,0)$**: Trivial identity transform
-- **Axis endpoints**: $(0,1) \leftrightarrow (1,0)$ are inverse transforms (classical Stirling pairs)
-- **Horizontal movement**: Changes the "base point" — translation in umbral sense
-- **Vertical movement**: Alters growth/alternation patterns — from combinatorial $(b>0)$ to alternating $(b<0)$
-- **Diagonal flows**: Simultaneous scaling and translation in delta operator representation
-
-### Special Curves
-- **Laguerre arc**: $(a=0, b=-\alpha)$ for $\alpha \in \mathbb{R}$
-- **Inverse function pairs**: Often appear as mirror points across certain diagonals
-
----
-
-## 🖼️ (Optional) Python/Matplotlib Sketch
-
-```python
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(7,5))
-plt.scatter([1,0,1],[0,1,1], c=['blue','green','red'], s=120)
-plt.text(1,0.05,'Stirling 1st kind\n(1,0)', ha='center', color='blue')
-plt.text(0,1.05,'Stirling 2nd kind\n(0,1)', ha='center', color='green')
-plt.text(1,1.05,'Lah\n(1,1)', ha='center', color='red')
-plt.xlabel('a (affinity)')
-plt.ylabel('b (barrier)')
-plt.title('Parameter Map: Generalized Stirling Numbers')
-plt.grid(True)
-plt.show()
-```
-
----
-
-This map helps you visually navigate the landscape of generalized Stirling numbers and their combinatorial interpretations.
+This parameter map helps identify families with similar analytical properties and reveals the unifying structure behind various special polynomials and Stirling-type numbers.
