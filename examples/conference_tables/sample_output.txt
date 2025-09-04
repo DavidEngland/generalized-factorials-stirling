@@ -1,0 +1,25 @@
+Conference Table Allocation Results
+
+Parameter setting (a=0, b=1):
+  Tables needed: 18
+  Table allocation: {'small': 0, 'medium': 18, 'large': 0}
+  Total cost: $2700
+  Average diversity score: 0.62
+
+Parameter setting (a=0, b=0.5):
+  Tables needed: 16
+  Table allocation: {'small': 0, 'medium': 16, 'large': 0}
+  Total cost: $2400
+  Average diversity score: 0.71
+
+Parameter setting (a=0, b=-0.5):
+  Tables needed: 14
+  Table allocation: {'small': 0, 'medium': 10, 'large': 4}
+  Total cost: $2300
+  Average diversity score: 0.85
+
+Custom parameter setting (a=0, b=0.25):
+  Tables needed: 15
+  Table allocation: {'small': 0, 'medium': 15, 'large': 0}
+  Total cost: $2250
+  Average diversity score: 0.74
