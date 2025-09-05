@@ -81,22 +81,19 @@ def generalized_stirling(n, k, a, b):
     
     return dp[n, k]
 
-def concentration_profile(z, component, time_hours, pbl_height=1000):
+def get_params(component, environment='earth_atmosphere'):
     """
-    Calculate the vertical concentration profile for a specific atmospheric component
-    using generalized Stirling numbers to model mixing behavior.
+    Get component-specific parameters for different environmental systems.
     
     Parameters:
-        z (array): Height levels (m)
-        component (str): One of 'co2', 'water_vapor', 'methane', 'dust'
-        time_hours (float): Time of day (0-24)
-        pbl_height (float): Planetary boundary layer height (m)
-    
+        component (str): Component name (e.g., 'co2', 'dust')
+        environment (str): Environmental system (e.g., 'earth_atmosphere', 'mars_atmosphere')
+        
     Returns:
-        tuple: (concentrations array, units string)
+        dict: Parameters for the specified component in the given environment
     """
-    # Component-specific parameters with physical meaning
-    component_params = {
+    # Earth's atmosphere (default system)
+    earth_atmosphere = {
         'co2': {
             'a': 0,                     # Neutral cohesion
             'background': 415,          # Background concentration (ppm)
@@ -123,6 +120,154 @@ def concentration_profile(z, component, time_hours, pbl_height=1000):
         }
     }
     
+    # Parameters for different environmental systems
+    all_environments = {
+        'earth_atmosphere': earth_atmosphere,
+        
+        'mars_atmosphere': {
+            'dust': {
+                'a': 1.2,                    # Strong cohesion in low pressure
+                'background': 100,           # Higher background dust levels
+                'surface_enhancement': 500,  # Much stronger surface effect (dust storms)
+                'units': 'μg/m³'
+            },
+            'co2': {
+                'a': 0.1,                    # Slight cohesion (main component)
+                'background': 950000,        # ~95% of Mars atmosphere
+                'surface_enhancement': 10000,
+                'units': 'ppm'
+            },
+            'water_vapor': {
+                'a': 0.8,                    # Strong cohesion (ice nucleation)
+                'background': 210,           # Very low humidity
+                'surface_enhancement': 100,
+                'units': 'ppm'
+            },
+            'co': {
+                'a': -0.1,                   # Slight dispersion
+                'background': 700,          
+                'surface_enhancement': 50,
+                'units': 'ppm'
+            }
+        },
+        
+        'europa_ocean': {
+            'salt': {
+                'a': 0.3,
+                'background': 20000,         # Salty ocean
+                'surface_enhancement': 5000,
+                'units': 'ppm'
+            },
+            'oxygen': {
+                'a': -0.3,
+                'background': 3,
+                'surface_enhancement': 1,
+                'units': 'ppm'
+            },
+            'plankton': {
+                'a': 0.8,                    # Strong cohesion (biological)
+                'background': 1,
+                'surface_enhancement': 10,
+                'units': 'cells/ml'
+            },
+            'hydrocarbons': {
+                'a': -0.5,                   # Dispersion (buoyancy)
+                'background': 0.1,
+                'surface_enhancement': 0.5,
+                'units': 'ppm'
+            }
+        },
+        
+        'spacecraft_air': {
+            'co2': {
+                'a': 0,
+                'background': 2500,          # Higher than Earth normal
+                'surface_enhancement': 500,
+                'units': 'ppm'
+            },
+            'water_vapor': {
+                'a': 0.4,
+                'background': 10000,         # Controlled humidity
+                'surface_enhancement': 2000,
+                'units': 'ppm'
+            },
+            'particulates': {
+                'a': 1.5,                    # Strong cohesion in microgravity
+                'background': 0.1,
+                'surface_enhancement': 1.0,
+                'units': 'mg/m³'
+            },
+            'volatile_organics': {
+                'a': -0.1,
+                'background': 5,
+                'surface_enhancement': 2,
+                'units': 'ppm'
+            }
+        },
+        
+        'urban_pollution': {
+            'pm25': {
+                'a': 0.9,                    # Fine particulate matter
+                'background': 15,
+                'surface_enhancement': 35,
+                'units': 'μg/m³'
+            },
+            'ozone': {
+                'a': -0.3,                   # Secondary pollutant, forms aloft
+                'background': 30,
+                'surface_enhancement': -10,  # Often lower at surface than aloft
+                'units': 'ppb'
+            },
+            'no2': {
+                'a': 0.2,
+                'background': 15,
+                'surface_enhancement': 25,
+                'units': 'ppb'
+            },
+            'so2': {
+                'a': 0.4,
+                'background': 5,
+                'surface_enhancement': 15,
+                'units': 'ppb'
+            }
+        }
+    }
+    
+    # Get parameters for the requested environment and component
+    env_params = all_environments.get(environment, {})
+    params = env_params.get(component, {})
+    
+    # If parameters aren't found, log a warning and return defaults
+    if not params and component:
+        print(f"Warning: No parameters found for '{component}' in '{environment}'. Using defaults.")
+        # Set some reasonable defaults to prevent crashes
+        params = {
+            'a': 0,
+            'background': 1,
+            'surface_enhancement': 0.1,
+            'units': 'units'
+        }
+    
+    return params
+
+def concentration_profile(z, component, time_hours, pbl_height=1000, environment='earth_atmosphere'):
+    """
+    Calculate the vertical concentration profile for a specific atmospheric component
+    using generalized Stirling numbers to model mixing behavior.
+    
+    Parameters:
+        z (array): Height levels (m)
+        component (str): Component name (e.g., 'co2', 'dust')
+        time_hours (float): Time of day (0-24)
+        pbl_height (float): Planetary boundary layer height (m)
+        environment (str): Environmental system to model (default: 'earth_atmosphere')
+    
+    Returns:
+        tuple: (concentrations array, units string)
+    """
+    # Get component parameters for the specified environment
+    params = get_params(component, environment)
+    
     # Time-dependent barrier parameter calculation
     # The 'b' parameter controls mixing behavior:
     # b = 1.0: Strong barrier (stable conditions, minimal mixing)
@@ -141,26 +286,28 @@ def concentration_profile(z, component, time_hours, pbl_height=1000):
         transition_factor = (time_hours - 16) / 8.0
         b = -0.5 + 1.5 * transition_factor  # Linear transition from -0.5 to 1.0
     
-    # Get component parameters
-    params = component_params[component]
-    a = params['a']
-    background = params['background']
-    surface_enhancement = params['surface_enhancement']
+    # Extract parameters
+    a = params.get('a', 0)
+    background = params.get('background', 1)
+    surface_enhancement = params.get('surface_enhancement', 0)
+    units = params.get('units', 'units')
     
-    # Calculate characteristic scale height (distance over which concentration decreases by ~63%)
+    # Calculate characteristic scale height
     CHARACTERISTIC_HEIGHT = pbl_height / SCALE_FACTOR
     
     # Calculate concentration profile using generalized Stirling approach
-    concentrations = np.zeros_like(z) + background
+    # Fix: Explicitly set dtype to float to avoid casting errors
+    concentrations = np.zeros_like(z, dtype=float) + background
     
     for k in range(1, N_APPROXIMATION_ORDER+1):
         stirling_value = generalized_stirling(N_APPROXIMATION_ORDER, k, a, b)
         # Apply exponential decrease with height, weighted by Stirling number
         concentrations += surface_enhancement * stirling_value * np.exp(-k * z / CHARACTERISTIC_HEIGHT)
     
-    return concentrations, params['units']
+    return concentrations, units
 
-def plot_profiles(times=[6, 12, 18], components=['co2', 'water_vapor', 'methane', 'dust']):
+def plot_profiles(times=[6, 12, 18], components=['co2', 'water_vapor', 'methane', 'dust'], 
+                 environment='earth_atmosphere'):
     """
     Create a multi-panel figure showing concentration profiles for different 
     atmospheric components at different times of day.
@@ -168,6 +315,7 @@ def plot_profiles(times=[6, 12, 18], components=['co2', 'water_vapor', 'methane'
     Parameters:
         times (list): List of hours (0-24) to plot
         components (list): List of component names to plot
+        environment (str): Environmental system to model
         
     Returns:
         matplotlib.figure.Figure: The created figure object
@@ -179,30 +327,21 @@ def plot_profiles(times=[6, 12, 18], components=['co2', 'water_vapor', 'methane'
                             figsize=(5*len(times), 3*len(components)),
                             squeeze=False)  # Prevent squeezing of dimensions
     
-    # Set overall figure title
-    fig.suptitle('Atmospheric Component Profiles in the Planetary Boundary Layer', 
-                fontsize=16, y=0.98)
-    
-    # Find global min/max for consistent axis limits
-    min_conc = float('inf')
-    max_conc = float('-inf')
-    
-    # First pass to find global limits
-    for component in components:
-        for time in times:
-            conc, _ = concentration_profile(z, component, time)
-            min_conc = min(min_conc, np.min(conc))
-            max_conc = max(max_conc, np.max(conc))
-    
-    # Add 5% padding to limits
-    range_conc = max_conc - min_conc
-    min_conc -= 0.05 * range_conc
-    max_conc += 0.05 * range_conc
+    # Set overall figure title based on environment
+    environment_titles = {
+        'earth_atmosphere': 'Earth\'s Atmospheric Boundary Layer',
+        'mars_atmosphere': 'Martian Atmospheric Boundary Layer',
+        'europa_ocean': 'Europa\'s Subsurface Ocean',
+        'spacecraft_air': 'Spacecraft Air Quality Profile',
+        'urban_pollution': 'Urban Pollution Boundary Layer'
+    }
+    title = environment_titles.get(environment, environment.replace('_', ' ').title())
+    fig.suptitle(f'Component Profiles in {title}', fontsize=16, y=0.98)
     
     # Create plots
     for i, component in enumerate(components):
         for j, time in enumerate(times):
-            concentrations, units = concentration_profile(z, component, time)
+            concentrations, units = concentration_profile(z, component, time, environment=environment)
             
             # Determine boundary layer state based on time
             if time < 8:
@@ -220,33 +359,32 @@ def plot_profiles(times=[6, 12, 18], components=['co2', 'water_vapor', 'methane'
             ax.grid(True)
             ax.set_ylim(0, 2000)
             
-            # Use component-specific x-limits for better visualization
-            # while maintaining consistent limits for the same component
-            if component == 'co2':
-                ax.set_xlim(min(410, min_conc), max(450, max_conc))
-            elif component == 'water_vapor':
-                ax.set_xlim(min(4500, min_conc), max(8500, max_conc))
-            elif component == 'methane':
-                ax.set_xlim(min(1.8, min_conc), max(2.5, max_conc))
-            elif component == 'dust':
-                ax.set_xlim(min(10, min_conc), max(70, max_conc))
+            # Auto-scale the x-axis based on the data
+            ax.autoscale(axis='x')
     
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # Make room for suptitle
     return fig
 
 if __name__ == "__main__":
-    # Plot profiles for different times of day
-    fig = plot_profiles()
-    plt.savefig("atmospheric_profiles.png", dpi=300)
-    plt.show()
+    # Plot profiles for Earth's atmosphere (default)
+    fig_earth = plot_profiles()
+    plt.savefig("earth_atmospheric_profiles.png", dpi=300)
     
-    # Plot diurnal evolution for CO2
+    # Plot profiles for Mars atmosphere
+    mars_components = ['co2', 'dust', 'water_vapor', 'co']
+    fig_mars = plot_profiles(components=mars_components, environment='mars_atmosphere')
+    plt.savefig("mars_atmospheric_profiles.png", dpi=300)
+    
+    # Plot urban pollution profiles
+    urban_components = ['pm25', 'ozone', 'no2', 'so2']
+    fig_urban = plot_profiles(components=urban_components, environment='urban_pollution')
+    plt.savefig("urban_pollution_profiles.png", dpi=300)
+    
+    # Plot diurnal evolution for CO2 on Earth
     hours = np.linspace(0, 24, 13)  # 0, 2, 4, ..., 24
     z = np.linspace(0, 2000, 100)
     
     plt.figure(figsize=(10, 6))
-    
-    # Define a colormap for time progression
     colors = plt.cm.viridis(np.linspace(0, 1, len(hours)))
     
     for i, hour in enumerate(hours):
@@ -265,11 +403,12 @@ if __name__ == "__main__":
     
     plt.xlabel(f'CO₂ Concentration ({units})')
     plt.ylabel('Height (m)')
-    plt.title('Diurnal Evolution of CO₂ Profile in the Planetary Boundary Layer')
+    plt.title('Diurnal Evolution of CO₂ Profile in Earth\'s Planetary Boundary Layer')
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.grid(True)
     plt.ylim(0, 2000)
     plt.xlim(410, 450)  # Reasonable limits for CO2
     plt.tight_layout()
-    plt.savefig("co2_diurnal_evolution.png", dpi=300)
+    plt.savefig("earth_co2_diurnal_evolution.png", dpi=300)
+    
     plt.show()
