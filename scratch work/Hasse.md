@@ -205,9 +205,103 @@ Let's examine the effect of applying the infinite sum of Hasse shift operators t
 
 2. For a linear function $f(x) = 2x + 3$:
    First, note that $\mathcal{H}_0(2x + 3) = 2x + 3$
-   For $m = 1$: $\mathcal{H}_1(2x + 3) = \frac{1}{2}(2x + 3) - \frac{1}{2}(2(x+1) + 3) = \frac{1}{2}(2x + 3) - \frac{1}{2}(2x + 5) = -\frac{1}{2} \cdot 2 = -1$
+   For $m = 1$: $\mathcal{H}_1(2x + 3) = \frac{1}{2}(2x + 3) - \frac{1}{2}(2(x+1) + 3) = \frac{1}{2}(2x + 3) - \frac{1}{2}(2x + 5) = -1$
    
    The sum continues with terms that form a geometric series, resulting in a closed-form expression.
+
+### Example 5: Hasse Operator Applied to the Logarithmic Function
+
+Let's apply the Hasse shift operator to $f(x) = \log(1+x)$:
+
+For $m = 0$:
+$$\mathcal{H}_0(\log(1+x)) = \log(1+x)$$
+
+For $m = 1$:
+$$\mathcal{H}_1(\log(1+x)) = \frac{1}{2}\log(1+x) - \frac{1}{2}\log(1+(x+1))$$
+$$= \frac{1}{2}\log\left(\frac{1+x}{2+x}\right) = \frac{1}{2}\log\left(1-\frac{1}{2+x}\right)$$
+
+For $m = 2$:
+$$\mathcal{H}_2(\log(1+x)) = \frac{1}{3}\log(1+x) - \frac{2}{3}\log(2+x) + \frac{1}{3}\log(3+x)$$
+$$= \frac{1}{3}\log\left(\frac{(1+x)(3+x)}{(2+x)^2}\right)$$
+
+Applying the full Hasse operator:
+$$\mathcal{H}(\log(1+x)) = \sum_{m=0}^{\infty}\mathcal{H}_m(\log(1+x))$$
+
+This sum relates directly to the digamma function $\psi(x)$, which is the logarithmic derivative of the gamma function. Specifically:
+
+$$\mathcal{H}(\log(1+x)) = \psi(x+1) + \gamma$$
+
+where $\gamma$ is the Euler-Mascheroni constant.
+
+This connection arises because the digamma function satisfies:
+$$\psi(x+1) - \psi(x) = \frac{1}{x}$$
+
+And when computing $\mathcal{H}_m(\log(1+x))$, we're effectively calculating higher-order differences of logarithms, which correspond to specific combinations of reciprocals that relate to the digamma function.
+
+This example demonstrates how the Hasse operator naturally connects elementary functions to special functions in analysis and number theory.
+
+## The Umbral Nature of Hasse Operators
+
+The Hasse operator can be understood within the broader framework of **umbral calculus**, a powerful mathematical approach that formalizes operations with "shadowy" quantities in polynomial sequences. This perspective reveals deeper connections between the Hasse operator and other fundamental operators in mathematics.
+
+### Umbral Operators and Polynomial Sequences
+
+In umbral calculus, we consider polynomial sequences $\{p_n(x)\}_{n\geq 0}$ where $\deg(p_n) = n$. An umbral operator acts on these sequences through specific evaluation and shifting rules. The Hasse operator fits naturally into this framework as it transforms the standard monomial basis into the Bernoulli polynomial basis.
+
+The key insight is that we can view the Hasse operator as an umbral shift operator with respect to a specific measure or "weight sequence." Specifically:
+
+$$\mathcal{H}_m(x^n) = \frac{B_{n,m}(x)}{n!}$$
+
+where $B_{n,m}(x)$ represents a generalized Bernoulli polynomial. This interpretation connects the Hasse operator to the broader theory of Sheffer sequences and umbral composition.
+
+### Differential Operators vs. Hasse Operators
+
+While both differential operators and Hasse operators provide ways to analyze functions, they differ in several fundamental aspects:
+
+1. **Domain of Applicability**: 
+   - Differential operators require smoothness conditions
+   - Hasse operators can be applied to functions in discrete settings and in fields of positive characteristic
+
+2. **Algebraic Properties**:
+   - The standard differential operator $D$ satisfies the Leibniz rule: $D(fg) = (Df)g + f(Dg)$
+   - The Hasse derivative satisfies a modified Leibniz rule: $D^{(n)}(fg) = \sum_{k=0}^{n} \binom{n}{k} D^{(k)}(f) \cdot D^{(n-k)}(g)$
+
+3. **Behavior in Positive Characteristic**:
+   - The standard derivative of $x^p$ in characteristic $p$ is zero
+   - The Hasse derivative maintains non-trivial information: $D^{(1)}(x^p) = \binom{p}{1}x^{p-1} = p \cdot x^{p-1} \equiv 0 \pmod{p}$, but $D^{(k)}(x^p) \neq 0$ for $1 < k < p$
+
+### Umbral Composition and Operator Algebra
+
+The Hasse operator can be expressed in terms of the forward difference operator $\Delta$ and the shift operator $E$ through umbral composition:
+
+$$\mathcal{H}_m = \frac{1}{m+1} \sum_{k=0}^{m} (-1)^k \binom{m}{k} E^k$$
+
+where $E^k f(x) = f(x+k)$. This representation connects the Hasse operator to the broader operator algebra of discrete calculus.
+
+Furthermore, the Hasse operator satisfies the operational identity:
+
+$$\mathcal{H}_m(x^n) = \begin{cases}
+0 & \text{if } m > n \\
+\text{non-zero polynomial} & \text{if } m \leq n
+\end{cases}$$
+
+This property resembles the evaluation functional in umbral calculus, further cementing the umbral nature of the Hasse operator.
+
+### Applications in Combinatorial Identities
+
+The umbral perspective provides elegant proofs of combinatorial identities involving the Hasse coefficients. For example, the identity:
+
+$$\sum_{n=0}^{m} H_{m,n} \binom{x+n}{n} = \frac{x}{m+1} \binom{x+m}{m}$$
+
+can be proved through umbral methods by considering the action of the Hasse operator on the falling factorial $(x)_n$.
+
+Similarly, connections to Stirling numbers arise naturally through the umbral framework, as both Hasse coefficients and Stirling numbers can be viewed as connection coefficients between different polynomial bases.
+
+### Generalized Factorial Functions
+
+This umbral perspective also illuminates the connection between the Hasse operator and generalized factorial functions. The rising factorial $(x|\alpha)^{\overline{n}}$ (also denoted as $P(x, \alpha, n)$ in some literature) can be analyzed using Hasse operators to reveal structural properties and combinatorial interpretations.
+
+In particular, the Hasse operator provides a natural framework for studying how these generalized factorial functions relate to classical special functions and combinatorial sequences.
 
 ## Homework Problems
 
@@ -248,13 +342,76 @@ where $S(n,k)$ is the Stirling number of the second kind.
 
 Show that the m-th Bernoulli polynomial $B_m(x)$ can be obtained by applying the Hasse operator to the power function $x^m$:
 
-$$B_m(x) = m! \cdot \mathcal{H}_m(x^m)$$
+$$B_m(x) = \mathcal{H}(x^m)$$
 
-**Hint**: Recall that the Bernoulli polynomials can be defined through their exponential generating function:
+**Hint**: Apply the Hasse operator to the exponential generating function $e^{tx}$ and compare with the generating function for Bernoulli polynomials:
 
 $$\frac{te^{xt}}{e^t-1} = \sum_{m=0}^{\infty} B_m(x) \frac{t^m}{m!}$$
 
-Compare this with the action of the Hasse operator on exponential functions, and use the fact that $\mathcal{H}_m(x^n) = 0$ for $m > n$.
+The result follows immediately from comparing coefficients of $t^m$.
+
+### Problem 5: The Hasse Operator Applied to 1/x
+
+Investigate the behavior of the full Hasse shift operator applied to the function $f(x) = 1/x = x^{-1}$:
+
+$$\mathcal{H}(1/x) = \sum_{m=0}^{\infty} \mathcal{H}_m(1/x) = \sum_{m=0}^{\infty} \sum_{n=0}^{m} H_{m,n} \frac{1}{x+n}$$
+
+Determine whether this series converges, and if so, find its closed form. Discuss any interesting analytical properties or relationships to special functions.
+
+**Hint**: Consider partial fractions decomposition and the relationship between this sum and the digamma function $\psi(x)$, which is the logarithmic derivative of the gamma function.
+
+### Problem 6: The Hasse Operator and Parametrized Powers
+
+Examine the effect of the Hasse shift operator on the parametrized power function $f(x) = x^{1-t}$ for a parameter $t$:
+
+$$\mathcal{H}_m(x^{1-t}) = \sum_{n=0}^{m} H_{m,n} (x+n)^{1-t}$$
+
+Find a closed form for the full Hasse operator:
+
+$$\mathcal{H}(x^{1-t}) = \sum_{m=0}^{\infty} \mathcal{H}_m(x^{1-t})$$
+
+Discuss how this result varies with different values of the parameter $t$, and identify any connections to known special functions.
+
+**Hint**: First, rewrite the power function in exponential form:
+$$x^{1-t} = \exp((1-t)\log(x))$$
+
+Now you can leverage the results from Problem 1 about how the Hasse operator acts on exponential functions. This transformation connects the problem to the Hurwitz zeta function and generalized harmonic numbers, especially for integer values of $t$.
+
+### Problem 7: The Hasse Operator and Powers of Logarithms
+
+Investigate the effect of applying the full Hasse shift operator to powers of the natural logarithm function:
+
+$$\mathcal{H}([\log(1+x)]^k) = \sum_{m=0}^{\infty} \mathcal{H}_m([\log(1+x)]^k)$$
+
+where $k$ is a positive integer. Find a closed form expression for this sum, and explore how it connects to the polylogarithm and other special functions.
+
+**Hint**: You may approach this problem in two ways:
+
+1. Express $[\log(1+x)]^k$ using its Taylor series, then apply the Hasse operator term by term.
+
+2. For specific values of $k$, first compute $\mathcal{H}_m([\log(1+x)]^k)$ directly, identify patterns, and then generalize.
+
+Note that the result relates to special values of the polylogarithm function and Stirling numbers of the first kind, which count permutations by their cycle structure.
+
+### Problem 8: Polygamma Functions and Powers of Logarithms
+
+Building on Problem 7, establish the precise relationship between the polygamma function ψ^(n)(x) and the Hasse operator applied to powers of logarithms:
+
+$$\mathcal{H}([\log(1+x)]^k) = (-1)^k \sum_{j=0}^{k-1} c_j \cdot \psi^{(j)}(x+1)$$
+
+where c_j are specific constants that depend on k and j.
+
+**Hint**: Begin with the result from Problem 6 that:
+
+$$(s-1) \cdot \zeta(s,x) = \mathcal{H}(x^{1-s})$$
+
+where ζ(s,x) is the Hurwitz zeta function. Then use the known relationship between the polygamma function and the Hurwitz zeta function:
+
+$$\psi^{(n)}(x) = (-1)^{n+1} n! \cdot \zeta(n+1,x)$$
+
+To solve this problem, you'll need to express $[\log(1+x)]^k$ in terms of appropriate derivatives or transformations of $x^{1-s}$ for specific values of s, and then apply the Hasse operator to establish the connection with polygamma functions.
+
+**Additional Challenge**: Determine the exact values of the coefficients c_j for small values of k (e.g., k=1, 2, 3) and identify any patterns that emerge.
 
 ## Conclusion
 
