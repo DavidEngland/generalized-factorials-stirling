@@ -67,7 +67,8 @@ def compute_hasse_coefficients(max_m: int, alpha: float = 0, beta: float = 1, r:
     Returns:
         A list of lists representing the triangular array of coefficients
     """
-    H = [[0 for _ in range(m+1)] for m in range(max_m+1)]
+    # Fix: Initialize with max_m+1 elements in each row to avoid index errors
+    H = [[0 for _ in range(max_m+1)] for _ in range(max_m+1)]
     
     H[0][0] = 1
     

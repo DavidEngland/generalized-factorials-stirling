@@ -1,56 +1,16 @@
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Ignore PDF files
+*.pdf
+**/*.pdf
 
-# Editor files
-*.swp
-*.swo
-*~
-.vscode/
-.idea/
+# Documentation files
+/docs/**/*.pdf
 
-# LaTeX auxiliary files
-*.aux
-*.bbl
-*.blg
-*.dvi
-*.fdb_latexmk
-*.fls
-*.lof
-*.log
-*.lot
-*.out
-*.ps
-*.synctex.gz
-*.toc
-
-# Temporary files
-*.tmp
-*.temp
-*~
-
-# Backup files
-*.bak
-*.backup
-
-# Node.js (if adding computational tools later)
-node_modules/
-npm-debug.log*
-
-# Python (if adding computational tools later)
+# Python artifacts
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-env/
-venv/
-.venv/
 build/
 develop-eggs/
 dist/
@@ -62,8 +22,48 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
 *.egg-info/
 .installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment directories
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.toc
+*.out
+*.synctex.gz
+*.bbl
+*.blg
+*.dvi
 *.egg
 .pytest_cache/
 .coverage
