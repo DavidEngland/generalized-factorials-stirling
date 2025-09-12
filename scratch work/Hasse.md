@@ -2,9 +2,19 @@
 
 ## Historical Context
 
+### Helmut Hasse (1898-1979)
+
 The **Hasse operator** is named after Helmut Hasse (1898-1979), a prominent German mathematician who made significant contributions to algebraic number theory, class field theory, and the application of p-adic methods. He is particularly known for his fundamental work on quadratic forms, where he established the "Hasse principle" (also known as the local-global principle) which connects the solvability of equations over global fields to their solvability over local fields. His work on quadratic forms helped bridge abstract algebra and number theory, leading to significant advances in both fields.
 
 Despite his mathematical brilliance, Hasse faced discrimination during the Nazi era due to having Jewish ancestry. He had hoped to retain his position and continue his work at the University of Göttingen, a center for mathematical excellence at the time. To do so, he applied for membership in the Nazi Party, a step many academics took under pressure to protect their careers. However, his application was rejected due to his grandfather's Jewish background, leading to his removal from Göttingen and relocation to lesser positions. His story is a poignant example of the tragic impact of Nazi racial policies on scientific progress and the mathematical community.
+
+### James Stirling (1692-1770)
+
+The **Stirling numbers** are named after James Stirling, a Scottish mathematician of the 18th century. Born in Garden, Stirlingshire, Stirling made significant contributions to mathematics, particularly in the fields of analysis, infinite series, and differential equations. He is best known for "Stirling's formula," an approximation for factorials that is crucial in probability theory and statistical physics.
+
+Stirling faced challenges in his academic career due to his Jacobite sympathies during a politically tumultuous period in British history. After studying at Oxford University, he was unable to graduate due to his refusal to take the oath of allegiance to the House of Hanover (which had replaced the Stuart dynasty). This political stance forced him to continue his mathematical work in Venice, Italy, before eventually returning to Scotland. Despite these obstacles, he produced groundbreaking work, including his masterpiece "Methodus Differentialis" (1730), which contained both the Stirling numbers and his famous approximation formula.
+
+In addition to his purely mathematical contributions, Stirling worked as a mining engineer and helped establish the Glasgow Literary Society, demonstrating the breadth of his intellectual interests. His story illustrates how political circumstances could profoundly affect scientific careers even in the Enlightenment era, yet his mathematical legacy endured through the concepts and techniques that bear his name today.
 
 ## Definition of Hasse Coefficients
 
