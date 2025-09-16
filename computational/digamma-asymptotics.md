@@ -6,7 +6,7 @@ The digamma function $\psi(x)$ is related to the Hasse operator through:
 
 $$\psi(x) = -\gamma + \mathcal{H}(\log(t))(x-1)$$
 
-where $\gamma$ is the Euler-Mascheroni constant and $\mathcal{H}$ is the standard Hasse operator.
+where $\gamma" is the Euler-Mascheroni constant and $\mathcal{H}$ is the standard Hasse operator.
 
 ## 2. Derivation of the Asymptotic Expansion
 

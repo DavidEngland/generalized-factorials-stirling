@@ -7,8 +7,13 @@ import math
 import sys
 import os
 
-# Add parent directory to path
+# Remove relative import in stieltjes.py for direct script execution
+# Instead, use absolute import in stieltjes.py:
+# from hasse_stirling import compute_hasse_coefficients, hasse_log_power
+
+# In this test file, ensure stieltjes.py is imported as a module, not as a package
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from stieltjes import stieltjes_constant, compute_stieltjes_constants
 
 class TestStieltjesConstants(unittest.TestCase):

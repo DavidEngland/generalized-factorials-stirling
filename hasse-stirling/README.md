@@ -32,3 +32,16 @@ See examples directory for advanced applications.
 
 ## Installation
 
+## When to Use Hasse-Stirling
+
+The Hasse-Stirling framework is a numerical method that offers significant advantages for certain classes of problems:
+- Efficient and stable computation of special functions (e.g., Stieltjes constants, odd zeta values, hypergeometric and Bessel functions)
+- Accelerated convergence for series with optimal parameter choices
+- Useful for high-precision or large-parameter regimes where traditional methods struggle
+
+However, for other problems, especially those with well-established direct algorithms or small parameter values, traditional methods may be faster or simpler. Always benchmark both approaches for your specific application.
+
+## References
+
+See the main project documentation and `/docs/arXiv-1411.6271v1/GSN.bbl` for relevant literature.
+
