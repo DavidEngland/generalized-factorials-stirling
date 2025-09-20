@@ -8,14 +8,6 @@ The **Hasse operator** is named after Helmut Hasse (1898-1979), a prominent Germ
 
 Despite his mathematical brilliance, Hasse faced discrimination during the Nazi era due to having Jewish ancestry. He had hoped to retain his position and continue his work at the University of Göttingen, a center for mathematical excellence at the time. To do so, he applied for membership in the Nazi Party, a step many academics took under pressure to protect their careers. However, his application was rejected due to his grandfather's Jewish background, leading to his removal from Göttingen and relocation to lesser positions. His story is a poignant example of the tragic impact of Nazi racial policies on scientific progress and the mathematical community.
 
-### James Stirling (1692-1770)
-
-The **Stirling numbers** are named after James Stirling, a Scottish mathematician of the 18th century. Born in Garden, Stirlingshire, Stirling made significant contributions to mathematics, particularly in the fields of analysis, infinite series, and differential equations. He is best known for "Stirling's formula," an approximation for factorials that is crucial in probability theory and statistical physics.
-
-Stirling faced challenges in his academic career due to his Jacobite sympathies during a politically tumultuous period in British history. After studying at Oxford University, he was unable to graduate due to his refusal to take the oath of allegiance to the House of Hanover (which had replaced the Stuart dynasty). This political stance forced him to continue his mathematical work in Venice, Italy, before eventually returning to Scotland. Despite these obstacles, he produced groundbreaking work, including his masterpiece "Methodus Differentialis" (1730), which contained both the Stirling numbers and his famous approximation formula.
-
-In addition to his purely mathematical contributions, Stirling worked as a mining engineer and helped establish the Glasgow Literary Society, demonstrating the breadth of his intellectual interests. His story illustrates how political circumstances could profoundly affect scientific careers even in the Enlightenment era, yet his mathematical legacy endured through the concepts and techniques that bear his name today.
-
 ## Definition of Hasse Coefficients
 
 The **Hasse coefficients** are defined as modified binomial coefficients:
@@ -436,3 +428,102 @@ The **Hasse coefficients** and the associated **Hasse operators** provide a powe
 3. Johnson, W.P. "The Curious History of Faà di Bruno's Formula." American Mathematical Monthly, 109:217-234, 2002.
 
 4. Roman, S. "The Umbral Calculus." Dover Publications, 2005.
+
+## Self-Adjointness of the Hasse Operator
+
+### Can the Hasse Operator Be Made Self-Adjoint?
+
+In operator theory, an operator $A$ is **self-adjoint** (or Hermitian) with respect to an inner product $\langle \cdot, \cdot \rangle$ if $\langle Af, g \rangle = \langle f, Ag \rangle$ for all suitable functions $f, g$.
+
+The standard Hasse operator, as defined by
+$$
+\mathcal{H}_m(f)(x) = \sum_{n=0}^{m} H_{m,n} f(x+n)
+$$
+is generally **not self-adjoint** with respect to the usual $L^2$ inner product or discrete sum inner product, due to the asymmetry in the shift and the alternating sign pattern of the coefficients.
+
+### Making the Hasse Operator Self-Adjoint
+
+To construct a self-adjoint version, one can:
+
+1. **Modify the Inner Product:**  
+   Define a weighted inner product on the function space, e.g.,
+   $$
+   \langle f, g \rangle_w = \sum_{x} w(x) f(x) \overline{g(x)}
+   $$
+   and choose weights $w(x)$ such that the Hasse operator becomes self-adjoint with respect to this inner product.
+
+2. **Symmetrize the Operator:**  
+   Define a symmetrized Hasse operator:
+   $$
+   \mathcal{H}_m^{\text{sym}}(f)(x) = \frac{1}{2} \left( \mathcal{H}_m(f)(x) + \mathcal{H}_m^*(f)(x) \right)
+   $$
+   where $\mathcal{H}_m^*$ is the adjoint operator (possibly involving backward shifts or conjugate coefficients).
+
+3. **Kernel Approach:**  
+   View the Hasse operator as a matrix or kernel $K(x, y)$ acting on functions:
+   $$
+   \mathcal{H}_m(f)(x) = \sum_{y} K_m(x, y) f(y)
+   $$
+   and choose $K_m(x, y)$ such that $K_m(x, y) = \overline{K_m(y, x)}$.
+
+### Example: Symmetric and Reversed Hasse-Type Operators
+
+A simple symmetric version averages the coefficients for forward and backward shifts:
+$$
+\mathcal{H}_m^{\text{sym}}(f)(x) = \sum_{n=0}^{m} \frac{H_{m,n} + H_{m,m-n}}{2} f(x+n)
+$$
+
+Alternatively, the **reversed Hasse operator** uses the reversed coefficients:
+$$
+\mathcal{H}_m^{\text{rev}}(f)(x) = \sum_{n=0}^{m} H_{m,m-n} f(x+n)
+$$
+
+This reversed operator can be useful for exploring adjointness and symmetry properties, especially when considering inner products or dual bases.
+
+### Remarks
+
+- The self-adjoint property is desirable for spectral theory, orthogonality, and stability.
+- In practice, the choice of inner product and domain is crucial; for polynomials or discrete functions, a finite sum or weighted sum may be appropriate.
+- For applications in combinatorics or number theory, self-adjointness may not be necessary, but for analytic or quantum analogues, it can be useful.
+
+### Further Reading
+
+- See Roman, S. "The Umbral Calculus" (Dover, 2005) for operator adjoints in umbral calculus.
+- For spectral theory and self-adjoint operators, see standard texts in functional analysis.
+
+### Symmetry of Hasse Coefficients
+
+Recall the definition:
+$$
+H_{m,n} = \frac{(-1)^n \binom{m}{n}}{m+1}
+$$
+
+The binomial coefficients satisfy the symmetry:
+$$
+\binom{m}{n} = \binom{m}{m-n}
+$$
+
+Therefore,
+$$
+H_{m,m-n} = \frac{(-1)^{m-n} \binom{m}{m-n}}{m+1} = \frac{(-1)^{m-n} \binom{m}{n}}{m+1}
+$$
+
+This gives a direct relation between $H_{m,n}$ and $H_{m,m-n}$:
+$$
+H_{m,m-n} = (-1)^m H_{m,n}
+$$
+
+**Implications for Symmetric Operators:**
+
+- For even $m$, $H_{m,m-n} = H_{m,n}$ (the coefficients are symmetric).
+- For odd $m$, $H_{m,m-n} = -H_{m,n}$ (the coefficients are anti-symmetric).
+
+Thus, the symmetrized Hasse operator
+$$
+\mathcal{H}_m^{\text{sym}}(f)(x) = \sum_{n=0}^{m} \frac{H_{m,n} + H_{m,m-n}}{2} f(x+n)
+$$
+simplifies to:
+- For even $m$: $\mathcal{H}_m^{\text{sym}}(f)(x) = \sum_{n=0}^{m} H_{m,n} f(x+n)$ (the original operator).
+- For odd $m$: $\mathcal{H}_m^{\text{sym}}(f)(x) = 0$ (the terms cancel).
+
+This symmetry property is useful for analyzing self-adjointness and for constructing operators with desired symmetry or anti-symmetry.
