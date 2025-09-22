@@ -2,10 +2,10 @@
 
 ## 1. Finite Difference Calculus
 
-### Shift Operator (E)
+### Shift Operator ($E$)
 $E^n f(x) = f(x+n)$
 
-### Forward Difference Operator (Δ)
+### Forward Difference Operator ($\Delta$)
 $\Delta f(x) = f(x+1) - f(x) = (E-I)f(x)$
 
 ### Logarithmic and Exponential Operators
@@ -19,7 +19,7 @@ $\log(E)f(x) \approx f'(x)$
 #### Exponential of Difference Operator
 $e^{\Delta} = E$
 
-This identity shows that the shift operator is the exponential of the difference operator.
+This shows the shift operator is the exponential of the difference operator.
 
 #### Taylor Series in Finite Differences
 $f(x+h) = e^{h\log(E)}f(x) = \sum_{k=0}^{\infty} \frac{h^k}{k!}[\log(E)]^k f(x)$
@@ -33,94 +33,74 @@ $f(x+h) = e^{h\log(E)}f(x) = \sum_{k=0}^{\infty} \frac{h^k}{k!}[\log(E)]^k f(x)$
 
 ### Parameter Triplet $(\alpha, \beta, r)$
 
-The Hasse-Stirling framework is parameterized by the triplet $(\alpha, \beta, r)$, which determines the specific operator and its properties.
+The Hasse-Stirling framework is parameterized by $(\alpha, \beta, r)$, which determines the operator's properties.
 
 ### Key Parameter Domains
 
 | Domain | Parameters | Typical Applications |
 |--------|------------|----------------------|
-| Euler Domain | $\alpha=0, \beta=1, r=0$ | Bernoulli numbers/polynomials, Euler sums |
-| Digamma Domain | $\alpha=1, \beta=-1, r=0$ | Digamma function, harmonic numbers |
-| Stieltjes Domain | $\alpha=\frac{k+3}{2}, \beta=-\frac{k+4}{2}, r=0$ | Stieltjes constants, zeta values |
-| Bessel Domain | $\alpha=\nu+1, \beta=-1, r=0$ | Bessel functions, cylinder functions |
-| Hypergeometric Domain | $\alpha=a, \beta=c-a-b, r=0$ | ${}_2F_1$ hypergeometric functions |
+| Euler | $\alpha=0, \beta=1, r=0$ | Bernoulli numbers/polynomials |
+| Digamma | $\alpha=1, \beta=-1, r=0$ | Digamma function, harmonic numbers |
+| Stieltjes | $\alpha=\frac{k+3}{2}, \beta=-\frac{k+4}{2}, r=0$ | Stieltjes constants, zeta values |
+| Bessel | $\alpha=\nu+1, \beta=-1, r=0$ | Bessel functions |
+| Hypergeometric | $\alpha=a, \beta=c-a-b, r=0$ | ${}_2F_1$ functions |
 
 ### Half-Barrier Transitions
 
-Parameter spaces are separated by "half-barriers" where certain recurrence relations become unstable. These occur along:
-
-- $\alpha + \beta = 0$ line: Separates convergent and divergent behavior
-- $\alpha = 0$ line: Marks transition in asymptotic behavior
-- $\beta = 0$ line: Changes the nature of the kernel function
+Parameter spaces are separated by "half-barriers" where recurrences become unstable:
+- $\alpha + \beta = 0$: convergence/divergence boundary
+- $\alpha = 0$: asymptotic transition
+- $\beta = 0$: kernel function change
 
 ### Hyperbolic Strip
 
-The optimal convergence region for the Hasse operator is the hyperbolic strip defined by:
-
+Optimal convergence region:
 $$|\text{Re}(\alpha)| < 1, |\text{Re}(\beta)| < 1, |\text{Re}(r)| < 1$$
-
-Within this strip, accelerated convergence rates can be achieved.
 
 ## 3. Generalized Stirling Numbers
 
 ### Hsu-Shiue Generalized Stirling Numbers
-The generalized Stirling numbers $S(n,k;\alpha,\beta,r)$ satisfy the recurrence relation:
-
+Recurrence:
 $$S(n,k;\alpha,\beta,r) = S(n-1,k-1;\alpha,\beta,r) + (\beta k - \alpha n + r)S(n-1,k;\alpha,\beta,r)$$
 
-With initial conditions:
+Initial conditions:
 - $S(0,0;\alpha,\beta,r) = 1$
 - $S(n,k;\alpha,\beta,r) = 0$ for $k > n$ or $k < 0$
 
 ### Special Cases
 
-1. **Stirling Numbers of the First Kind**: $s(n,k) = S(n,k;1,0,0)$
-   - Counts permutations of $n$ elements with exactly $k$ cycles
+| Name | Parameters | Interpretation |
+|------|------------|----------------|
+| First Kind | $s(n,k) = S(n,k;1,0,0)$ | Permutations with $k$ cycles |
+| Second Kind | $S(n,k) = S(n,k;0,1,0)$ | Partitions into $k$ subsets |
+| $r$-Stirling | $S_r(n,k) = S(n,k;0,1,r)$ | Partitions, first $r$ elements distinct |
+| Whitney | $w_m(r,n) = S(n,r;-m,0,0)$ | Dowling lattices |
+| $r$-Lah | $L_r(n,k) = S(n,k;-r,r,0)$ | Ordered partitions, min size $r$ |
 
-2. **Stirling Numbers of the Second Kind**: $S(n,k) = S(n,k;0,1,0)$
-   - Counts partitions of $n$ elements into exactly $k$ non-empty subsets
-
-3. **$r$-Stirling Numbers**: $S_r(n,k) = S(n,k;0,1,r)$
-   - Counts partitions where the first $r$ elements are in distinct subsets
-
-4. **Whitney Numbers of the First Kind**: $w_m(r,n) = S(n,r;-m,0,0)$
-   - Associated with Dowling lattices
-
-5. **$r$-Lah Numbers**: $L_r(n,k) = S(n,k;-r,r,0)$
-   - Count ways to partition a set into $k$ ordered subsets with min size $r$
-
-### Exponential Generating Functions
+### Exponential Generating Function
 
 $$\sum_{n=k}^{\infty} S(n,k;\alpha,\beta,r) \frac{t^n}{n!} = \frac{1}{k!}(e^{\beta t} - 1 + \alpha t)^k e^{rt}$$
 
 ## 4. The Hasse Operator
 
-### Standard Definition
-The parametrized Hasse operator $\mathcal{H}_{\alpha,\beta,r}$ is defined as:
-
+### Definition
 $$\mathcal{H}_{\alpha,\beta,r}(f)(x) = \sum_{m=0}^{\infty} \sum_{n=0}^{m} H_{m,n}^{\alpha,\beta,r} f(x+n)$$
-
-Where $H_{m,n}^{\alpha,\beta,r}$ are the Hasse coefficients.
 
 ### Hasse Coefficients
 
-The Hasse coefficients can be expressed in terms of the generalized Stirling numbers:
-
 $$H_{m,n}^{\alpha,\beta,r} = \frac{1}{m+1} \sum_{j=0}^{n} (-1)^{n-j} \binom{n}{j} S(m,j;\alpha,\beta,r)$$
 
-### Recurrence Relation for Hasse Coefficients
+### Recurrence
 
 $$H_{m,n}^{\alpha,\beta,r} = H_{m-1,n-1}^{\alpha,\beta,r} - \frac{m\alpha + n\beta + r}{m+2} H_{m-1,n}^{\alpha,\beta,r}$$
 
-With initial condition $H_{0,0}^{\alpha,\beta,r} = 1$.
+Initial condition: $H_{0,0}^{\alpha,\beta,r} = 1$
 
 ### Operational Representation
 
-The Hasse operator can be represented in terms of differential operators:
-
 $$\mathcal{H}_{\alpha,\beta,r} = \frac{e^{\beta D} - 1 + \alpha D}{D} e^{rD}$$
 
-Where $D$ is the differential operator and division by $D$ represents integration.
+Where $D$ is the differential operator.
 
 ## 5. Special Function Representations
 
@@ -303,6 +283,26 @@ This means that inverting the transform often involves flipping the signs of the
 2. **Digamma-Related Operator** ($\alpha=1, \beta=-1, r=0$):
    $$I_{m,n}^{1,-1,0} = \frac{(-1)^m}{m+1} \sum_{j=0}^{n} (-1)^{n-j} \binom{n}{j} S(m,j;-1,1,0)$$
 
+### Computational Approach
+
+To compute the inverse transform:
+
+1. Truncate the series at a suitable order $M$
+2. Compute the inverse coefficients using either:
+   - The explicit formula above
+   - The recurrence relation (more computationally efficient)
+3. Apply the inverse transform:
+   $$f(x) \approx \sum_{m=0}^{M} \sum_{n=0}^{m} I_{m,n}^{\alpha,\beta,r} g_m(x-n)$$
+
+## Symmetry and Self-Adjointness
+
+- The Hasse-Stirling operator is generally not self-adjoint, but can be symmetrized:
+  $$
+  w_{m,n}^{\text{sym}} = \frac{H_{m,n}^{\alpha,\beta,r} + H_{m,m-n}^{\alpha,\beta,r}}{2}
+  $$
+- For even $m$, $w_{m,n}^{\text{sym}} = H_{m,n}^{\alpha,\beta,r}$; for odd $m$, $w_{m,n}^{\text{sym}} = 0$.
+- In the hyperbolic strip ($\alpha+\beta=0$), symmetry and self-adjointness are enhanced.
+- Symmetric operators are important for spectral theory and connections to Hermite polynomials.
 ### Computational Approach
 
 To compute the inverse transform:

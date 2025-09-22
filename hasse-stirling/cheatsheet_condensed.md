@@ -1,6 +1,6 @@
 # Hasse-Stirling Framework - Condensed Reference
 
-**Operators:** $E^n f(x) = f(x+n)$, $\Delta f(x) = f(x+1) - f(x) = (E-I)f(x)$, $\log(E) = \Delta - \frac{\Delta^2}{2} + \frac{\Delta^3}{3} - \cdots$, $e^{\Delta} = E$
+**Operators:** $E^n f(x) = f(x+n)$, $\Delta f(x) = f(x+1) - f(x)$, $\log(E) = \Delta - \frac{\Delta^2}{2} + \frac{\Delta^3}{3} - \cdots$, $e^{\Delta} = E$
 
 **Key Domains:** Euler $(\alpha=0,\beta=1,r=0)$, Digamma $(\alpha=1,\beta=-1,r=0)$, Stieltjes $(\alpha=\frac{k+3}{2},\beta=-\frac{k+4}{2},r=0)$, Bessel $(\alpha=\nu+1,\beta=-1,r=0)$
 

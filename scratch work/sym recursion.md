@@ -96,3 +96,33 @@ Since the symmetric matrix $W^{\text{sym}}$ is real and (for even $m$) symmetric
 2. Build $W^{\text{sym}}$ using the definition.
 3. Write out the matrix explicitly.
 4. Find its eigenvalues and eigenvectors.
+
+---
+
+## Mirror (Reflective) Weights
+
+**Definition:**  
+The mirror (or reflective) weights are given by $w_{m,n}^{\text{mir}} = H_{m,m-n}^{\alpha,\beta,r}$, i.e., each entry is the Hasse coefficient reflected across the center of the row.
+
+**Properties:**
+- **Reflection:** $w_{m,n}^{\text{mir}}$ is the value at position $m-n$ in row $m$, so the mirror matrix is a horizontal reflection of the Hasse matrix.
+- **Symmetry Relation:** By the symmetry property, $H_{m,m-n}^{\alpha,\beta,r} = (-1)^m H_{m,n}^{\alpha,\beta,r}$.
+- **Parity:** For even $m$, $w_{m,n}^{\text{mir}} = H_{m,n}^{\alpha,\beta,r}$; for odd $m$, $w_{m,n}^{\text{mir}} = -H_{m,n}^{\alpha,\beta,r}$.
+- **Matrix Structure:** The mirror matrix is not generally symmetric, but is related to the original Hasse matrix by reflection and sign.
+- **Relation to Symmetric Weights:** The symmetric weights are the average of the Hasse and mirror weights:
+  \[
+  w_{m,n}^{\text{sym}} = \frac{H_{m,n}^{\alpha,\beta,r} + w_{m,n}^{\text{mir}}}{2}
+  \]
+- **Zeros:** For odd $m$, the sum $H_{m,n}^{\alpha,\beta,r} + w_{m,n}^{\text{mir}}$ cancels, so the symmetric weights vanish.
+
+**Terminology Improvement:**  
+- "Mirror weights" or "reflective weights" are more descriptive than "mirror matrix," as they emphasize the reflection operation on the coefficients.
+- You may also refer to the mirror matrix as the "reflected Hasse matrix."
+
+**Summary Table:**
+
+| Weight Type         | Formula                                      | Parity Behavior                |
+|---------------------|----------------------------------------------|-------------------------------|
+| Hasse               | $H_{m,n}^{\alpha,\beta,r}$                   | General                       |
+| Mirror/Reflective   | $H_{m,m-n}^{\alpha,\beta,r}$                 | $(-1)^m H_{m,n}^{\alpha,\beta,r}$ |
+| Symmetric           | $\frac{H_{m,n}^{\alpha,\beta,r} + H_{m,m-n}^{\alpha,\beta,r}}{2}$ | $H_{m,n}$ for even $m$, $0$ for odd $m$ |
