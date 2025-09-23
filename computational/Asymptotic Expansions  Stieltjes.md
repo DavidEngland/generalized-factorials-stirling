@@ -81,6 +81,33 @@ To compute $\gamma_k(a)$ for smaller $a$ using the large-$a$ expansion:
   ```
 - This method combines the accuracy of the asymptotic expansion for large $A$ with the exact recurrence for smaller $a$.
 
+### Special Case: $k=0$ (Connection to Digamma Function)
+
+For $k=0$, the Stieltjes constant $\gamma_0(a)$ is related to the digamma function:
+\[
+\gamma_0(a) = -\psi(a)
+\]
+where $\psi(a)$ is the digamma function.
+
+**Implication:**  
+The asymptotic expansion for $\gamma_0(a)$ is simply the negative of the well-known asymptotic expansion for $\psi(a)$:
+\[
+\psi(a) \sim \log(a) - \frac{1}{2a} - \sum_{j=1}^{\infty} \frac{B_{2j}}{2j\,a^{2j}}
+\]
+So,
+\[
+\gamma_0(a) \sim -\log(a) + \frac{1}{2a} + \sum_{j=1}^{\infty} \frac{B_{2j}}{2j\,a^{2j}}
+\]
+where $B_{2j}$ are Bernoulli numbers.
+
+**Practical Note:**  
+For $k=0$, you can directly use the algebraic expansion for the digamma function, negated, for rapid and accurate computation of $\gamma_0(a)$ at large $a$.
+
+### Algorithmic Shortcut
+
+- For $k=0$, set $\gamma_0(a) = -\psi(a)$ and use the digamma asymptotic expansion.
+- For $k>0$, use the general Hasse-Stirling expansion as described above.
+
 ### Notes
 
 - The recurrence is exact and numerically stable for moderate $k$ and $a$.

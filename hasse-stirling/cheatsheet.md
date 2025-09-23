@@ -114,9 +114,29 @@ $$\gamma_k = -\frac{1}{k+1}\mathcal{H}_{\frac{k+3}{2},-\frac{k+4}{2},0}(\log(t)^
 
 ### Riemann Zeta Function (Odd Values)
 
-$$\zeta(3) = \frac{1}{2}\left(\mathcal{H}_{1,-2,0}(\log(t)^2)(1) - \gamma^2 - \frac{\pi^2}{6}\right)$$
+Closed-form equations for $\zeta(2n+1)$ (odd positive integers) using the Hasse-Stirling framework:
 
-$$\zeta(5) = \frac{1}{24}\left(\mathcal{H}_{2,-3,0}(\log(t)^4)(1) + 10\pi^2\zeta(3)\right)$$
+For $n=1$:
+\[
+\zeta(3) = \frac{1}{2}\left(\mathcal{H}_{1,-2,0}(\log(t)^2)(1) - \gamma^2 - \frac{\pi^2}{6}\right)
+\]
+
+For $n=2$:
+\[
+\zeta(5) = \frac{1}{24}\left(\mathcal{H}_{2,-3,0}(\log(t)^4)(1) + 10\pi^2\zeta(3)\right)
+\]
+
+More generally, for $n \geq 1$, the closed form involves Hasse-Stirling operators acting on powers of logarithms, plus lower zeta values and powers of $\pi$:
+\[
+\zeta(2n+1) = \text{(rational factor)} \cdot \left(\mathcal{H}_{n,-(n+1),0}(\log(t)^{2n})(1) + \text{lower order terms}\right)
+\]
+
+- $\mathcal{H}_{n,-(n+1),0}$ is the Hasse-Stirling operator with parameters $(\alpha=n, \beta=-(n+1), r=0)$.
+- The lower order terms involve combinations of $\pi^{2k}$ and $\zeta(2k+1)$ for $k < n$.
+
+**References:**  
+- See Section 5 of this cheatsheet for explicit formulas for $\zeta(3)$ and $\zeta(5)$.
+- For higher odd zeta values, the pattern generalizes with increasing powers of logarithms and more involved lower order terms.
 
 ### Hypergeometric Functions
 
@@ -303,13 +323,38 @@ To compute the inverse transform:
 - For even $m$, $w_{m,n}^{\text{sym}} = H_{m,n}^{\alpha,\beta,r}$; for odd $m$, $w_{m,n}^{\text{sym}} = 0$.
 - In the hyperbolic strip ($\alpha+\beta=0$), symmetry and self-adjointness are enhanced.
 - Symmetric operators are important for spectral theory and connections to Hermite polynomials.
-### Computational Approach
 
-To compute the inverse transform:
+## 9. Table of Hasse Operator Transforms
 
-1. Truncate the series at a suitable order $M$
-2. Compute the inverse coefficients using either:
-   - The explicit formula above
-   - The recurrence relation (more computationally efficient)
-3. Apply the inverse transform:
-   $$f(x) \approx \sum_{m=0}^{M} \sum_{n=0}^{m} I_{m,n}^{\alpha,\beta,r} g_m(x-n)$$
+Below is a table collecting known expressions for the Hasse operator $\mathcal{H}_{\alpha,\beta,r}$ acting on various functions, for key parameter choices. This is analogous to Laplace, Fourier, or Mellin transform tables.
+
+| Function $f(t)$ | Parameters $(\alpha,\beta,r)$ | Hasse Operator $\mathcal{H}_{\alpha,\beta,r}(f)(x)$ | Known Expression |
+|-----------------|------------------------------|-----------------------------------------------------|------------------|
+| $x^n$           | $(0,1,0)$                    | $\mathcal{H}_{0,1,0}(x^n)(0)$                      | $B_n/n!$ (Bernoulli number) |
+| $t^n$           | $(0,1,0)$                    | $\mathcal{H}_{0,1,0}(t^n)(x)$                      | $B_n(x)/n!$ (Bernoulli polynomial) |
+| $\log(t)$       | $(1,-1,0)$                   | $\mathcal{H}_{1,-1,0}(\log(t))(x-1)$               | $\psi(x) + \gamma$ (digamma) |
+| $\log(t)^{k+1}$ | $(\frac{k+3}{2},-\frac{k+4}{2},0)$ | $-\frac{1}{k+1}\mathcal{H}_{\frac{k+3}{2},-\frac{k+4}{2},0}(\log(t)^{k+1})(1)$ | $\gamma_k$ (Stieltjes constant) |
+| $\log(t)^2$     | $(1,-2,0)$                   | $\mathcal{H}_{1,-2,0}(\log(t)^2)(1)$               | $2\zeta(3) + \gamma^2 + \frac{\pi^2}{6}$ |
+| $\log(t)^4$     | $(2,-3,0)$                   | $\mathcal{H}_{2,-3,0}(\log(t)^4)(1)$               | $24\zeta(5) - 10\pi^2\zeta(3)$ |
+| $e^{zt}$        | $(a,-b,0)$                   | $\mathcal{H}_{a,-b,0}(e^{zt})(1)$                  | $_1F_1(a;b;z)$ (confluent hypergeometric) |
+| $1/(1-zt)^b$    | $(a,c-a-b,0)$                | $\mathcal{H}_{a,c-a-b,0}(1/(1-zt)^b)(1)$           | $_2F_1(a,b;c;z)$ (Gauss hypergeometric) |
+| $e^{-z^2 t/4}$  | $(\nu+1,-1,0)$               | $\mathcal{H}_{\nu+1,-1,0}(e^{-z^2 t/4})(1)$        | $\frac{\Gamma(\nu+1)}{(z/2)^\nu} J_\nu(z)$ (Bessel) |
+| $\log(t)$       | $(1,-1,0)$                   | $\mathcal{H}_{1,-1,0}(\log(t))(\log(z))$           | $W(z)$ (Lambert W function) |
+| $x^{1-s}$       | $(\alpha,\beta,r)$           | $\mathcal{H}_{\alpha,\beta,r}(x^{1-s})$            | $(s-1)\zeta(s,x)$ (Hurwitz zeta, for suitable parameters) |
+| $a^{tx}$        | $(0,1,0)$                    | $\sum_{m=0}^{\infty} \mathcal{H}_m(a^{tx})$        | $\frac{\log(a^t) a^{tx}}{a^t-1}$ |
+| $e^{tx}$        | $(0,1,0)$                    | $\sum_{m=0}^{\infty} \mathcal{H}_m(e^{tx})$        | $\frac{t e^{tx}}{e^t-1}$ |
+| $1/x$           | $(1,-1,0)$                   | $\sum_{m=0}^{\infty} \mathcal{H}_m(1/x)$           | $\psi(x) + \gamma$ |
+| $\log\Gamma(x)$ | $(1,-1,0)$                   | $\mathcal{H}_{1,-1,0}(\log(t))(x-1)$               | $\log\Gamma(x)$ (via integration of digamma) |
+| $\log G(x)$     | $(1,-1,0)$                   | $\mathcal{H}_{1,-1,0}(\log^2(t))(x-1)$             | $\log G(x)$ (Barnes G function, up to normalization) |
+
+**Notes:**
+- $B_n$ is the $n$-th Bernoulli number, $B_n(x)$ is the $n$-th Bernoulli polynomial.
+- $\psi(x)$ is the digamma function, $\gamma$ is Euler-Mascheroni constant.
+- $\gamma_k$ is the $k$-th Stieltjes constant.
+- $\zeta(s)$ is the Riemann zeta function, $\zeta(s,x)$ is the Hurwitz zeta function.
+- $_1F_1$, $_2F_1$ are hypergeometric functions.
+- $J_\nu(z)$ is the Bessel function of the first kind.
+- $W(z)$ is the Lambert W function.
+- $G(x)$ is the Barnes G function, which can be represented via Hasse-Stirling operators acting on $\log^2(t)$.
+
+---
