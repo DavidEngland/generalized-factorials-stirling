@@ -68,18 +68,8 @@ Benchmarks show consistent speedups (3.7x–4.4x) across amplitude calculation, 
 - **Integrates easily** with frameworks like Qiskit and Cirq as a high-performance module.
 - **Broad applicability** to quantum field theory, cosmology, condensed matter, and agent-based models.
 
-## 6. Gordon Bell Prize Consideration
-
-The ACM Gordon Bell Prize recognizes outstanding achievements in high-performance computing. The Hasse-Stirling framework, by enabling exponential increases in simulable quantum system size and providing substantial speedups for foundational numerical tasks, aligns with the prize's focus on computational innovation and impact.
-
-**Key strengths for consideration:**
-- Demonstrated exponential scaling advantage for quantum simulation.
-- General-purpose acceleration for a wide class of special functions.
-- Integration potential with major quantum software ecosystems.
-- Direct impact on quantum algorithm and hardware development cycles.
-
 **Recommendation:**  
-If further scaled to large quantum systems, demonstrated on leadership-class HPC platforms, and integrated into production quantum simulation workflows, the Hasse-Stirling framework would be a strong candidate for the Gordon Bell Prize.
+If further scaled to large quantum systems, demonstrated on leadership-class HPC platforms, and integrated into production quantum simulation workflows
 
 ## 7. Conclusion
 

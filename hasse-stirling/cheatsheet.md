@@ -61,11 +61,11 @@ $$|\text{Re}(\alpha)| < 1, |\text{Re}(\beta)| < 1, |\text{Re}(r)| < 1$$
 
 ### Hsu-Shiue Generalized Stirling Numbers
 Recurrence:
-$$S(n,k;\alpha,\beta,r) = S(n-1,k-1;\alpha,\beta,r) + (\beta k - \alpha n + r)S(n-1,k;\alpha,\beta,r)$$
+$$S(n,k;\alpha,\beta) = S(n-1,k-1;\alpha,\beta) + (\beta k - \alpha n)S(n-1,k;\alpha,\beta)$$
 
 Initial conditions:
-- $S(0,0;\alpha,\beta,r) = 1$
-- $S(n,k;\alpha,\beta,r) = 0$ for $k > n$ or $k < 0$
+- $S(0,0;\alpha,\beta) = 1$
+- $S(n,k;\alpha,\beta) = 0$ for $k > n$ or $k < 0$
 
 ### Special Cases
 
@@ -79,28 +79,41 @@ Initial conditions:
 
 ### Exponential Generating Function
 
-$$\sum_{n=k}^{\infty} S(n,k;\alpha,\beta,r) \frac{t^n}{n!} = \frac{1}{k!}(e^{\beta t} - 1 + \alpha t)^k e^{rt}$$
+$$\sum_{n=k}^{\infty} S(n,k;\alpha,\beta) \frac{t^n}{n!} = \frac{1}{k!}(e^{\beta t} - 1 + \alpha t)^k e^{rt}$$
 
 ## 4. The Hasse Operator
 
 ### Definition
-$$\mathcal{H}_{\alpha,\beta,r}(f)(x) = \sum_{m=0}^{\infty} \sum_{n=0}^{m} H_{m,n}^{\alpha,\beta,r} f(x+n)$$
+$$\mathcal{H}_{\alpha,\beta}(f)(x) = \sum_{m=0}^{\infty} \sum_{n=0}^{m} H_{m,n}^{\alpha,\beta} f(x+n)$$
 
 ### Hasse Coefficients
 
-$$H_{m,n}^{\alpha,\beta,r} = \frac{1}{m+1} \sum_{j=0}^{n} (-1)^{n-j} \binom{n}{j} S(m,j;\alpha,\beta,r)$$
+$$H_{m,n}^{\alpha,\beta} = \frac{1}{m+1} \sum_{j=0}^{n} (-1)^{n-j} \binom{n}{j} S(m,j;\alpha,\beta)$$
 
 ### Recurrence
 
-$$H_{m,n}^{\alpha,\beta,r} = H_{m-1,n-1}^{\alpha,\beta,r} - \frac{m\alpha + n\beta + r}{m+2} H_{m-1,n}^{\alpha,\beta,r}$$
+$$H_{m,n}^{\alpha,\beta} = H_{m-1,n-1}^{\alpha,\beta} - \frac{m\alpha + n\beta}{m+2} H_{m-1,n}^{\alpha,\beta}$$
 
-Initial condition: $H_{0,0}^{\alpha,\beta,r} = 1$
+Initial condition: $H_{0,0}^{\alpha,\beta} = 1$
 
 ### Operational Representation
 
-$$\mathcal{H}_{\alpha,\beta,r} = \frac{e^{\beta D} - 1 + \alpha D}{D} e^{rD}$$
+$$
+\mathcal{H}_{\alpha,\beta} = \frac{e^{\beta D} - 1 + \alpha D}{D}
+$$
 
 Where $D$ is the differential operator.
+
+#### Inverse Operator
+
+The inverse operator that annihilates the Hasse-Stirling operator to the identity is:
+$$
+\mathcal{H}_{\alpha,\beta}^{-1} = \frac{D}{e^{\beta D} + \alpha D - 1}
+$$
+That is,
+$$
+\mathcal{H}_{\alpha,\beta}^{-1} \circ \mathcal{H}_{\alpha,\beta} = \text{Identity}
+$$
 
 ## 5. Special Function Representations
 
@@ -253,7 +266,7 @@ $$S(n,k;\alpha,\beta,r) = \sum_{j=0}^{n-k} \binom{n-k}{j} (k\beta + r|\alpha)^{\
 ### Problem Statement
 
 Given the transformation:
-$$g_m(x) = \sum_{n=0}^{m} H_{m,n}^{\alpha,\beta,r} f(x+n)$$
+$$g_m(x) = \sum_{n=0}^{m} H_{m,n}^{\alpha,\beta} f(x+n)$$
 
 How do we recover $f(x)$ from the values of $g_m(x)$?
 
@@ -261,39 +274,31 @@ How do we recover $f(x)$ from the values of $g_m(x)$?
 
 The inverse relation can be expressed as:
 
-$$f(x) = \sum_{m=0}^{\infty} \sum_{n=0}^{m} I_{m,n}^{\alpha,\beta,r} g_m(x-n)$$
+$$f(x) = \sum_{m=0}^{\infty} \sum_{n=0}^{m} I_{m,n}^{\alpha,\beta} g_m(x-n)$$
 
-where $I_{m,n}^{\alpha,\beta,r}$ are the inverse Hasse coefficients.
+where $I_{m,n}^{\alpha,\beta}$ are the inverse Hasse coefficients.
 
 ### Inverse Hasse Coefficients
 
 The inverse coefficients satisfy:
 
-$$\sum_{j=0}^{m} \sum_{k=0}^{j} H_{j,k}^{\alpha,\beta,r} I_{m,j-k+n}^{\alpha,\beta,r} = \delta_{m,0} \delta_{n,0}$$
+$$\sum_{j=0}^{m} \sum_{k=0}^{j} H_{j,k}^{\alpha,\beta} I_{m,j-k+n}^{\alpha,\beta} = \delta_{m,0} \delta_{n,0}$$
 
 where $\delta_{i,j}$ is the Kronecker delta.
 
 ### Recurrence Relation for Inverse Coefficients
 
-The inverse coefficients actually satisfy a recurrence relation with parameters $(-\alpha, -\beta, -r)$:
+The inverse coefficients satisfy a recurrence relation with parameters $(-\alpha, -\beta)$:
 
-$$I_{m,n}^{\alpha,\beta,r} = I_{m-1,n-1}^{\alpha,\beta,r} - \frac{-m\alpha - n\beta - r}{m+2} I_{m-1,n}^{\alpha,\beta,r}$$
+$$I_{m,n}^{\alpha,\beta} = I_{m-1,n-1}^{\alpha,\beta} + \frac{m\alpha + n\beta}{m+2} I_{m-1,n}^{\alpha,\beta}$$
 
-Which simplifies to:
-
-$$I_{m,n}^{\alpha,\beta,r} = I_{m-1,n-1}^{\alpha,\beta,r} + \frac{m\alpha + n\beta + r}{m+2} I_{m-1,n}^{\alpha,\beta,r}$$
-
-With initial condition $I_{0,0}^{\alpha,\beta,r} = 1$.
-
-The sign change in the second term is consistent with the parameter flipping $(\alpha, \beta, r) \to (-\alpha, -\beta, -r)$ that appears in the explicit formula below.
+With initial condition $I_{0,0}^{\alpha,\beta} = 1$.
 
 ### Explicit Formula
 
 For many parameter sets, the inverse coefficients have the form:
 
-$$I_{m,n}^{\alpha,\beta,r} = \frac{(-1)^m}{m+1} \sum_{j=0}^{n} (-1)^{n-j} \binom{n}{j} S(m,j;-\alpha,-\beta,-r)$$
-
-This means that inverting the transform often involves flipping the signs of the parameters.
+$$I_{m,n}^{\alpha,\beta} = \frac{(-1)^m}{m+1} \sum_{j=0}^{n} (-1)^{n-j} \binom{n}{j} S(m,j;-\alpha,-\beta)$$
 
 ### Special Cases
 
@@ -312,15 +317,15 @@ To compute the inverse transform:
    - The explicit formula above
    - The recurrence relation (more computationally efficient)
 3. Apply the inverse transform:
-   $$f(x) \approx \sum_{m=0}^{M} \sum_{n=0}^{m} I_{m,n}^{\alpha,\beta,r} g_m(x-n)$$
+   $$f(x) \approx \sum_{m=0}^{M} \sum_{n=0}^{m} I_{m,n}^{\alpha,\beta} g_m(x-n)$$
 
 ## Symmetry and Self-Adjointness
 
 - The Hasse-Stirling operator is generally not self-adjoint, but can be symmetrized:
   $$
-  w_{m,n}^{\text{sym}} = \frac{H_{m,n}^{\alpha,\beta,r} + H_{m,m-n}^{\alpha,\beta,r}}{2}
+  w_{m,n}^{\text{sym}} = \frac{H_{m,n}^{\alpha,\beta} + H_{m,m-n}^{\alpha,\beta}}{2}
   $$
-- For even $m$, $w_{m,n}^{\text{sym}} = H_{m,n}^{\alpha,\beta,r}$; for odd $m$, $w_{m,n}^{\text{sym}} = 0$.
+- For even $m$, $w_{m,n}^{\text{sym}} = H_{m,n}^{\alpha,\beta}$; for odd $m$, $w_{m,n}^{\text{sym}} = 0$.
 - In the hyperbolic strip ($\alpha+\beta=0$), symmetry and self-adjointness are enhanced.
 - Symmetric operators are important for spectral theory and connections to Hermite polynomials.
 
@@ -358,3 +363,9 @@ Below is a table collecting known expressions for the Hasse operator $\mathcal{H
 - $G(x)$ is the Barnes G function, which can be represented via Hasse-Stirling operators acting on $\log^2(t)$.
 
 ---
+- $\gamma_k$ is the $k$-th Stieltjes constant.
+- $\zeta(s)$ is the Riemann zeta function, $\zeta(s,x)$ is the Hurwitz zeta function.
+- $_1F_1$, $_2F_1$ are hypergeometric functions.
+- $J_\nu(z)$ is the Bessel function of the first kind.
+- $W(z)$ is the Lambert W function.
+- $G(x)$ is the Barnes G function, which can be represented via Hasse-Stirling operators acting on $\log^2(t)$.
