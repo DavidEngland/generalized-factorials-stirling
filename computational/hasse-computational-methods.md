@@ -67,9 +67,39 @@ $$\gamma_k \approx -\frac{1}{k+1} \mathcal{H}_{\lfloor \frac{k+3}{2} \rfloor, -\
 
 ### 3.1 Odd Zeta Values
 
-For odd zeta values $\zeta(2n+1)$, we leverage the identity:
+The general formula for odd zeta values is:
+\[
+\zeta(2n+1) = \frac{(-1)^n}{2(2n)!} \sum_{k=0}^{n} \binom{2n}{2k} (2\pi)^{2k} \mathcal{H}_{n,-n-1,0}([\log(t)]^{2n-2k})(1)
+\]
 
-$$\zeta(2n+1) = \frac{(-1)^n}{2(2n)!} \sum_{k=0}^{n} \binom{2n}{2k} (2\pi)^{2k} \mathcal{H}_{n,-n-1,0}([\log(t)]^{2n-2k})(1)$$
+#### Parity Refinement: $4n+1$ and $4n+3$ Cases
+
+Recent insights suggest that for $s=4n+1$ and $s=4n+3$, the Hasse-Stirling framework can sometimes yield more rapidly convergent or structurally simpler formulas, due to additional symmetry and cancellation in the coefficients. Specifically:
+
+- For $s=4n+1$:
+  - The binomial coefficients and powers of $\pi$ align with the parity, sometimes leading to cancellation of terms or simplification in the sum.
+  - The symmetric Hasse weights (for even $m$) can be exploited for further simplification.
+
+- For $s=4n+3$:
+  - Similar simplifications may occur, but the structure is less symmetric; however, the alternating sign and binomial structure can still be leveraged.
+
+**Improved Computational Strategy:**
+- Use the symmetric Hasse weights for even $m$ to reduce the number of nonzero terms.
+- For $s=4n+1$, check if the sum can be halved or simplified due to symmetry.
+- For $s=4n+3$, group terms to exploit cancellation.
+
+**Example:**
+For $s=5$ ($4n+1$ with $n=1$):
+\[
+\zeta(5) = \frac{1}{24}\left(\mathcal{H}_{2,-3,0}(\log(t)^4)(1) + 10\pi^2\zeta(3)\right)
+\]
+This formula is already optimized, but further simplification may be possible by analyzing the symmetry in the Hasse coefficients.
+
+**Summary of Improvements:**
+- For $s=4n+1$, use the parity to simplify the sum, possibly reducing computation.
+- For $s=4n+3$, group terms for cancellation.
+- Always use the most symmetric form of the Hasse coefficients for even $m$.
+- For large $n$, exploit the fact that only even $m$ contribute nonzero symmetric weights, reducing computational effort.
 
 ### 3.2 Implementation for $\zeta(5)$
 
