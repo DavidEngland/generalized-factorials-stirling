@@ -478,8 +478,6 @@ $$
 \mathcal{H}_m^{\text{rev}}(f)(x) = \sum_{n=0}^{m} H_{m,m-n} f(x+n)
 $$
 
-This reversed operator can be useful for exploring adjointness and symmetry properties, especially when considering inner products or dual bases.
-
 ### Remarks
 
 - The self-adjoint property is desirable for spectral theory, orthogonality, and stability.

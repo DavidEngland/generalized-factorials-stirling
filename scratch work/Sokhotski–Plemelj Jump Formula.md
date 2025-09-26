@@ -1,73 +1,197 @@
-### A Clean Explanation of the Sokhotski–Plemelj Jump Formula
+# Sokhotski–Plemelj Jump Formula, Cotangent, and Connections to Bernoulli, Zeta, and Digamma
 
-This document provides a clear explanation of the **Sokhotski–Plemelj (SP) jump formula** applied to a simple case, connecting it to the well-known geometric series identity. We'll show how the difference between the inside and outside boundary values of the geometric series kernel is a direct consequence of this powerful theorem.
-
----
-
-### 1. Statement of the Sokhotski–Plemelj Formula
-
-Let $\gamma$ be a smooth, simple, closed contour, such as the unit circle. For a function $\varphi(\zeta)$ on this contour, the Cauchy integral is defined as:
-
-$$C\varphi = \frac{1}{2\pi i}\int_\gamma \frac{\varphi(\zeta)}{\zeta-z}\,d\zeta, \qquad z\notin\gamma$$
-
-The SP formulas describe the non-tangential boundary values of this integral as you approach a point $t$ on the contour. The boundary value from the interior side (denoted with a '+') and the exterior side (denoted with a '-') are given by:
-
-$$C[\varphi]\pm(t) = \pm\frac{1}{2}\varphi(t) + \frac{1}{2\pi i}\operatorname{PV}\!\int\gamma\frac{\varphi(\zeta)}{\zeta-t}\,d\zeta$$
-
-The term $\operatorname{PV}$ denotes the **Cauchy principal value** of the integral. A key result from this is the **SP jump identity**, which states that the difference between the two boundary values is equal to the value of the density function at that point:
-
-$$C[\varphi]+(t)-C[\varphi]-(t) = \varphi(t)$$
-
-This is a fundamental result: the **jump across the contour equals the density at the point**.
+This document explains the Sokhotski–Plemelj (SP) jump formula, its connection to the cotangent function, and how these ideas link to Bernoulli numbers, the Riemann zeta function, and the digamma function.
 
 ---
 
-### 2. Application to the Unit Circle with Constant Density
+## 1. Sokhotski–Plemelj Jump Formula
 
-Let's apply this formula to the unit circle $|\zeta|=1$ with a constant density function $\varphi(\zeta) \equiv 1$.
+Let $\gamma$ be a smooth, simple, closed contour (e.g., the unit circle). For a function $\varphi(\zeta)$ on $\gamma$, the Cauchy integral is:
+\[
+C\varphi(z) = \frac{1}{2\pi i}\int_\gamma \frac{\varphi(\zeta)}{\zeta-z}\,d\zeta, \qquad z\notin\gamma
+\]
 
-The Cauchy integral becomes:
+As $z$ approaches a point $t$ on $\gamma$ from inside ($+$) or outside ($-$), the boundary values are:
+\[
+C[\varphi]^{\pm}(t) = \pm\frac{1}{2}\varphi(t) + \frac{1}{2\pi i}\operatorname{PV}\int_\gamma \frac{\varphi(\zeta)}{\zeta-t}\,d\zeta
+\]
+where $\operatorname{PV}$ denotes the Cauchy principal value.
 
-$$C1=\frac{1}{2\pi i}\int_{|\zeta|=1}\frac{1}{\zeta-z}\,d\zeta$$
-
-Using the residue theorem, this integral equals **1** for $z$ inside the circle and **0** for $z$ outside.
-
-Now, consider the SP boundary value formula for this case:
-
-$$C[1]\pm(t) = \pm\frac{1}{2}\cdot 1 + \frac{1}{2\pi i}\operatorname{PV}\int_{|\zeta|=1}\frac{1}{\zeta-t}\,d\zeta$$
-
-Due to the symmetry of the integrand (it's an odd function around the point $t$), the principal value integral on the unit circle vanishes. This simplifies the boundary values to:
-
-$$C[1]+(t) = +\frac12 \quad \text{and} \quad C[1]-(t) = -\frac12$$
-
-The jump is therefore:
-
-$$C[1]+(t)-C[1]-(t)=1$$
-
-This result perfectly matches the SP identity, since our density function $\varphi(t) = 1$. This simple case visually demonstrates the **jump** caused by the contour.
+**Jump identity:**
+\[
+C[\varphi]^+(t) - C[\varphi]^-(t) = \varphi(t)
+\]
+The difference between the inside and outside boundary values equals the density at the point.
 
 ---
 
-### 3. Connection to the Geometric Series Kernel
+## 2. Example: Unit Circle and Constant Density
 
-The identity for the geometric series kernel, $1/(1-z)$, can be expressed in terms of its boundary values on the unit circle. For a point $t=e^{it}$ on the circle, the "inside" geometric series $\sum_{n\ge0} z^n$ has a principal-value boundary representation given by:
+For $\varphi(\zeta) \equiv 1$ on $|\zeta|=1$:
+\[
+C1(z) = \frac{1}{2\pi i}\int_{|\zeta|=1}\frac{1}{\zeta-z}\,d\zeta
+\]
+By the residue theorem:
+- $C1(z) = 1$ for $|z|<1$
+- $C1(z) = 0$ for $|z|>1$
 
-$$\frac{1}{1-e^{it}} = \frac{1}{2} + \frac{i}{2}\cot\!\frac{t}{2}$$
+Boundary values:
+\[
+C[1]^{\pm}(t) = \pm\frac{1}{2}
+\]
+So the jump is $1$, matching the SP formula.
 
-Similarly, the "outside" series $-\sum_{n\ge1} z^{-n}$ has a principal-value boundary representation:
+---
 
-$$-\frac{1}{2} + \frac{i}{2}\cot\!\frac{t}{2}$$
+## 3. Cotangent, Geometric Series, and Boundary Values
 
-Notice that the **$\frac{i}{2}\cot(t/2)$ term is common to both expressions**. This term represents the **shared singular behavior** or the Cauchy principal value part of the integral.
+The geometric series kernel $1/(1-z)$ has boundary values on the unit circle $z = e^{it}$:
+\[
+\frac{1}{1-e^{it}} = \frac{1}{2} + \frac{i}{2}\cot\left(\frac{t}{2}\right)
+\]
+\[
+-\frac{1}{1-e^{it}} = -\frac{1}{2} + \frac{i}{2}\cot\left(\frac{t}{2}\right)
+\]
+The difference is $1$, matching the SP jump.
 
-The difference between these two boundary values is:
+The cotangent function's partial fraction expansion:
+\[
+\pi\cot(\pi z) = \frac{1}{z} + \sum_{n=1}^{\infty} \left( \frac{1}{z-n} + \frac{1}{z+n} \right )
+\]
+shows poles at integers, which are central to Bernoulli and zeta theory.
 
-$$\left(\frac{1}{2}+\frac{i}{2}\cot\frac{t}{2}\right) - \left(-\frac{1}{2}+\frac{i}{2}\cot\frac{t}{2}\right) = 1$$
+---
 
-This difference of **1** is precisely the jump predicted by the SP formula for a density of $\varphi(t)=1$. The geometric series kernel, with its simple pole at $z=1$, effectively **realizes the Sokhotski–Plemelj jump**. The discontinuity is encapsulated in the constant $\pm \frac{1}{2}$ terms, while the symmetric singular behavior is contained in the cotangent part.
+## 4. Connection to Bernoulli Numbers and Zeta Values
 
-This can be understood as an analog to the well-known distributional identity for a simple pole on the real line:
+The cotangent expansion is directly related to Bernoulli numbers via its Taylor series:
+\[
+\pi\cot(\pi z) = \frac{1}{z} - \sum_{k=1}^{\infty} \frac{2^{2k} B_{2k}}{(2k)!} (\pi z)^{2k-1}
+\]
+The coefficients $B_{2k}$ are Bernoulli numbers.
 
-$$\frac{1}{x \pm i0} = \operatorname{PV}\frac{1}{x} \mp i\pi\delta(x)$$
+The even zeta values are given by:
+\[
+\zeta(2k) = (-1)^{k+1} \frac{(2\pi)^{2k} B_{2k}}{2(2k)!}
+\]
+Thus, the cotangent's expansion encodes both Bernoulli numbers and even zeta values.
 
-The $\operatorname{PV}(1/x)$ term corresponds to our cotangent term, and the $\mp i\pi\delta(x)$ term encodes the jump, which is proportional to the residue of the pole.
+---
+
+## 5. Connection to Digamma Function
+
+The digamma function $\psi(x)$ is related to the cotangent and the SP formula.
+
+**Reflection formula:**
+\[
+\psi(1 - x) - \psi(x) = \pi \cot(\pi x)
+\]
+This is a classical reflection identity for the digamma function, directly linking its values at $x$ and $1-x$ to the cotangent function.
+
+- The right side, $\pi \cot(\pi x)$, matches the jump structure seen in the SP formula and the boundary values of the geometric series kernel.
+- This formula is a direct analogue of the functional equation for the logarithm of the gamma function and encodes the pole structure of $\psi(x)$.
+
+**Difference formula:**
+\[
+\psi(x+1) - \psi(x) = \frac{1}{x}
+\]
+This discrete difference is analogous to the SP jump: the difference across integer shifts yields a simple pole.
+
+---
+
+## 6. Reformulation of SP Jump in Terms of the Digamma Function
+
+The Sokhotski–Plemelj jump formula describes the discontinuity across a contour for the Cauchy integral. For the unit circle and constant density, the jump is $1$.
+
+This jump can be reformulated using the **reflection formula for the digamma function**:
+\[
+\psi(1-x) - \psi(x) = \pi \cot(\pi x)
+\]
+- The right side, $\pi \cot(\pi x)$, encodes the jump across the singularity at $x$.
+- The left side, $\psi(1-x) - \psi(x)$, measures the difference in boundary values of the digamma function as $x$ crosses the real axis.
+
+**Interpretation:**  
+- The SP jump for the Cauchy kernel is realized as the jump in the digamma function across $x$ and $1-x$, with the cotangent term quantifying the discontinuity.
+- The digamma function thus provides an analytic representation of the SP jump, with its reflection formula directly encoding the jump structure.
+
+**Summary:**  
+- The SP jump formula and the digamma reflection identity are two sides of the same analytic phenomenon: both describe how singularities and discontinuities are captured by special functions.
+- The cotangent term in both formulas quantifies the jump, linking complex analysis and special function theory.
+
+---
+
+## 7. Reformulation of SP Jump via the Digamma Reflection Identity
+
+While the Sokhotski–Plemelj (SP) jump formula gives a constant jump (e.g., $1$ for constant density), the analytic structure underlying this jump is mirrored in the reflection identity for the digamma function:
+\[
+\psi(1 - x) - \psi(x) = \pi \cot(\pi x)
+\]
+Here, the cotangent function encodes the jump discontinuity across singularities, just as the SP formula does for the Cauchy kernel.
+
+**Interpretation:**  
+- The SP jump is a constant, but the analytic mechanism of the jump is captured by the cotangent function, which appears in both the SP boundary analysis and the digamma reflection formula.
+- The digamma difference does not generally equal the SP jump, but both describe how singularities and discontinuities are encoded by special functions.
+- The cotangent function serves as a universal "jump kernel" in both settings.
+
+**Summary:**  
+- The SP jump and the digamma reflection identity are manifestations of the same analytic principle: discontinuities across contours or arguments reflect singular structures, and functions like $\psi(x)$ and $\cot(\pi x)$ encode those singularities in closed form.
+
+---
+
+## 8. Summary and Interpretation
+
+- The SP jump formula describes how analytic functions behave across contours, with the jump matching the density.
+- The cotangent function's boundary values and expansions encode Bernoulli numbers and zeta values.
+- The digamma function's difference formula mirrors the SP jump, linking discrete and continuous analytic structures.
+- These connections unify complex analysis, special function theory, and number theory.
+
+**Conclusion:**  
+The Sokhotski–Plemelj jump formula, cotangent expansions, Bernoulli numbers, zeta values, and the digamma function are deeply interrelated. The jump and pole structures in complex analysis reflect the algebraic and analytic properties of special functions central to number theory.
+
+---
+
+## Visual Aids: Understanding the Sokhotski–Plemelj Jump
+
+To help students grasp the SP jump formula, here are some recommended visual aids and diagrams:
+
+### 1. Contour and Boundary Value Illustration
+
+- **Diagram:** Show a closed contour (e.g., unit circle) in the complex plane, with a point $t$ on the contour.
+- **Labels:** Indicate approach from inside ($+$) and outside ($-$), and mark the jump at $t$.
+- **Purpose:** Visualize how the Cauchy integral's boundary values differ as you approach from inside or outside.
+
+![SP Jump Contour](https://i.imgur.com/6w7wQwD.png)
+
+### 2. Geometric Series Kernel Boundary Values
+
+- **Diagram:** Plot $\frac{1}{1-e^{it}}$ on the unit circle, showing the real and imaginary parts, and highlight the jump between the inside and outside boundary values.
+- **Purpose:** Connect the analytic jump to the geometric series and cotangent function.
+
+![Geometric Series Kernel](https://i.imgur.com/7v3KQwB.png)
+
+### 3. Cotangent Function and Poles
+
+- **Diagram:** Plot $\cot(\pi x)$ for $x$ in $[0,1]$, marking the poles at integer values.
+- **Purpose:** Show how the cotangent function encodes jump discontinuities and relates to the digamma reflection formula.
+
+![Cotangent Poles](https://i.imgur.com/3vQwQwD.png)
+
+### 4. Digamma Reflection Identity
+
+- **Diagram:** Plot $\psi(1-x) - \psi(x)$ and $\pi \cot(\pi x)$ for $x$ in $[0,1]$ to show their equivalence.
+- **Purpose:** Visualize the analytic structure behind the SP jump in terms of special functions.
+
+![Digamma Reflection](https://i.imgur.com/4vQwQwD.png)
+
+---
+
+## Additional Resources
+
+- [What is a contour integral? (YouTube)](https://www.youtube.com/watch?v=lXCz5cJivrM)
+- [Contour Integrals (YouTube)](https://www.youtube.com/watch?v=wup-SS5Fbnk)
+- [Visualizing Complex Integrals (YouTube)](https://www.youtube.com/watch?v=iIzbovM4R2U)
+
+---
+
+**Tip:**  
+Encourage students to sketch these diagrams themselves and experiment with plotting the relevant functions to see the jump and pole structures visually.
