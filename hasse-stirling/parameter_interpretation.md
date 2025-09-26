@@ -307,3 +307,45 @@ This ensures that for each $m$, the recurrence and combinatorial structure are s
 - All three tables coincide when $\alpha = -\beta$ (i.e., $\alpha + \beta = 0$).
 - This includes the Lah case $(\alpha=-1, \beta=1)$ and the digamma case $(\alpha=1, \beta=-1)$.
 - For these parameters, the operator is fully symmetric and self-adjoint, and all weights are positive.
+
+## 4x4 Tables for Hasse-Stirling Coefficients, Mirror, and Symmetric Weights ($\alpha = -\beta$)
+
+For any $\alpha = -\beta$, the Hasse-Stirling coefficients, their mirror, and the symmetric weights are always symmetric in $n \leftrightarrow m-n$ for all $m$.
+
+### Algebraic Relation
+
+For all $m, n$:
+\[
+H_{m,m-n}^{\alpha,-\alpha} = H_{m,n}^{\alpha,-\alpha}
+\]
+and thus
+\[
+w_{m,n}^{\text{sym}} = H_{m,n}^{\alpha,-\alpha}
+\]
+
+### Example: 4x4 Table for $\alpha = a$, $\beta = -a$
+
+Let $a$ be any real or complex number.
+
+| $m \backslash n$ | 0      | 1      | 2      | 3      |
+|------------------|--------|--------|--------|--------|
+| 0                | 1      | –      | –      | –      |
+| 1                | $h_{1,0}$ | $h_{1,1}$ | –      | –      |
+| 2                | $h_{2,0}$ | $h_{2,1}$ | $h_{2,2}$ | –      |
+| 3                | $h_{3,0}$ | $h_{3,1}$ | $h_{3,2}$ | $h_{3,3}$ |
+
+where
+\[
+h_{m,n} = H_{m,n}^{a,-a} = \frac{1}{m+1} \sum_{j=0}^{n} (-1)^{n-j} \binom{n}{j} S(m,j;a,-a)
+\]
+and $S(m,j;a,-a)$ are the generalized Stirling numbers with $\alpha = a$, $\beta = -a$.
+
+**Properties:**
+- $H_{m,n}^{a,-a} = H_{m,m-n}^{a,-a}$ for all $m, n$
+- The symmetric weights $w_{m,n}^{\text{sym}} = H_{m,n}^{a,-a}$
+- All three tables (original, mirror, symmetric) are identical
+
+**Summary:**  
+- For any $\alpha = -\beta$, the Hasse-Stirling coefficients are symmetric in $n \leftrightarrow m-n$.
+- The explicit values depend on $a$, but the symmetry is always present.
+- This covers the Lah case ($a=-1$), digamma case ($a=1$), and all other $\alpha = -\beta$ domains.

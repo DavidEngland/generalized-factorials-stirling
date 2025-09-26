@@ -45,3 +45,20 @@ This table summarizes key transforms for the Hasse-Stirling operator $\mathcal{H
 **References:**  
 - See the main cheatsheet for recurrence relations, operational forms, and further details.
 - For more on parameter optimization and special cases, consult the Hasse-Stirling literature and function tables.
+
+## Hurwitz Zeta Function for Complex $s = a + b i$
+
+The Hasse-Stirling operator can be used to compute the Hurwitz zeta function $\zeta(s, x)$ for complex $s = a + b i$:
+
+| Function $f(t)$      | Parameters $(\alpha,\beta,r)$ | $\mathcal{H}_{\alpha,\beta,r}(f)(x)$ | Known Expression / Interpretation |
+|----------------------|------------------------------|--------------------------------------|-----------------------------------|
+| $x^{1-s}$            | $(\alpha,\beta,r)$           | $\mathcal{H}_{\alpha,\beta,r}(x^{1-s})$ | $(s-1)\zeta(s,x)$ (Hurwitz zeta, $s$ complex) |
+
+**How to use:**  
+- Set $s = a + b i$ (with $a, b \in \mathbb{R}$).
+- Compute $\mathcal{H}_{\alpha,\beta,r}(x^{1-s})$ using the double sum definition and appropriate generalized Stirling numbers.
+- The result gives $(s-1)\zeta(s,x)$, so divide by $(s-1)$ to obtain $\zeta(s,x)$.
+
+**Summary:**  
+- The Hasse-Stirling framework supports direct computation of Hurwitz zeta for complex $s$.
+- This is possible because the operator can handle generalized Bernoulli polynomials for complex parameters, and the Hurwitz zeta is closely related to these polynomials.
