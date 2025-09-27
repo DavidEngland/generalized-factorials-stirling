@@ -41,3 +41,10 @@
     * $\mathcal{H}(\text{power}) \to \zeta(s, x)$
     * $\mathcal{H}(\text{power} \cdot \text{Dirichlet char}) \to L(s, \chi)$
     * $\mathcal{H}(\text{power} \cdot \text{Bose-Einstein}) \to \mathrm{Li}_s(z)$
+
+             Polylog
+           ▲
+        /     \
+     ζ(s,x)   L(s,χ)
+        \     /
+         Bernoulli
