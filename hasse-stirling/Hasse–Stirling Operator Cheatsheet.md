@@ -48,3 +48,23 @@ H_{m,n}^{\alpha,\beta} \;=\; H_{m-1,n-1}^{\alpha,\beta} \;-\; \frac{m\alpha+n\be
   \(\mathcal{H}\!\big(\tfrac{t^{s-1}}{e^t/z-1}\big) \to \Gamma(s)\,\mathrm{Li}_s(z)\).
 
 ---
+
+### Integration (Quadrature) and Inverse Operators
+
+- **Differentiation \(D\):** Most entries above use the operator acting on derivatives \(f^{(n)}(x)\).
+- **Integration (Quadrature) \(D^{-1}\):** The inverse operator corresponds to summation or integration. For example:
+  - For Bernoulli regime \((0,1)\), the inverse relates to the indefinite sum (discrete integral) and can be expressed using Bernoulli polynomials:
+    $$
+    \sum_{k=0}^{n-1} f(k) = \int_0^n f(x)\,dx + \frac{B_1}{1!}f(n) + \frac{B_2}{2!}f'(n) + \cdots
+    $$
+    (Euler–Maclaurin formula)
+  - For continuous functions, \(D^{-1} f(x) = \int f(x)\,dx\).
+  - The Hasse–Stirling operator can be adapted for quadrature by replacing derivatives with repeated integrals or indefinite sums.
+
+- **Example:** For \(f(t) = t^n\), integrating yields:
+  $$
+  D^{-1} t^n = \frac{t^{n+1}}{n+1}
+  $$
+  and the operator can be extended to act on these primitives.
+
+- **Summary:** The Hasse–Stirling framework is flexible for both differentiation and integration, connecting sums, differences, and quadrature via operator inverses.
