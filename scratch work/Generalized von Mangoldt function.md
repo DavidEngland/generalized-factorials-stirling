@@ -236,12 +236,6 @@ Equating Gauss's digamma theorem to the von Mangoldt/Hasse-Stirling expansion at
 
 **What can we say?**
 - The digamma at rationals encodes deep arithmetic and transcendence properties, connecting prime logs, trigonometric functions, and special values of $L$-functions.
-- The basis for these values is not just the logs of primes, but also logs and products of trigonometric functions at rational arguments.
-- The transcendence and algebraic independence of these values is a major theme in transcendental number theory (see Baker's theorem, Gelfond-Schneider theorem).
-- Finite sums of such terms are almost always transcendental, and their linear independence over $\mathbb{Q}$ is a consequence of deep results in transcendence theory.
-
-**Summary (Riemann style):**
-- The digamma function at rational arguments is a window into the transcendental landscape of number theory, unifying primes, trigonometric functions, and special values.
 - Its values are built from a basis of logs of primes and logs of trigonometric values, almost always transcendental and often algebraically independent.
 - The interplay between these bases reveals the unity of analytic and arithmetic phenomena, and the richness of the transcendental world.
 
@@ -303,4 +297,61 @@ The digamma function $\psi(x)$ (or $\psi(x) + \gamma$) at rational arguments is 
 
 ---
 
-**For further details and proofs, see the referenced literature.**
+### 15. Interpretation: $\log(\sin(\pi n/q))$ as Coefficients for the $\cos(\pi n a/q)$ Basis
+
+In Gauss's digamma theorem at rational arguments,
+$$
+\psi\left(\frac{a}{q}\right) = -\gamma - \log(2q) - \frac{\pi}{2} \cot\left(\frac{\pi a}{q}\right) + 2 \sum_{n=1}^{\lfloor (q-1)/2 \rfloor} \cos\left(\frac{2\pi n a}{q}\right) \log\left(\sin\left(\frac{\pi n}{q}\right)\right)
+$$
+the terms $\log(\sin(\pi n/q))$ act as coefficients for the basis functions $\cos(2\pi n a/q)$.
+
+- **Fourier perspective:** The digamma function at rational arguments is expanded as a finite sum over cosines at rational multiples of $\pi$, with coefficients given by $\log(\sin(\pi n/q))$.
+- **Basis analogy:** The set $\{\cos(2\pi n a/q)\}$ forms a basis for periodic functions on rationals, and the $\log(\sin(\pi n/q))$ encode the arithmetic and transcendental content as weights.
+- **Arithmetic structure:** These coefficients are transcendental (except for trivial cases), and their linear independence is related to deep results in transcendence theory.
+
+**Summary:**  
+- In the Fourier/basis expansion of the digamma at rationals, $\log(\sin(\pi n/q))$ serve as arithmetic coefficients for the trigonometric basis $\cos(2\pi n a/q)$.
+- This structure highlights the interplay between transcendental coefficients and trigonometric bases in analytic number theory.
+
+---
+
+### 16. Dependence of Coefficients on $q$ and Strengthening Murty's Argument
+
+The coefficients $\log(\sin(\pi n/q))$ in the Fourier expansion of the digamma function at rational arguments depend explicitly on $q$ (the denominator of the rational argument):
+
+- **Arithmetic dependence:** For each $q$, the set $\{\log(\sin(\pi n/q)) : 1 \leq n < q\}$ consists of logarithms of algebraic numbers that vary with $q$.
+- **Transcendence and independence:** Baker's theorem ensures that these coefficients are transcendental and linearly independent over $\mathbb{Q}$ (unless trivial).
+- **Murty's argument:** Murty showed that values like $\psi(a/q)$ are transcendental except for trivial cases, using the algebraic independence of such logarithms.
+
+**Strengthening Murty's argument:**
+- By explicitly recognizing the $q$-dependence of the coefficients, one can argue that for different $q$, the sets of coefficients are algebraically independent and generate distinct transcendental fields.
+- This means that the transcendence and independence of digamma values at different rationals is even stronger than previously shown: not only are individual values transcendental, but the entire collection for varying $q$ is algebraically independent.
+- The structure of the Fourier expansion, with $q$-dependent transcendental coefficients, provides a robust framework for proving such results.
+
+**Summary:**  
+- The explicit $q$-dependence of the coefficients $\log(\sin(\pi n/q))$ in the digamma's Fourier expansion allows one to strengthen arguments (like Murty's) about transcendence and algebraic independence.
+- For varying $q$, the digamma values at rationals generate transcendental numbers that are not only individually transcendental, but also collectively algebraically independent.
+
+---
+
+### 17. The Role of the Euler-Mascheroni Constant $\gamma$ in Digamma at Rational Arguments
+
+When considering $\psi(a/q) + \gamma$ for $a$ and $q$ coprime, the Euler-Mascheroni constant $\gamma$ appears as an additive term in both the Gauss and von Mangoldt expansions.
+
+- **Is $\gamma$ part of the basis?**
+  - $\gamma$ is a universal constant, independent of $a$ and $q$.
+  - It does not depend on the arithmetic of $a/q$ and is not a coefficient in the Fourier or prime log basis.
+  - In expansions, $\gamma$ acts as a "shift" or offset, not as a basis element or coefficient.
+
+- **Arithmetic nature of $\gamma$:**
+  - $\gamma$ is believed to be transcendental, but its arithmetic nature is still unknown (not proven irrational or transcendental).
+  - It is not expressible as a finite sum of logs of primes or trigonometric values.
+
+- **Coprimality and $q$ prime or near prime:**
+  - For $a$ and $q$ coprime, the structure of $\psi(a/q) + \gamma$ is as described: a rational part, a sum over trigonometric logs, and the constant $\gamma$.
+  - If $q$ is prime or $q \pm 1$ is prime, the basis and coefficients remain as above, but the arithmetic properties of the trigonometric terms may be more tractable or have special symmetries.
+
+**Summary:**  
+- In $\psi(a/q) + \gamma$, the constant $\gamma$ is an additive offset, not a basis element or coefficient.
+- The transcendence and arithmetic independence of the digamma values at rationals is unaffected by the presence of $\gamma$.
+- The coprimality of $a$ and $q$, and the arithmetic nature of $q$, influence the structure and independence of the trigonometric log coefficients, but $\gamma$ remains a universal constant.
