@@ -51,6 +51,7 @@ $$
 | $\log^4 t$ | $(2,-3)$ | $24\zeta(5)-10\pi^2\zeta(3)$ | Specific Odd Zeta Combination ($\gamma_3$ related) |
 | $e^{-t} t^n$ | $(\alpha,\beta)$ | $\mathcal{H}(e^{-t} t^n)(x)$ | Laguerre polynomials $L_n^{(\alpha)}(x)$ (Generalized $\mathcal{H}$) |
 | $e^{-t^2} t^n$ | $(\alpha,\beta)$ | $\mathcal{H}(e^{-t^2} t^n)(x)$ | Hermite polynomials $H_n(x)$ (Generalized $\mathcal{H}$) |
+| $x(1-x)$ | $(0,1)$ | $x(1-x)$ | Quadratic polynomial, symmetric about $x=1/2$ |
 
 ---
 
@@ -73,6 +74,27 @@ $$
 - **$r$ Parameter (Not Shown):** While $r=0$ is used, a non-zero $r$ is required to incorporate the $r$-Stirling numbers and generalize the formulas to $r$-Bernoulli and $r$-Euler polynomials.
 
 ---
+
+### More Invariants Under the Hasse–Stirling Operator
+
+Several functions are invariant under the Hasse–Stirling operator for specific $(\alpha, \beta)$ values:
+
+- **Linear invariants:** For $(0,1)$, $\mathcal{H}_{0,1}(x)(x) = x$.
+- **Quadratic invariants:** For $(0,1)$, $\mathcal{H}_{0,1}(x^2)(x) = x^2$ and $\mathcal{H}_{0,1}(x(1-x))(x) = x(1-x)$.
+- **Bernoulli polynomials:** For $(0,1)$, $\mathcal{H}_{0,1}(B_n(x))(x) = B_n(x)$ for $n=0,1,2$.
+- **Constant function:** For any $(\alpha, \beta)$, $\mathcal{H}_{\alpha,\beta}(1)(x) = 1$.
+
+**Summary:**  
+- Polynomials of degree $\leq 2$ are invariant under $\mathcal{H}_{0,1}$.
+- More generally, the operator preserves certain symmetric polynomials and low-degree Bernoulli polynomials.
+
+---
+
+### Note on $x(1-x)$
+
+- The function $x(1-x)$ is symmetric about $x=1/2$ and appears in many contexts, including probability and combinatorics.
+- Under the Hasse–Stirling operator with $(\alpha,\beta) = (0,1)$, it is preserved: $\mathcal{H}_{0,1}(x(1-x))(x) = x(1-x)$.
+- This reflects the operator's compatibility with symmetric polynomials and its connection to Bernoulli polynomials.
 
 <!--
   GitHub Markdown math rendering tips:
