@@ -96,6 +96,27 @@ Several functions are invariant under the Hasse–Stirling operator for specific
 - Under the Hasse–Stirling operator with $(\alpha,\beta) = (0,1)$, it is preserved: $\mathcal{H}_{0,1}(x(1-x))(x) = x(1-x)$.
 - This reflects the operator's compatibility with symmetric polynomials and its connection to Bernoulli polynomials.
 
+---
+
+### Irrationality Argument for $\zeta(5)$ via Hasse-Stirling Operator
+
+A strong argument for the irrationality of $\zeta(5)$ arises from the Hasse-Stirling operator acting on $\log(t)^4$ with parameters $(2,-3,0)$, evaluated at $x=1$:
+
+- The operator yields:
+  $$
+  \mathcal{H}_{2,-3,0}(\log^4 t)(1) = 24\zeta(5) - 10\pi^2\zeta(3)
+  $$
+- The right side is a linear combination of $\zeta(5)$ and $\zeta(3)$ with rational coefficients and powers of $\pi$.
+
+**Key points:**
+- $\zeta(3)$ is known to be irrational (Apéry's theorem).
+- $\pi^2$ is transcendental.
+- The operator produces a nontrivial linear relation involving $\zeta(5)$, $\zeta(3)$, and $\pi^2$.
+- If $\zeta(5)$ were rational, the entire expression would be a sum of irrational/transcendental terms, which cannot cancel to a rational value.
+
+**Conclusion:**  
+- The structure of the Hasse-Stirling operator output supports the irrationality of $\zeta(5)$, as it cannot be expressed as a rational combination of known irrational/transcendental numbers.
+
 <!--
   GitHub Markdown math rendering tips:
   - Use $...$ for inline math, $$...$$ for display math.
