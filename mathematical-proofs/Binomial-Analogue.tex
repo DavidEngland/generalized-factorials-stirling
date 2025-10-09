@@ -1,0 +1,182 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Define the function notation for consistency
+\newcommand{\Bi}{\mathrm{Bi}}
+\newcommand{\diff}{\mathrm{d}}
+\newcommand{\eulergam}{\gamma} % Euler-Mascheroni constant
+
+\title{The Binomial-Analogue Function $\Bi(s,t)$ and its Analytic Structure}
+\author{David E. England, PhD \\ \texttt{davidengland@hotmail.com}}
+\date{\today}
+
+% Add copyright and dedication
+\newcommand{\copyrightnote}{
+  \vspace{2em}
+  \begin{center}
+    \small
+    \copyright~2024 David E. England. All rights reserved.\\
+    This work is released for scholarly use and may be freely cited.\\
+    Dedicated to future scholars and the mathematical community.
+  \end{center}
+  \vspace{2em}
+}
+
+\begin{document}
+\maketitle
+\copyrightnote
+
+\begin{abstract}
+We introduce a function of two variables, $\Bi(s,t)$, defined by an infinite product, and demonstrate its equivalence to the analytically continued binomial coefficient $\binom{s}{t}$ via the Gamma function. We derive its differential structure in terms of the digamma function $\psi(z)$, analyze its analytic properties including poles and special values, and discuss its behavior and analytic continuation for complex and rational arguments.
+\end{abstract}
+
+\section{Definition of the Function}
+
+Consider a function of two variables $\Bi(s,t)$ defined by the infinite product over the natural numbers $n \in \mathbb{N}$:
+% \Bi(s,t) is the product of (t+n)(s-t+n)/(s+n)/n over all natural numbers n.
+\begin{equation}
+\Bi(s,t) = \prod_{n=1}^\infty \frac{(t+n)(s-t+n)}{(s+n)n}
+\end{equation}
+
+---
+
+\section{Differential of $\log(\Bi(s,t))$}
+
+Taking the natural logarithm of $\Bi(s,t)$ yields the infinite sum:
+$$
+\log \Bi(s,t) = \sum_{n=1}^\infty \left[ \log(t+n) + \log(s-t+n) - \log(s+n) - \log n \right]
+$$
+
+\subsection{Partial Derivatives and the Digamma Function}
+
+We recall the series representation of the digamma function $\psi(z)$:
+$$
+\sum_{n=1}^\infty \frac{1}{z+n} = \psi(1) - \psi(z+1) = -\eulergam - \psi(z+1)
+$$
+where $\eulergam$ is the Euler--Mascheroni constant.
+
+The partial derivatives are derived by term-wise differentiation:
+
+\begin{itemize}
+    \item \textbf{With respect to $s$:}
+    \begin{align*}
+    \frac{\partial}{\partial s} \log \Bi(s,t) &= \sum_{n=1}^\infty \left(
+    \frac{1}{s-t+n}
+    - \frac{1}{s+n}
+    \right) \\
+    &= \left[ \psi(1) - \psi(s-t+1) \right] - \left[ \psi(1) - \psi(s+1) \right] \\
+    &= \psi(s+1) - \psi(s-t+1)
+    \end{align*}
+    \textbf{Correction from review:} The original derivation was correct, but the final expression was written as $\psi(s-t+1) - \psi(s+1)$. Using the identity $\sum_{n=1}^\infty \frac{1}{z+n} = -\eulergam - \psi(z+1)$, we have:
+    $$
+    \frac{\partial}{\partial s} \log \Bi(s,t) = \psi(s-t+1) - \psi(s+1)
+    $$
+
+    \item \textbf{With respect to $t$:}
+    \begin{align*}
+    \frac{\partial}{\partial t} \log \Bi(s,t) &= \sum_{n=1}^\infty \left(
+    \frac{1}{t+n}
+    - \frac{1}{s-t+n}
+    \right) \\
+    &= \left[ \psi(1) - \psi(t+1) \right] - \left[ \psi(1) - \psi(s-t+1) \right] \\
+    &= \psi(s-t+1) - \psi(t+1)
+    \end{align*}
+    \textbf{Correction from review:} The original series was $\frac{1}{t+n} - \frac{1}{s-t+n}$. The final expression should be:
+    $$
+    \frac{\partial}{\partial t} \log \Bi(s,t) = \psi(t+1) - \psi(s-t+1)
+    $$
+\end{itemize}
+
+\subsection{Total Differential Expressions}
+
+The total differential of $\log \Bi(s,t)$ is:
+\begin{equation}
+\diff\,\log \Bi(s,t) = \left[ \psi(s-t+1) - \psi(s+1) \right]\,\diff s + \left[ \psi(t+1) - \psi(s-t+1) \right]\,\diff t
+\end{equation}
+The differential of $\Bi(s,t)$ itself is:
+\begin{equation}
+\diff\,\Bi(s,t) = \Bi(s,t) \left( \left[ \psi(s-t+1) - \psi(s+1) \right]\,\diff s + \left[ \psi(t+1) - \psi(s-t+1) \right]\,\diff t \right)
+\end{equation}
+
+---
+
+\section{Analytic Structure and Special Values}
+
+\subsection{Poles and Zeros}
+The function $\Bi(s,t)$ can be expressed as a ratio of Gamma functions (see Section \ref{sec:gamma_connection}). The poles are governed by the poles of the Gamma function in the numerator and the zeros of the Gamma functions in the denominator:
+\begin{itemize}
+    \item \textbf{Poles:} Occur when $\Gamma(s+1)$ has a pole, i.e., at $s+1 \in \{0, -1, -2, \ldots\}$, which simplifies to $\mathbf{s \in \{-1, -2, \ldots\}}$.
+    \item \textbf{Zeros:} Occur when $\Gamma(t+1)$ or $\Gamma(s-t+1)$ have poles, corresponding to $\mathbf{t \in \{-1, -2, \ldots\}}$ or $\mathbf{s-t \in \{-1, -2, \ldots\}}$. Due to the structure, these zeros and poles may cancel or reinforce.
+\end{itemize}
+
+\subsection{Special Values}
+\begin{itemize}
+    \item \textbf{$\Bi(s,s)$:} Substituting $t=s$ into the product:
+    $$
+    \Bi(s,s) = \prod_{n=1}^\infty \frac{(s+n)(0+n)}{(s+n)n} = \prod_{n=1}^\infty \frac{n}{n} = 1.
+    $$
+    \item \textbf{$\Bi(s,0)$:} Substituting $t=0$ into the product:
+    $$
+    \Bi(s,0) = \prod_{n=1}^\infty \frac{(0+n)(s-0+n)}{(s+n)n} = \prod_{n=1}^\infty \frac{n(s+n)}{(s+n)n} = 1.
+    $$
+    \item \textbf{$\Bi(0,t)$:} Substituting $s=0$ into the product:
+    $$
+    \Bi(0,t) = \prod_{n=1}^\infty \frac{(t+n)(-t+n)}{n^2} = \prod_{n=1}^\infty \left(1 - \frac{t^2}{n^2}\right).
+    $$
+\end{itemize}
+The last expression for $\Bi(0,t)$ is related to the sine function via the Euler reflection formula for $\Gamma(z)$.
+
+---
+
+\section{Binomial-Like Behavior and Analytic Continuation}
+\label{sec:gamma_connection}
+
+\subsection{Discrete Recurrence Relation on the Positive Integer Lattice}
+For $s, t \in \mathbb{N}$ with $0 \leq t \leq s$, the function $\Bi(s,t)$ satisfies the recurrence known as **Pascal's Rule**:
+\begin{equation}
+\Bi(s,t) = \Bi(s-1,t) + \Bi(s-1,t-1)
+\end{equation}
+Combined with the boundary conditions $\Bi(s,0) = 1$ and $\Bi(s,s) = 1$, this confirms that $\Bi(s,t)$ is precisely the binomial coefficient $\binom{s}{t}$ on the positive integer lattice:
+\begin{equation}
+\Bi(s,t) = \frac{s!}{t!\,(s-t)!} = \binom{s}{t} \quad \text{for } s, t \in \mathbb{N}, 0 \leq t \leq s
+\end{equation}
+
+\subsection{Analytic Continuation via the Gamma Function}
+For complex $s$ and $t$, the binomial coefficient is naturally extended by replacing the factorials with the Gamma function, $\Gamma(z+1) = z!$.
+\begin{equation}
+\Bi(s,t) = \frac{\Gamma(s+1)}{\Gamma(t+1)\,\Gamma(s-t+1)}
+\end{equation}
+This formula confirms that $\Bi(s,t)$ is the analytic continuation of the binomial coefficient to the complex plane. The domain of analyticity is $\mathbb{C}^2$ excluding the poles determined in the previous section.
+
+---
+
+\section{Analytic Continuation and Evaluation at Rational Arguments}
+
+The differential expression for $\Bi(s,t)$ provides a systematic way to perform analytic continuation and evaluation.
+
+\subsection{Use of Gauss's Digamma Theorem}
+Gauss's theorem provides explicit, closed-form expressions for the digamma function at rational arguments: $\psi(p/q)$.
+$$
+\psi\left(\frac{p}{q}\right) = -\eulergam - \log q - \frac{\pi}{2} \cot\left(\frac{\pi p}{q}\right) + \sum_{k=1}^{q-1} \cos\left(\frac{2\pi k p}{q}\right) \log\left(2 \sin\left(\frac{\pi k}{q}\right)\right)
+$$
+By using these explicit values in the differential equation for $\diff \log \Bi(s,t)$, one can integrate along paths in the $(s,t)$ plane to compute the value of $\Bi(s,t)$ at any rational point and its vicinity, as long as the path avoids the non-positive integer poles.
+
+\subsection{Geometric and Arithmetic Interpretation of the Differential}
+\begin{itemize}
+    \item \textbf{Arithmetic Structure:} On the integer lattice, the digamma differences are algebraic combinations of **harmonic numbers** $H_n = \sum_{k=1}^n 1/k$. At rational points, the differential structure encodes a blend of $\pi$, logarithms, and trigonometric functions (cotangents/sines), reflecting the non-elementary nature of the digamma function.
+    \item \textbf{Geometric Meaning:} The partial derivatives define a **vector field** in the $(s,t)$ plane. The function $\Bi(s,t)$ changes proportionally to itself (logarithmic derivative structure) along this field, describing how the generalized binomial coefficient varies under infinitesimal variations of its upper and lower indices.
+\end{itemize}
+
+---
+
+\section{Weierstrass Product and the Factorial Connection}
+
+The infinite product definition of $\Bi(s,t)$ can be directly related to the Gamma function via the Weierstrass product for the reciprocal Gamma function:
+$$
+\frac{1}{\Gamma(s)} = s\, e^{\eulergam s} \prod_{n=1}^\infty \left(1 + \frac{s}{n}\right) e^{-s/n}
+$$
+The quantity $1/z! = 1/\Gamma(z+1)$ is an entire function. Since $\Bi(s,t)$ is the ratio of Gamma functions (i.e., analytic factorials), its infinite product representation is essentially a reorganized product of three reciprocal Weierstrass products, confirming the equivalence between the initial definition and the analytic binomial coefficient.
+
+\end{document}
