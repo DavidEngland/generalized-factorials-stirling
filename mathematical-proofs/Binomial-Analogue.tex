@@ -125,8 +125,12 @@ The function $\Bi(s,t)$ can be expressed as a ratio of Gamma functions (see Sect
     $$
     \Bi(0,t) = \prod_{n=1}^\infty \frac{(t+n)(-t+n)}{n^2} = \prod_{n=1}^\infty \left(1 - \frac{t^2}{n^2}\right).
     $$
+    This infinite product is a classical result and equals
+    $$
+    \Bi(0,t) = \frac{\sin(\pi t)}{\pi t}
+    $$
+    for $t \notin \mathbb{Z}$, by Euler's sine product formula.
 \end{itemize}
-The last expression for $\Bi(0,t)$ is related to the sine function via the Euler reflection formula for $\Gamma(z)$.
 
 ---
 
@@ -178,5 +182,8 @@ $$
 \frac{1}{\Gamma(s)} = s\, e^{\eulergam s} \prod_{n=1}^\infty \left(1 + \frac{s}{n}\right) e^{-s/n}
 $$
 The quantity $1/z! = 1/\Gamma(z+1)$ is an entire function. Since $\Bi(s,t)$ is the ratio of Gamma functions (i.e., analytic factorials), its infinite product representation is essentially a reorganized product of three reciprocal Weierstrass products, confirming the equivalence between the initial definition and the analytic binomial coefficient.
+
+\paragraph{Historical Note.}
+The identity $\prod_{n=1}^\infty \left(1 - \frac{t^2}{n^2}\right) = \frac{\sin(\pi t)}{\pi t}$ is classical and dates back to Euler. Its appearance as a special value of the analytic binomial function $\Bi(0,t)$ is a direct consequence of the Weierstrass product for the sine function and is well known in the theory of special functions.
 
 \end{document}
