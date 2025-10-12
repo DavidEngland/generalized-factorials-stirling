@@ -62,3 +62,56 @@ The Hasse-Stirling operator can be used to compute the Hurwitz zeta function $\z
 **Summary:**  
 - The Hasse-Stirling framework supports direct computation of Hurwitz zeta for complex $s$.
 - This is possible because the operator can handle generalized Bernoulli polynomials for complex parameters, and the Hurwitz zeta is closely related to these polynomials.
+
+---
+
+## Trigonometric and Hyperbolic Functions in the Hasse-Stirling Framework
+
+The Hasse-Stirling operator can be applied to trigonometric and hyperbolic functions, yielding connections to special values, series, and analytic continuations.
+
+### Examples
+
+| Function $f(t)$         | Parameters $(\alpha,\beta,r)$ | $\mathcal{H}_{\alpha,\beta,r}(f)(x)$ | Known Expression / Interpretation |
+|-------------------------|------------------------------|--------------------------------------|-----------------------------------|
+| $\sin(z t)$             | $(0,1,0)$                    | $\frac{\sin(z x)}{e^{iz} - 1}$       | Sine EGF, Fourier series          |
+| $\cos(z t)$             | $(0,1,0)$                    | $\frac{\cos(z x)}{e^{iz} - 1}$       | Cosine EGF                        |
+| $\tanh(t)$              | $(1,1,0)$                    | Related to Dirichlet beta function   | Catalan's constant, series sums   |
+| $\log\left(\frac{1+t}{1-t}\right)$ | $(1,1,0)$         | $2\,\mathrm{artanh}(t)$ for $|t|<1$  | Hyperbolic inverse, analytic continuation |
+| $\text{sech}(t)$        | $(1,1,0)$                    | Series in Euler numbers              | Fourier/cosine series             |
+
+### Notes
+
+- Applying the operator to $\sin(z t)$ or $\cos(z t)$ yields generating functions and connections to Fourier analysis.
+- For hyperbolic functions, the operator relates to series involving Bernoulli and Euler numbers, and analytic continuations of inverse functions.
+- The operator can be used to derive series expansions, evaluate integrals, and connect to special constants (e.g., Catalan's constant).
+
+**Summary:**  
+- The Hasse-Stirling operator extends naturally to trigonometric and hyperbolic functions, providing analytic continuations, series expansions, and links to classical constants and Fourier analysis.
+
+---
+
+## Coefficient Recurrence for the Hasse-Stirling Operator
+
+The action of the Hasse-Stirling operator $\mathcal{H}_{\alpha,\beta,r}$ depends critically on the coefficients $H_{m,n}^{\alpha,\beta,r}$, which are defined recursively:
+
+- **Recurrence relation:**
+  $$
+  H_{m,n} = H_{m-1,n-1} + \frac{\alpha m + \beta n}{m+2} H_{m-1,n}
+  $$
+  for $m \geq 1$, $n \geq 1$.
+
+- **Initial condition:**
+  $$
+  H_{m,0} = \frac{1}{m+1}
+  $$
+  and $H_{0,0} = 1$.
+
+- **Zero region:** $H_{m,n} = 0$ for $n > m$.
+
+These coefficients determine the weights in the double sum expansion of the operator and encode the combinatorial and analytic structure for each choice of $(\alpha, \beta, r)$.
+
+---
+
+**Summary:**  
+- The Hasse-Stirling operator's behavior is governed by the recursive coefficients $H_{m,n}$, which depend on the parameters $(\alpha, \beta, r)$.
+- The recurrence and initial condition above allow explicit computation of all coefficients needed for the operator's action on any function $f(t)$.

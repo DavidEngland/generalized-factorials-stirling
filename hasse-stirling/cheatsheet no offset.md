@@ -117,6 +117,32 @@ A strong argument for the irrationality of $\zeta(5)$ arises from the Hasse-Stir
 **Conclusion:**  
 - The structure of the Hasse-Stirling operator output supports the irrationality of $\zeta(5)$, as it cannot be expressed as a rational combination of known irrational/transcendental numbers.
 
+---
+
+### Hyperbolic Inverse Connection
+
+- The function $\log\left(\frac{1+t}{1-t}\right)$ is the analytic continuation of $2\,\mathrm{artanh}(t)$ for $|t|<1$ (inverse hyperbolic tangent).
+- For $|t|>1$, it connects to $2\,\mathrm{arcoth}(t)$ (inverse hyperbolic cotangent).
+
+---
+
+### Bose–Einstein Connection
+
+- The Bose–Einstein distribution kernel is:
+  $$
+  \frac{t^{s-1}}{e^{t}/z + 1}
+  $$
+- The Hasse–Stirling operator can be applied to this kernel to analytically continue Bose–Einstein integrals and series.
+- This connects to polylogarithms and zeta functions, as the operator yields:
+  $$
+  \mathcal{H}_{1,0}\left(\frac{t^{s-1}}{e^{t}/z + 1}\right) \to \Gamma(s)\,\mathrm{Li}_s(-z)
+  $$
+- The sign and denominator reflect the quantum statistics (Fermi–Dirac uses $-1$ instead of $+1$).
+
+**Summary:**  
+- $\log\left(\frac{1+t}{1-t}\right)$ is linked to hyperbolic inverses (artanh/arcoth).
+- The Bose–Einstein kernel fits naturally into the Hasse–Stirling framework, connecting to polylogarithms and quantum statistical distributions.
+
 <!--
   GitHub Markdown math rendering tips:
   - Use $...$ for inline math, $$...$$ for display math.

@@ -1,0 +1,468 @@
+{{Short description|Mathematical function}}
+{{For|Barnes' gamma function of two variables |double gamma function}}
+
+[[File:Digamma.png|thumb|300px|The digamma function <math>\psi(z)</math>,<br>visualized using [[domain coloring]]]]
+[[File:Mplwp polygamma03.svg|thumb|300px|Plots of the digamma and the next three polygamma functions along the real line (they are real-valued on the real line)]]
+
+In [[mathematics]], the '''digamma function''' is defined as the [[logarithmic derivative]] of the [[gamma function]]:<ref name="AbramowitzStegun"/><ref name="DLMF5"/><ref name="Weissstein"/>
+
+:<math>\psi(z) = \frac{d}{dz}\ln\Gamma(z) = \frac{\Gamma'(z)}{\Gamma(z)}.</math>
+
+It is the first of the [[polygamma function]]s. This function is [[Monotonic function|strictly increasing]] and [[Concave function|strictly concave]] on <math>(0,\infty)</math>,<ref>{{Cite journal |last1=Alzer |first1=Horst |last2=Jameson |first2=Graham |date=2017 |title=A harmonic mean inequality for the digamma function and related results |url=https://core.ac.uk/download/pdf/228202664.pdf |journal=Rendiconti del Seminario Matematico della Università di Padova |volume=137 |pages=203–209|doi=10.4171/RSMUP/137-10 }}</ref> and it [[Asymptotic analysis|asymptotically behaves]] as<ref>{{cite web |url=https://dlmf.nist.gov/5.11 |title=NIST. Digital Library of Mathematical Functions (DLMF), 5.11.}}</ref>
+
+:<math>\psi(z) \sim \ln{z} - \frac{1}{2z},</math>
+
+for complex numbers with large modulus (<math>|z|\rightarrow\infty</math>) in the [[Circular sector|sector]] <math>|\arg z|<\pi-\varepsilon</math> for any <math>\varepsilon > 0</math>.
+
+The digamma function is often denoted as <math>\psi_0(x), \psi^{(0)}(x) </math> or {{math|Ϝ}}<ref>{{cite book |last=Pairman |first=Eleanor |author-link=Eleanor Pairman |date=1919 |title=Tables of the Digamma and Trigamma Functions |url=https://archive.org/details/cu31924001468416/page/n9/mode/2up |publisher=Cambridge University Press |page=5}}</ref> (the uppercase form of the archaic Greek [[consonant]] [[digamma]] meaning [[Gamma|double-gamma]]).
+
+==Relation to harmonic numbers==
+The gamma function obeys the equation
+
+:<math>\Gamma(z+1)=z\Gamma(z). \, </math>
+
+Taking the logarithm on both sides and using the functional equation property of the log-gamma function gives:
+
+:<math>\log \Gamma(z+1)=\log(z)+\log \Gamma(z), </math>
+
+Differentiating both sides with respect to {{mvar|z}} gives:
+
+:<math>\psi(z+1)=\psi(z)+\frac{1}{z}</math>
+
+Since the [[harmonic number]]s are defined for positive integers {{mvar|n}} as
+
+:<math>H_n=\sum_{k=1}^n \frac 1 k, </math>
+
+the digamma function is related to them by
+
+:<math>\psi(n)=H_{n-1}-\gamma,</math>
+
+where {{math|''H''<sub>0</sub> {{=}} 0,}} and {{mvar|γ}} is the [[Euler–Mascheroni constant]]. For half-integer arguments the digamma function takes the values
+
+:<math> \psi \left(n+\tfrac12\right)=-\gamma-2\ln 2 +\sum_{k=1}^n \frac 2 {2k-1} = -\gamma-2\ln 2 + 2H_{2n}-H_n.</math>
+
+==Integral representations==
+If the real part of {{mvar|z}} is positive then the digamma function has the following [[integral]] representation due to Gauss:<ref name="Whittaker and Watson, 12.3">Whittaker and Watson, 12.3.</ref>
+:<math>\psi(z) = \int_0^\infty \left(\frac{e^{-t}}{t} - \frac{e^{-zt}}{1-e^{-t}}\right)\,dt.</math>
+
+Combining this expression with an integral identity for the [[Euler–Mascheroni constant]] <math>\gamma</math> gives:
+:<math>\psi(z + 1) = -\gamma + \int_0^1 \left(\frac{1-t^z}{1-t}\right)\,dt.</math>
+The integral is Euler's [[harmonic number]] <math>H_z</math>, so the previous formula may also be written
+:<math>\psi(z + 1) = \psi(1) + H_z.</math>
+A consequence is the following generalization of the recurrence relation:
+:<math>\psi(w + 1) - \psi(z + 1) = H_w - H_z.</math>
+
+An integral representation due to Dirichlet is:<ref name="Whittaker and Watson, 12.3"/>
+:<math>\psi(z) = \int_0^\infty \left(e^{-t} - \frac{1}{(1 + t)^z}\right)\,\frac{dt}{t}.</math>
+
+Gauss's integral representation can be manipulated to give the start of the asymptotic expansion of <math>\psi</math>.<ref>Whittaker and Watson, 12.31.</ref>
+:<math>\psi(z) = \log z - \frac{1}{2z} - \int_0^\infty \left(\frac{1}{2} - \frac{1}{t} + \frac{1}{e^t - 1}\right)e^{-tz}\,dt.</math>
+This formula is also a consequence of Binet's first integral for the gamma function.  The integral may be recognized as a [[Laplace transform]].
+
+Binet's second integral for the gamma function gives a different formula for <math>\psi</math> which also gives the first few terms of the asymptotic expansion:<ref>Whittaker and Watson, 12.32, example.</ref>
+:<math>\psi(z) = \log z - \frac{1}{2z} - 2\int_0^\infty \frac{t\,dt}{(t^2 + z^2)(e^{2\pi t} - 1)}.</math>
+
+From the definition of <math>\psi</math> and the integral representation of the gamma function, one obtains
+:<math>\psi(z) = \frac{1}{\Gamma(z)} \int_0^\infty  t^{z-1} \ln (t) e^{-t}\,dt,</math>
+with <math>\Re z > 0</math>.<ref>{{cite web | url=https://dlmf.nist.gov/5.9 | title=NIST. Digital Library of Mathematical Functions (DLMF), 5.9.}}</ref>
+
+==Infinite product representation==
+The function <math>\psi(z)/\Gamma(z)</math> is an entire function,<ref name=MezoHoffman/> and it can be represented by the infinite product
+
+:<math>
+\frac{\psi(z)}{\Gamma(z)}=-e^{2\gamma z}\prod_{k=0}^\infty\left(1-\frac{z}{x_k}
+\right)e^{\frac{z}{x_k}}.
+</math>
+
+Here <math>x_k</math> is the ''k''th zero of <math>\psi</math> (see below), and <math>\gamma</math> is the [[Euler–Mascheroni constant]].
+
+Note: This is also equal to <math>-\frac{d}{dz}\frac{1}{\Gamma(z)}</math> due to the definition of the digamma function: <math>\frac{\Gamma'(z)}{\Gamma(z)}=\psi(z)</math>.
+
+== Series representation ==
+===Series formula===
+Euler's product formula for the gamma function, combined with the functional equation and an identity for the Euler–Mascheroni constant, yields the following expression for the digamma function, valid in the complex plane outside the negative integers (Abramowitz and Stegun 6.3.16):<ref name="AbramowitzStegun"/>
+:<math>\begin{align}
+\psi(z + 1)
+&= -\gamma + \sum_{n=1}^\infty \left(\frac{1}{n} - \frac{1}{n + z}\right), \qquad z \neq -1, -2, -3, \ldots, \\
+&= -\gamma + \sum_{n=1}^\infty \left(\frac{z}{n(n + z)}\right), \qquad z \neq -1, -2, -3, \ldots.
+\end{align}</math>
+Equivalently,
+:<math>\begin{align}
+\psi(z)
+&= -\gamma + \sum_{n=0}^\infty \left(\frac{1}{n + 1} - \frac{1}{n + z}\right), \qquad z \neq 0, -1, -2, \ldots, \\
+&= -\gamma + \sum_{n=0}^\infty \frac{z-1}{(n + 1)(n + z)}, \qquad z \neq 0, -1, -2, \ldots.
+\end{align}</math>
+
+====Evaluation of sums of rational functions====
+The above identity can be used to evaluate sums of the form
+: <math>\sum_{n=0}^\infty u_n=\sum_{n=0}^\infty \frac{p(n)}{q(n)},</math>
+where {{math|''p''(''n'')}} and {{math|''q''(''n'')}} are polynomials of {{mvar|n}}.
+
+Performing [[partial fraction]] on {{mvar|u<sub>n</sub>}} in the complex field, in the case when all roots of {{math|''q''(''n'')}} are simple roots,
+
+: <math>u_n=\frac{p(n)}{q(n)}=\sum_{k=1}^m \frac{a_k}{n+b_k}.</math>
+
+For the series to converge,
+
+:<math>\lim_{n\to\infty} nu_n=0,</math>
+
+otherwise the series will be greater than the [[harmonic series (mathematics)|harmonic series]] and thus diverge. Hence
+
+:<math>\sum_{k=1}^m a_k=0,</math>
+
+and
+
+:<math>\begin{align}
+\sum_{n=0}^\infty u_n &= \sum_{n=0}^\infty\sum_{k=1}^m\frac{a_k}{n+b_k} \\
+&=\sum_{n=0}^\infty\sum_{k=1}^m a_k\left(\frac{1}{n+b_k}-\frac{1}{n+1}\right) \\
+&=\sum_{k=1}^m\left(a_k\sum_{n=0}^\infty\left(\frac{1}{n+b_k}-\frac{1}{n+1}\right)\right)\\
+&=-\sum_{k=1}^m a_k\big(\psi(b_k)+\gamma\big) \\
+&=-\sum_{k=1}^m a_k\psi(b_k).
+\end{align}</math>
+
+With the series expansion of higher rank [[polygamma function]] a generalized formula can be given as
+
+:<math>\sum_{n=0}^\infty u_n=\sum_{n=0}^\infty\sum_{k=1}^m \frac{a_k}{(n+b_k)^{r_k}}=\sum_{k=1}^m \frac{(-1)^{r_k}}{(r_k-1)!}a_k\psi^{(r_k-1)}(b_k),</math>
+
+provided the series on the left converges.
+
+===Taylor series===
+The digamma has a [[rational zeta series]], given by the [[Taylor series]] at {{math|''z'' {{=}} 1}}. This is
+
+:<math>\psi(z+1)= -\gamma -\sum_{k=1}^\infty (-1)^k\,\zeta (k+1) \, z^k,</math>
+
+which converges for {{math|{{abs|''z''}} < 1}}. Here, {{math|''ζ''(''n'')}} is the [[Riemann zeta function]]. This series is easily derived from the corresponding Taylor's series for the [[Hurwitz zeta function]].
+
+===Newton series===
+The [[Newton series]] for the digamma, sometimes referred to as ''Stern series'', derived by [[Moritz Abraham Stern]] in 1847,<ref>{{cite book|first = N. E.|last = Nörlund|author-link = Niels Erik Nörlund|year = 1924|title = Vorlesungen über Differenzenrechnung|publisher =Springer|location = Berlin}}</ref><ref name="blag2018">{{cite journal
+ | last = Blagouchine | first = Ia. V.
+ | arxiv = 1606.02044
+ | url = http://math.colgate.edu/~integers/sjs3/sjs3.pdf
+ | journal = INTEGERS: The Electronic Journal of Combinatorial Number Theory
+ | pages = 1–45
+ | title = Three Notes on Ser's and Hasse's Representations for the Zeta-functions
+ | volume = 18A
+ | year = 2018| doi = 10.5281/zenodo.10581385
+ | bibcode = 2016arXiv160602044B}}</ref><ref>{{cite web |title=Leonhard Euler's Integral: An Historical Profile of the Gamma Function |url=https://www.maa.org/sites/default/files/pdf/upload_library/22/Chauvenet/Davis.pdf |url-status=live |archive-url=https://web.archive.org/web/20140912213629/http://www.maa.org/sites/default/files/pdf/upload_library/22/Chauvenet/Davis.pdf |archive-date=2014-09-12 |access-date=11 April 2022}}</ref> reads
+
+:<math>\begin{align}
+\psi(s)
+&= -\gamma + (s-1) - \frac{(s-1)(s-2)}{2\cdot2!} + \frac{(s-1)(s-2)(s-3)}{3\cdot3!}\cdots,\quad\Re(s)> 0, \\
+&= -\gamma - \sum_{k=1}^\infty \frac{(-1)^k}{k} \binom{s-1}{k}\cdots,\quad\Re(s)> 0.
+\end{align}</math>
+
+where {{math|<big><big>(</big></big>{{su|p=''s''|b=''k''}}<big><big>)</big></big>}} is the [[binomial coefficient]]. It may also be generalized to
+:<math>\psi(s+1) = -\gamma - \frac{1}{m} \sum_{k=1}^{m-1}\frac{m-k}{s+k} - \frac{1}{m}\sum_{k=1}^\infty\frac{(-1)^k}{k}\left\{\binom{s+m}{k+1}-\binom{s}{k+1}\right\},\qquad \Re(s)>-1,</math>
+where {{math|''m'' {{=}} 2, 3, 4, ...}}<ref name="blag2018" />
+===Series with Gregory's coefficients, Cauchy numbers and Bernoulli polynomials of the second kind===
+There exist various series for the digamma containing rational coefficients only for the rational arguments. In particular, the series with [[Gregory coefficients|Gregory's coefficients]]  {{math|''G''<sub>''n''</sub>}} is
+:<math>
+\psi(v) =\ln v- \sum_{n=1}^\infty\frac{\big| G_{n}\big|(n-1)!}{(v)_{n}},\qquad
+\Re (v) >0,
+</math>
+: <math>
+\psi(v) =2\ln\Gamma(v) - 2v\ln v + 2v +2\ln v -\ln2\pi - 2\sum_{n=1}^\infty\frac{\big|G_{n}(2)\big|}{(v)_{n}}\,(n-1)! ,\qquad
+\Re (v) >0,
+</math>
+: <math>
+\psi(v) =3\ln\Gamma(v) - 6\zeta'(-1,v) + 3v^2\ln{v} -  \frac32 v^2 - 6v\ln(v)+  3 v+3\ln{v} - \frac32\ln2\pi + \frac12
+- 3\sum_{n=1}^\infty\frac{\big| G_{n}(3) \big|}{(v)_{n}}\,(n-1)! ,\qquad
+\Re (v) >0,
+</math>
+where {{math|(''v'')<sub>''n''</sub>}} is the ''[[Falling and rising factorials|rising factorial]]'' {{math|(''v'')<sub>''n''</sub> {{=}}
+''v''(''v''+1)(''v''+2) ... (''v''+''n''-1)}},  {{math|''G''<sub>''n''</sub>(''k'')}} are the [[Gregory coefficients]] of higher order with {{math|''G''<sub>''n''</sub>(1) {{=}} ''G''<sub>''n''</sub>}}, {{math|&Gamma;}} is the [[gamma function]] and {{math|&zeta;}} is the [[Hurwitz zeta function]].<ref name="blag2016">{{cite journal
+ | last = Blagouchine | first = Ia. V.
+ | arxiv = 1408.3902
+ | journal = Journal of Mathematical Analysis and Applications
+ | pages = 404–434
+ | title = Two series expansions for the logarithm of the gamma function involving Stirling numbers and containing only rational coefficients for certain arguments related to {{math|&pi;<sup>−1</sup>}}
+ | volume = 442
+ | year = 2016| bibcode = 2014arXiv1408.3902B
+ | doi = 10.1016/J.JMAA.2016.04.032
+ | s2cid = 119661147
+ }}</ref><ref name="blag2018" />
+Similar series with the Cauchy numbers of the second kind {{math|''C''<sub>''n''</sub>}} reads<ref name="blag2016" /><ref name="blag2018" />
+:<math>
+\psi(v)=\ln(v-1) + \sum_{n=1}^\infty\frac{C_{n}(n-1)!}{(v)_{n}},\qquad
+\Re(v) >1,
+</math>
+A series with the [[Bernoulli polynomials of the second kind]] has the following form<ref name="blag2018" />
+:<math>
+\psi(v)=\ln(v+a) + \sum_{n=1}^\infty\frac{(-1)^n\psi_{n}(a)\,(n-1)!}{(v)_{n}},\qquad \Re(v)>-a,
+</math>
+where {{math|''ψ<sub>n</sub>''(''a'')}} are the ''Bernoulli polynomials of the second kind'' defined by the generating
+equation
+: <math>
+\frac{z(1+z)^a}{\ln(1+z)}= \sum_{n=0}^\infty z^n \psi_n(a) \,,\qquad |z|<1\,,
+</math>
+It may be generalized to
+: <math>
+\psi(v)= \frac{1}{r}\sum_{l=0}^{r-1}\ln(v+a+l) + \frac{1}{r}\sum_{n=1}^\infty\frac{(-1)^n N_{n,r}(a)(n-1)!}{(v)_{n}},
+\qquad \Re(v)>-a, \quad r=1,2,3,\ldots
+</math>
+where the polynomials {{math|''N<sub>n,r</sub>''(''a'')}} are given by the following generating equation
+: <math>
+\frac{(1+z)^{a+m}-(1+z)^{a}}{\ln(1+z)}=\sum_{n=0}^\infty N_{n,m}(a) z^n , \qquad |z|<1,
+</math>
+so that {{math|''N<sub>n,1</sub>''(''a'') {{=}} ''ψ<sub>n</sub>''(''a'')}}.<ref name="blag2018" /> Similar expressions with the logarithm of the gamma function involve these formulas<ref name="blag2018" />
+: <math>
+\psi(v)= \frac{1}{v+a-\tfrac12}\left\{\ln\Gamma(v+a) + v - \frac12\ln2\pi - \frac12 + \sum_{n=1}^\infty\frac{(-1)^n \psi_{n+1}(a)}{(v)_{n}}(n-1)!\right\},\qquad \Re(v)>-a,
+</math>
+and
+: <math>
+\psi(v)= \frac{1}{\tfrac{1}{2}r+v+a-1}\left\{\ln\Gamma(v+a) + v - \frac12\ln2\pi - \frac12 + \frac{1}{r}\sum_{n=0}^{r-2} (r-n-1)\ln(v+a+n) +\frac{1}{r}\sum_{n=1}^\infty\frac{(-1)^n N_{n+1,r}(a)}{(v)_{n}}(n-1)!\right\},
+</math>
+where <math>\Re(v)>-a</math> and <math>r=2,3,4,\ldots</math>.
+
+==Reflection formula==
+The digamma and polygamma functions satisfy [[reflection formula]]s similar to that of the [[gamma function]]:
+
+:<math>\psi(1-x)-\psi(x)=\pi \cot \pi x</math>.
+:<math>\psi'(-x)+\psi'(x) = \frac{\pi^2}{\sin^2(\pi x)}+\frac{1}{x^2}</math>.
+
+==Recurrence formula and characterization==
+The digamma function satisfies the [[recurrence relation]]
+
+:<math>\psi(x+1)=\psi(x)+\frac{1}{x}.</math>
+
+Thus, it can be said to "telescope" {{math|{{sfrac|1|''x''}}}}, for one has
+
+:<math>\Delta [\psi](x)=\frac{1}{x}</math>
+
+where {{math|Δ}} is the [[forward difference operator]]. This satisfies the recurrence relation of a partial sum of the [[harmonic series (mathematics)|harmonic series]], thus implying the formula
+
+:<math>\psi(n)=H_{n-1}-\gamma</math>
+
+where {{mvar|γ}} is the [[Euler–Mascheroni constant]].
+
+Actually, {{mvar|ψ}} is the only solution of the functional equation
+
+:<math>F(x+1)=F(x)+\frac{1}{x}</math>
+
+that is [[monotonic function|monotonic]] on {{math|'''[[Real number|R]]'''<sup>+</sup>}} and satisfies {{math|''F''(1) {{=}} −''γ''}}. This fact follows immediately from the uniqueness of the {{math|Γ}} function given its recurrence equation and convexity restriction{{Citation needed|date=September 2025}}. This implies the useful difference equation:
+
+: <math> \psi(x+N)-\psi(x)=\sum_{k=0}^{N-1} \frac{1}{x+k}</math>
+
+==Some finite sums involving the digamma function==
+There are numerous finite summation formulas for the digamma function. Basic summation formulas, such as
+
+:<math>\sum_{r=1}^m \psi\left(\frac{r}{m}\right)=-m(\gamma+\ln m),</math>
+:<math>\sum_{r=1}^m \psi\left(\frac{r}{m}\right)\cdot\exp\dfrac{2\pi rki}{m} = m\ln \left(1-\exp\frac{2\pi ki}{m}\right), \qquad k\in\Z,\quad m\in\N,\ k\ne m</math>
+:<math>\sum_{r=1}^{m-1} \psi\left(\frac{r}{m}\right)\cdot\cos\dfrac{2\pi rk}{m} = m \ln \left(2\sin\frac{k\pi}{m}\right)+\gamma, \qquad k=1, 2,\ldots, m-1 </math>
+: <math>\sum_{r=1}^{m-1}\psi \left(\frac{r}{m}\right) \cdot\sin\frac{2\pi rk}{m} =\frac{\pi}{2} (2k-m), \qquad  k=1, 2,\ldots, m-1 </math>
+
+are due to Gauss.<ref>R. Campbell. ''Les intégrales eulériennes et leurs applications'', Dunod, Paris, 1966.</ref><ref>H.M. Srivastava and J. Choi. ''Series Associated with the Zeta and Related Functions'', Kluwer Academic Publishers, the Netherlands, 2001.</ref> More complicated formulas, such as
+
+: <math>\sum_{r=0}^{m-1} \psi \left(\frac{2r+1}{2m}\right)\cdot\cos\frac{(2r+1)k\pi }{m} = m\ln\left(\tan\frac{\pi k}{2m}\right) ,\qquad k=1, 2,\ldots, m-1</math>
+: <math>\sum_{r=0}^{m-1} \psi \left(\frac{2r+1}{2m}\right)\cdot\sin\dfrac{(2r+1)k\pi }{m} = -\frac{\pi m}{2}, \qquad k=1, 2,\ldots, m-1</math>
+:<math>\sum_{r=1}^{m-1} \psi\left(\frac{r}{m}\right)\cdot\cot\frac{\pi r}{m}= -\frac{\pi(m-1)(m-2)}{6}</math>
+:<math>\sum_{r=1}^{m-1}\psi \left(\frac{r}{m}\right)\cdot \frac{r}{m}=-\frac{\gamma}{2}(m-1)-\frac{m}{2}\ln m -\frac{\pi}{2}\sum_{r=1}^{m-1} \frac{r}{m}\cdot\cot\frac{\pi r}{m} </math>
+:<math>\sum_{r=1}^{m-1}\psi \left(\frac{r}{m}\right) \cdot\cos\dfrac{(2\ell+1)\pi r}{m}= -\frac{\pi}{m}\sum_{r=1}^{m-1} \frac{r \cdot\sin\dfrac{2\pi r}{m}}{\cos\dfrac{2\pi r}{m} -\cos\dfrac{(2\ell+1)\pi }{m} }, \qquad \ell\in\mathbb{Z} </math>
+:<math>\sum_{r=1}^{m-1}\psi \left(\frac{r}{m}\right) \cdot\sin\dfrac{(2\ell+1)\pi r}{m}=-(\gamma+\ln2m)\cot\frac{(2\ell+1)\pi}{2m} + \sin\dfrac{(2\ell+1)\pi }{m}\sum_{r=1}^{m-1} \frac{\ln\sin\dfrac{\pi r}{m}} {\cos\dfrac{2\pi r}{m} -\cos\dfrac{(2\ell+1)\pi }{m} } , \qquad \ell\in\mathbb{Z}</math>
+:<math>\sum_{r=1}^{m-1} \psi^2\left(\frac{r}{m}\right)= (m-1)\gamma^2 + m(2\gamma+\ln4m)\ln{m} -m(m-1)\ln^2 2 +\frac{\pi^2 (m^2-3m+2)}{12} +m\sum_{\ell=1}^{ m-1 } \ln^2 \sin\frac{\pi\ell}{m}</math>
+
+are due to works of certain modern authors (see e.g. Appendix B in Blagouchine (2014)<ref name="iaroslav_07">{{cite journal|doi=10.1016/j.jnt.2014.08.009 |first=Iaroslav V. |last=Blagouchine |title=A theorem for the closed-form evaluation of the first generalized Stieltjes constant at rational arguments and some related summations |journal=Journal of Number Theory |volume=148 |pages=537–592 |date=2014 |arxiv=1401.3724}}</ref>).
+
+We also have <ref>{{cite book |title=Classical topi s in complex function theorey |pages=46}}</ref>
+:<math> 1+\frac{1}{2}+\frac{1}{3}+...+\frac{1}{k-1}-\gamma=\frac{1}{k}\sum_{n=0}^{k-1}\psi\left(1+\frac{n}{k}\right), k=2,3, ...</math>
+
+==Gauss's digamma theorem==
+For positive integers {{mvar|r}} and {{mvar|m}} ({{math|''r'' < ''m''}}), the digamma function may be expressed in terms of [[Euler's constant]] and a finite number of [[elementary function]]s<ref>{{cite journal|first1=Junesang|last1=Choi|first2=Djurdje|last2=Cvijovic|title=Values of the polygamma functions at rational arguments|journal=Journal of Physics A|year=2007|volume=40|pages=15019|doi=10.1088/1751-8113/40/50/007|number=50|bibcode=2007JPhA...4015019C |s2cid=118527596 }}</ref>
+<ref>{{cite journal|journal=Ann. Math.|year=1916|first1= J. L. W. V.|last1=Jensen|first2=T. H.|last2=Gronwall|title=An elementary exposition of the theory of the Gamma Function|volume=17|number=3|pages=124–166|doi=10.2307/2007272 |jstor=2007272 }}</ref>
+
+:<math>\psi\left(\frac{r}{m}\right) = -\gamma -\ln(2m) -\frac{\pi}{2}\cot\left(\frac{r\pi}{m}\right) +2\sum_{n=1}^{\left\lfloor \frac{m-1}{2} \right\rfloor} \cos\left(\frac{2\pi nr}{m} \right) \ln\sin\left(\frac{\pi n}{m}\right) </math>
+
+which holds, because of its recurrence equation, for all rational arguments.
+
+==Multiplication theorem==
+The multiplication theorem of the <math>\Gamma</math>-function is equivalent to<ref>{{cite book|title=Table of integrals, series and products|first1=I. S. |last1=Gradshteyn|first2=I. M. |last2=Ryzhik|year=2015|isbn=978-0-12-384933-5|chapter=8.365.5|publisher=Elsevier Science |lccn=2014010276}}</ref>
+:<math>\psi(nz)=\frac{1}{n}\sum_{k=0}^{n-1} \psi\left(z+\frac{k}{n}\right) +\ln n .</math>
+
+==Asymptotic expansion==
+The digamma function has the asymptotic expansion
+:<math>\psi(z) \sim \ln z + \sum_{n=1}^\infty \frac{\zeta(1-n)}{z^n} = \ln z - \sum_{n=1}^\infty \frac{B_n}{nz^n},</math>
+where {{mvar|''B''<sub>''k''</sub>}} is the {{mvar|''k''}}th [[Bernoulli number]] and {{mvar|ζ}} is the [[Riemann zeta function]].  The first few terms of this expansion are:
+:<math>\psi(z) \sim \ln z - \frac{1}{2z} - \frac{1}{12z^2} + \frac{1}{120z^4} - \frac{1}{252z^6} + \frac{1}{240z^8} - \frac{1}{132z^{10}} + \frac{691}{32760z^{12}} - \frac{1}{12z^{14}} + \cdots.</math>
+Although the infinite sum does not converge for any {{mvar|''z''}}, any finite partial sum becomes increasingly accurate as {{mvar|''z''}} increases.
+
+The expansion can be found by applying the [[Euler–Maclaurin formula]] to the sum<ref>{{cite journal| url=http://www.uv.es/~bernardo/1976AppStatist.pdf|first1=José M.|last1= Bernardo|title= Algorithm AS 103 psi(digamma function) computation|year=1976|journal=Applied Statistics|volume=25|pages=315–317|doi=10.2307/2347257|jstor=2347257}}</ref>
+:<math>\sum_{n=1}^\infty \left(\frac{1}{n} - \frac{1}{z + n}\right)</math>
+The expansion can also be derived from the integral representation coming from Binet's second integral formula for the gamma function.  Expanding <math>t / (t^2 + z^2)</math> as a [[geometric series]] and substituting an integral representation of the Bernoulli numbers leads to the same asymptotic series as above.  Furthermore, expanding only finitely many terms of the series gives a formula with an explicit error term:
+:<math>\psi(z) = \ln z - \frac{1}{2z} - \sum_{n=1}^N \frac{B_{2n}}{2nz^{2n}} + (-1)^{N+1}\frac{2}{z^{2N}} \int_0^\infty \frac{t^{2N+1}\,dt}{(t^2 + z^2)(e^{2\pi t} - 1)}.</math>
+
+==Inequalities==
+When {{math|''x'' > 0}}, the function
+:<math>\ln x - \frac{1}{2x} - \psi(x)</math>
+is completely monotonic and in particular positive.  This is a consequence of [[Bernstein's theorem on monotone functions]] applied to the integral representation coming from Binet's first integral for the gamma function.  Additionally, by the convexity inequality <math>1 + t \le e^t</math>, the integrand in this representation is bounded above by <math>e^{-tz}/2</math>.  {{not a typo|Consequently}}
+:<math>\frac{1}{x} - \ln x + \psi(x)</math>
+is also completely monotonic.  It follows that, for all {{math|''x'' > 0}},
+:<math>\ln x - \frac{1}{x} \le \psi(x) \le \ln x - \frac{1}{2x}.</math>
+This recovers a theorem of Horst Alzer.<ref>{{cite journal |jstor=2153660 |url=https://www.ams.org/journals/mcom/1997-66-217/S0025-5718-97-00807-7/S0025-5718-97-00807-7.pdf|title=On Some Inequalities for the Gamma and Psi Functions |last1=Alzer |first1=Horst |journal=Mathematics of Computation |year=1997 |volume=66 |issue=217 |pages=373–389 |doi=10.1090/S0025-5718-97-00807-7 }}</ref>  Alzer also proved that, for {{math|''s'' ∈ (0, 1)}},
+:<math>\frac{1 - s}{x + s} < \psi(x + 1) - \psi(x + s),</math>
+
+Related bounds were obtained by Elezovic, Giordano, and Pecaric, who proved that, for {{math|''x'' > 0 }},
+:<math>\ln(x + \tfrac{1}{2}) - \frac{1}{x} < \psi(x) < \ln(x + e^{-\gamma}) - \frac{1}{x},</math>
+where <math>\gamma=-\psi(1)</math> is the [[Euler–Mascheroni constant]].<ref>{{cite journal |doi=10.7153/MIA-03-26|title=The best bounds in Gautschi's inequality |year=2000 |last1=Elezović |first1=Neven |last2=Giordano |first2=Carla |last3=Pečarić |first3=Josip |journal=Mathematical Inequalities & Applications |issue=2 |pages=239–252 |doi-access=free }}</ref>  The constants (<math>0.5</math> and <math>e^{-\gamma}\approx0.56</math>) appearing in these bounds are the best possible.<ref>{{cite journal | arxiv=0902.2524 | doi=10.1515/anly-2014-0001 | title=Sharp inequalities for the psi function and harmonic numbers | year=2014 | last1=Guo | first1=Bai-Ni | last2=Qi | first2=Feng | journal=Analysis | volume=34 | issue=2 | s2cid=16909853 }}</ref>
+
+The [[mean value theorem]] implies the following analog of [[Gautschi's inequality]]: If {{math|''x'' > ''c''}}, where {{math|''c'' ≈ 1.461}} is the unique positive real root of the digamma function, and if {{math|''s'' > 0}}, then
+:<math>\exp\left((1 - s)\frac{\psi'(x + 1)}{\psi(x + 1)}\right) \le \frac{\psi(x + 1)}{\psi(x + s)} \le \exp\left((1 - s)\frac{\psi'(x + s)}{\psi(x + s)}\right).</math>
+Moreover, equality holds if and only if {{math|''s'' {{=}} 1}}.<ref>{{cite journal |doi=10.1016/j.jmaa.2013.05.045 |doi-access=free|title=Exponential, gamma and polygamma functions: Simple proofs of classical and new inequalities |year=2013 |last1=Laforgia |first1=Andrea |last2=Natalini |first2=Pierpaolo |journal=Journal of Mathematical Analysis and Applications |volume=407 |issue=2 |pages=495–504 }}</ref>
+
+Inspired by the harmonic mean value inequality for the classical gamma function, Horzt Alzer and Graham Jameson proved, among other things, a harmonic mean-value inequality for the digamma function:
+
+<math> -\gamma \leq \frac{2 \psi(x) \psi(\frac{1}{x})}{\psi(x)+\psi(\frac{1}{x})} </math> for <math>x>0</math>
+
+Equality holds if and only if <math>x=1</math>.<ref>{{cite journal |last1=Alzer |first1=Horst |last2=Jameson |first2=Graham |s2cid=41966777 |year=2017 |title=A harmonic mean inequality for the digamma function and related results |journal=[[Rendiconti del Seminario Matematico della Università di Padova]] |pages=203–209 |doi=10.4171/RSMUP/137-10 |volume=70 |issue=201 |issn=0041-8994 |lccn=50046633 |oclc=01761704|url=https://eprints.lancs.ac.uk/id/eprint/136736/1/5d0aee750965cd339d8a0965d80de4c18b68.pdf }}</ref>
+
+==Computation and approximation==
+The asymptotic expansion gives an easy way to compute {{math|''ψ''(''x'')}} when the real part of {{mvar|''x''}} is large.  To compute {{math|''ψ''(''x'')}} for small {{mvar|x}}, the recurrence relation
+
+:<math> \psi(x+1) = \frac{1}{x} + \psi(x)</math>
+
+can be used to shift the value of {{mvar|x}} to a higher value. Beal<ref>{{cite thesis |first1=Matthew J. |last1=Beal |title=Variational Algorithms for Approximate Bayesian Inference|year= 2003 |type=PhD thesis |publisher= The Gatsby Computational Neuroscience Unit, University College London |pages=265–266 |url=http://www.cse.buffalo.edu/faculty/mbeal/papers/beal03.pdf}}</ref> suggests using the above recurrence to shift {{mvar|x}} to a value greater than 6 and then applying the above expansion with terms above {{math|''x''<sup>14</sup>}} cut off, which yields "more than enough precision" (at least 12 digits except near the zeroes).
+
+As {{mvar|x}} goes to infinity, {{math|''ψ''(''x'')}} gets arbitrarily close to both {{math|ln(''x'' − {{sfrac|1|2}})}} and {{math|ln ''x''}}. Going down from {{math|''x'' + 1}} to {{mvar|x}}, {{mvar|ψ}} decreases by {{math|{{sfrac|1|''x''}}}}, {{math|ln(''x'' − {{sfrac|1|2}})}} decreases by {{math|ln(''x'' + {{sfrac|1|2}}) / (''x'' − {{sfrac|1|2}})}}, which is more than {{math|{{sfrac|1|''x''}}}}, and {{math|ln ''x''}} decreases by {{math|ln(1 + {{sfrac|1|''x''}})}}, which is less than {{math|{{sfrac|1|''x''}}}}. From this we see that for any positive {{mvar|x}} greater than {{math|{{sfrac|1|2}}}},
+
+:<math>\psi(x)\in \left(\ln\left(x-\tfrac12\right), \ln x\right)</math>
+
+or, for any positive {{mvar|x}},
+
+:<math>\exp \psi(x)\in\left(x-\tfrac12,x\right).</math>
+
+The exponential {{math|exp ''ψ''(''x'')}} is approximately {{math|''x'' − {{sfrac|1|2}}}} for large {{mvar|x}}, but gets closer to {{mvar|x}} at small {{mvar|x}}, approaching 0 at {{math|''x'' {{=}} 0}}.
+
+For {{math|''x'' < 1}}, we can calculate limits based on the fact that between 1 and 2, {{math|''ψ''(''x'') ∈ [−''γ'', 1 − ''γ'']}}, so
+
+:<math>\psi(x)\in\left(-\frac{1}{x}-\gamma, 1-\frac{1}{x}-\gamma\right),\quad x\in(0, 1)</math>
+or
+:<math>\exp \psi(x)\in\left(\exp\left(-\frac{1}{x}-\gamma\right),e\exp\left(-\frac{1}{x}-\gamma\right)\right).</math>
+
+From the above asymptotic series for {{mvar|ψ}}, one can derive an asymptotic series for {{math|exp(−''ψ''(''x''))}}. The series matches the overall behaviour well, that is, it behaves asymptotically as it should for large arguments, and has a zero of unbounded multiplicity at the origin too.
+
+:<math> \frac{1}{\exp \psi(x)} \sim \frac{1}{x}+\frac{1}{2\cdot x^2}+\frac{5}{4\cdot3!\cdot x^3}+\frac{3}{2\cdot4!\cdot x^4}+\frac{47}{48\cdot5!\cdot x^5} - \frac{5}{16\cdot6!\cdot x^6} + \cdots</math>
+
+This is similar to a Taylor expansion of {{math|exp(−''ψ''(1 / ''y''))}} at {{math|''y'' {{=}} 0}}, but it does not converge.<ref>If it converged to a function {{math|''f''(''y'')}} then {{math|ln(''f''(''y'') / ''y'')}} would have the same [[Maclaurin series]] as {{math|ln(1 / ''y'') − ''φ''(1 / ''y'')}}. But this does not converge because the series given earlier for {{math|''φ''(''x'')}} does not converge.</ref> (The function is not [[analytic function|analytic]] at infinity.) A similar series exists for {{math|exp(''ψ''(''x''))}} which starts with <math>\exp \psi(x) \sim x- \frac 12.</math>
+
+If one calculates the asymptotic series for {{math|''ψ''(''x''+1/2)}} it turns out that there are no odd powers of {{mvar|x}} (there is no {{mvar|x}}<sup>−1</sup> term). This leads to the following asymptotic expansion, which saves computing terms of even order.
+
+:<math> \exp \psi\left(x+\tfrac{1}{2}\right) \sim x + \frac{1}{4!\cdot x} - \frac{37}{8\cdot6!\cdot x^3} + \frac{10313}{72\cdot8!\cdot x^5} - \frac{5509121}{384\cdot10!\cdot x^7} + \cdots</math>
+
+Similar in spirit to the [[Lanczos approximation]] of the <math>\Gamma</math>-function is [[Spouge's approximation]].
+
+Another alternative is to use the recurrence relation or the multiplication formula to shift the argument of <math>\psi(x)</math> into the range <math>1\le x\le 3</math> and to evaluate the Chebyshev series there.<ref>{{cite journal|first1=Jet|last1=Wimp | title=Polynomial approximations to integral transforms|journal=Math. Comp. |year=1961|volume=15|issue=74 |pages=174–178| doi=10.1090/S0025-5718-61-99221-3|jstor=2004225}}</ref><ref>{{cite journal|title=Chebyshev series expansion of inverse polynomials|first1=R. J.|last1=Mathar|journal=Journal of Computational and Applied Mathematics |year=2004|volume=196 |issue=2 |pages=596–607 |doi=10.1016/j.cam.2005.10.013 |arxiv=math/0403344}} App. E</ref>
+
+==Special values==
+The digamma function has values in closed form for rational numbers, as a result of [[#Gauss's digamma theorem|Gauss's digamma theorem]]. Some are listed below:
+
+:<math>\begin{align}
+\psi(1) &= -\gamma \\
+\psi\left(\tfrac{1}{2}\right) &= -2\ln{2} - \gamma \\
+\psi\left(\tfrac{1}{3}\right) &= -\frac{\pi}{2\sqrt{3}} -\frac{3\ln{3}}{2} - \gamma \\
+\psi\left(\tfrac{1}{4}\right) &= -\frac{\pi}{2} - 3\ln{2} - \gamma \\
+\psi\left(\tfrac{1}{6}\right) &= -\frac{\pi\sqrt{3}}{2} -2\ln{2} -\frac{3\ln{3}}{2} - \gamma \\
+\psi\left(\tfrac{1}{8}\right) &= -\frac{\pi}{2} - 4\ln{2} - \frac {\pi + \ln \left (\sqrt{2} + 1 \right ) - \ln \left (\sqrt{2} - 1 \right ) }{\sqrt{2}} - \gamma.
+\end{align}</math>
+
+Moreover, by taking the logarithmic derivative of <math>|\Gamma (bi)|^2</math> or <math>|\Gamma (\tfrac{1}{2}+bi)|^2</math> where <math>b</math> is real-valued, it can easily be deduced that
+
+:<math>\operatorname{Im} \psi(bi) = \frac{1}{2b}+\frac{\pi}{2}\coth (\pi b),</math>
+:<math>\operatorname{Im} \psi(\tfrac{1}{2}+bi) = \frac{\pi}{2}\tanh (\pi b).</math>
+
+Apart from Gauss's digamma theorem, no such closed formula is known for the real part in general. We have, for example, at the [[imaginary unit]] the numerical approximation {{OEIS2C|A248177}}
+:<math>\operatorname{Re} \psi(i) = -\gamma-\sum_{n=0}^\infty\frac{n-1}{n^3+n^2+n+1} \approx 0.09465.</math>
+
+==Roots of the digamma function==
+The roots of the digamma function are the saddle points of the complex-valued gamma function. Thus they lie all on the [[real line#In real algebras|real axis]]. The only one on the [[positive real axis]] is the unique minimum of the real-valued gamma function on {{math|'''[[Real number|R]]'''<sup>+</sup>}} at {{math|''x''<sub>0</sub> {{=}} {{val|1.46163214496836234126}}...}}. All others occur single between the poles on the negative axis:
+
+:{{math|''x''<sub>1</sub> {{=}} {{val|-0.50408300826445540925}}...}}
+:{{math|''x''<sub>2</sub> {{=}} {{val|-1.57349847316239045877}}...}}
+:{{math|''x''<sub>3</sub> {{=}} {{val|-2.61072086844414465000}}...}}
+:{{math|''x''<sub>4</sub> {{=}} {{val|-3.63529336643690109783}}...}}
+:<math>\vdots</math>
+
+Already in 1881, [[Charles Hermite]] observed<ref name="Hermite">{{cite journal |first=Charles |last=Hermite |title=Sur l'intégrale Eulérienne de seconde espéce | journal=Journal für die reine und angewandte Mathematik|issue=90|date=1881|pages=332–338 |doi=10.1515/crll.1881.90.332|s2cid=118866486 }}</ref> that
+
+:<math>x_n = -n + \frac{1}{\ln n} + O\left(\frac{1}{(\ln n)^2}\right)</math>
+
+holds asymptotically. A better approximation of the location of the roots is given by
+
+:<math>x_n \approx -n + \frac{1}{\pi}\arctan\left(\frac{\pi}{\ln n}\right)\qquad n \ge 2</math>
+
+and using a further term it becomes still better
+
+:<math>x_n \approx -n + \frac{1}{\pi}\arctan\left(\frac{\pi}{\ln n + \frac{1}{8n}}\right)\qquad n \ge 1</math>
+
+which both spring off the reflection formula via
+
+:<math>0 = \psi(1-x_n) = \psi(x_n) + \frac{\pi}{\tan \pi x_n}</math>
+
+and substituting {{math|''ψ''(''x<sub>n</sub>'')}} by its not convergent asymptotic expansion. The correct second term of this expansion is {{math|{{sfrac|1|2''n''}}}}, where the given one works well to approximate roots with small {{mvar|n}}.
+
+Another improvement of Hermite's formula can be given:<ref name=MezoHoffman/>
+:<math>
+x_n=-n+\frac1{\log n}-\frac1{2n(\log n)^2}+O\left(\frac1{n^2(\log n)^2}\right).
+</math>
+
+Regarding the zeros, the following infinite sum identities were recently proved by István Mező and Michael Hoffman<ref name="MezoHoffman">{{cite journal |first1=István |last1=Mező | first2=Michael E. | last2=Hoffman |title=Zeros of the digamma function and its Barnes ''G''-function analogue |journal=Integral Transforms and Special Functions |volume=28 |
+date=2017|issue=11|pages=846–858|doi=10.1080/10652469.2017.1376193|s2cid=126115156 }}</ref><ref>
+{{cite arXiv
+ | last       = Mező
+ | first      = István
+ | eprint     = 1409.2971
+ | title      = A note on the zeros and local extrema of Digamma related functions
+ | date       = 2014
+ | class = math.CV
+ }}
+</ref>
+:<math>\begin{align}
+\sum_{n=0}^\infty\frac{1}{x_n^2}&=\gamma^2+\frac{\pi^2}{2}, \\
+\sum_{n=0}^\infty\frac{1}{x_n^3}&=-4\zeta(3)-\gamma^3-\frac{\gamma\pi^2}{2}, \\
+\sum_{n=0}^\infty\frac{1}{x_n^4}&=\gamma^4+\frac{\pi^4}{9} + \frac23 \gamma^2 \pi^2 + 4\gamma\zeta(3).
+\end{align}</math>
+
+In general, the function
+:<math>
+Z(k)=\sum_{n=0}^\infty\frac{1}{x_n^k}
+</math>
+can be determined and it is studied in detail by the cited authors.
+
+The following results<ref name=MezoHoffman/>
+:<math>\begin{align}
+\sum_{n=0}^\infty\frac{1}{x_n^2+x_n}&=-2, \\
+\sum_{n=0}^\infty\frac{1}{x_n^2-x_n}&=\gamma+\frac{\pi^2}{6\gamma}
+\end{align}</math>
+also hold true.
+==Regularization==
+The digamma function appears in the regularization of divergent integrals
+
+:<math> \int_0^\infty \frac{dx}{x+a},</math>
+
+this integral can be approximated by a divergent general Harmonic series, but the following value can be attached to the series
+
+:<math> \sum_{n=0}^\infty \frac{1}{n+a}= - \psi (a).</math>
+
+==In applied mathematics==
+Many notable probability distributions use the gamma function in the definition of their probability density or mass functions. Then in statistics when doing [[maximum likelihood estimation]] on models involving such distributions, the digamma function naturally appears when the derivative of the log-likelihood is taken for finding the maxima.
+
+==See also==
+* [[Polygamma function]]
+* [[Trigamma function]]
+* [[Chebyshev polynomial|Chebyshev expansions]] of the digamma function in {{cite journal|first1=Jet|last1=Wimp | title=Polynomial approximations to integral transforms|journal=Math. Comp. |year=1961|volume=15|issue=74 |pages=174–178| doi=10.1090/S0025-5718-61-99221-3|doi-access=free}}
+
+==References==
+
+<references>
+<ref name="AbramowitzStegun">
+{{cite book | editor-last=Abramowitz | editor-first=M. | editor2-last=Stegun | editor2-first=I. A.| chapter=6.3 psi (Digamma) Function. | title= Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables | edition=10th | location=New York | publisher=Dover | pages=258–259| year =1972 | chapter-url=http://www.math.sfu.ca/~cbm/aands/page_258.htm }}</ref>
+<ref name="DLMF5">{{cite web | title=NIST. Digital Library of Mathematical Functions (DLMF), Chapter 5 | url=https://dlmf.nist.gov/5}}</ref>
+<ref name="Weissstein">{{mathworld|urlname=DigammaFunction|title=Digamma function}}</ref>
+</references>
+
+==External links==
+* {{OEIS el|1=A020759|2=Decimal expansion of (-1)*Gamma'(1/2)/Gamma(1/2) where Gamma(x) denotes the Gamma function}}—psi(1/2)
+:{{OEIS2C|A047787}} psi(1/3), {{OEIS2C|A200064}} psi(2/3), {{OEIS2C|A020777}} psi(1/4), {{OEIS2C|A200134}} psi(3/4), {{OEIS2C|A200135}} to {{OEIS2C|A200138}} psi(1/5) to psi(4/5).
+* [https://www.gnu.org/software/gsl/doc/html/specfunc.html#psi-digamma-function Implementation in the GNU Scientific library]
+* [https://github.com/splicebox/PsiCLASS/blob/master/gamma.cpp C function with the Chebyshev series]
+* [https://arxiv.org/src/0908.3030v4/anc/org/nevec/rjm/BigDecimalMath.java Java implementation with Taylor series]
+
+[[Category:Gamma and related functions]]
