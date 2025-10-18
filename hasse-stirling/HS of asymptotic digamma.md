@@ -70,6 +70,77 @@ The Hasse-Stirling operator can be used to compute the Hurwitz zeta function $\z
 
 ---
 
+## Application: Hasse-Stirling Operator and Hurwitz Zeta Function
+
+The Hasse-Stirling operator provides a unified framework for analytic continuation and evaluation of the Hurwitz zeta function $\zeta(s,x)$ for real, integer, and complex $s$.
+
+### General Formula
+
+For $f(t) = t^{-s}$ and $(\alpha, \beta, r) = (1, 0, 0)$:
+$$
+\mathcal{H}_{1,0,0}(t^{-s})(x) = \zeta(s, x) - \frac{x^{1-s}}{s-1}
+$$
+So,
+$$
+\zeta(s, x) = \mathcal{H}_{1,0,0}(t^{-s})(x) + \frac{x^{1-s}}{s-1}
+$$
+
+---
+
+### Special Cases
+
+#### 1. $\zeta(0, x)$
+
+- For $s=0$:
+  $$
+  \zeta(0, x) = \mathcal{H}_{1,0,0}(t^{0})(x) + \frac{x}{-1} = \mathcal{H}_{1,0,0}(1)(x) - x
+  $$
+- Since $\mathcal{H}_{1,0,0}(1)(x) = 1$, we get:
+  $$
+  \zeta(0, x) = 1 - x
+  $$
+
+#### 2. $\zeta(1, x)$
+
+- For $s=1$, the correction term diverges, but the operator sum gives the analytic continuation:
+  $$
+  \zeta(1, x) = \mathcal{H}_{1,0,0}(t^{-1})(x) + \text{(pole at $s=1$)}
+  $$
+- The pole is isolated in the correction term, and the operator sum is entire in $s$.
+
+#### 3. $\zeta(it, x)$ and $\zeta(1+it, x)$
+
+- For $s = it$ or $s = 1 + it$ ($i^2 = -1$):
+  $$
+  \zeta(s, x) = \mathcal{H}_{1,0,0}(t^{-s})(x) + \frac{x^{1-s}}{s-1}
+  $$
+- The operator sum converges for all $s$ (except $s=1$), providing analytic continuation for complex arguments.
+
+---
+
+### Riemann Zeta Function ($x=1$)
+
+- $\zeta(s) = \zeta(s, 1) = \mathcal{H}_{1,0,0}(t^{-s})(1) + \frac{1^{1-s}}{s-1} = \mathcal{H}_{1,0,0}(t^{-s})(1) + \frac{1}{s-1}$
+
+- For $s=it$:
+  $$
+  \zeta(it) = \mathcal{H}_{1,0,0}(t^{-it})(1) + \frac{1}{it - 1}
+  $$
+- For $s=1+it$:
+  $$
+  \zeta(1+it) = \mathcal{H}_{1,0,0}(t^{-(1+it)})(1) + \frac{1}{it}
+  $$
+
+---
+
+### Summary
+
+- The Hasse-Stirling operator $\mathcal{H}_{1,0,0}$ provides analytic continuation and explicit evaluation for Hurwitz zeta at integer, real, and complex $s$.
+- The correction term isolates the pole at $s=1$.
+- For $s=0$, $s=1$, $s=it$, and $s=1+it$, the operator sum gives convergent series and analytic continuation, even where the original Dirichlet series diverges.
+
+---
+
 ## Application: Hasse-Stirling Operator and Asymptotic Expansion of Digamma
 
 The digamma function $\psi(x)$ has the following asymptotic expansion for large $x$:
@@ -341,7 +412,129 @@ The Stieltjes constants $\gamma_k$ are coefficients in the Laurent expansion of 
 
 ---
 
+## Coefficient Recurrence for $(\alpha, \beta, r) = (1, 0, 0)$
+
+For the Hasse-Stirling operator with parameters $(1, 0, 0)$, the coefficients $H_{m,n}$ satisfy:
+
+- **Recurrence:**
+  $$
+  H_{m,n} = H_{m-1,n-1} + \frac{m}{m+2} H_{m-1,n}
+  $$
+  for $m \geq 1$, $n \geq 1$.
+
+- **Initial condition:**
+  $$
+  H_{m,0} = \frac{1}{m+1}
+  $$
+  and $H_{0,0} = 1$.
+
+- **Zero region:** $H_{m,n} = 0$ for $n > m$.
+
+These coefficients determine the weights in the double sum expansion for $\mathcal{H}_{1,0,0}$ and are used for analytic continuation of the Hurwitz zeta and related functions.
+
+---
+
+## Evaluating $\zeta(a + ib)$ Using Hasse-Stirling Coefficients
+
+With the coefficients $H_{m,n}$ for $(\alpha, \beta, r) = (1, 0, 0)$, the Hasse-Stirling operator provides analytic continuation and explicit evaluation for the Hurwitz zeta and Riemann zeta functions at complex arguments, including:
+
+### 1. Left of the Critical Strip ($\Re(s) < 0$)
+
+- For $s = a + ib$ with $a < 0$, the operator sum $\mathcal{H}_{1,0,0}(t^{-s})(x)$ converges and provides analytic continuation for $\zeta(s, x)$.
+- The correction term $\frac{x^{1-s}}{s-1}$ is well-defined except at $s=1$.
+
+### 2. Left Boundary ($s = it$, $\Re(s) = 0$)
+
+- For $s = it$, the Dirichlet series diverges, but the operator sum converges:
+  $$
+  \zeta(it, x) = \mathcal{H}_{1,0,0}(t^{-it})(x) + \frac{x^{1-it}}{it-1}
+  $$
+- For $x=1$ (Riemann zeta), this gives:
+  $$
+  \zeta(it) = \mathcal{H}_{1,0,0}(t^{-it})(1) + \frac{1}{it-1}
+  $$
+- The operator sum is entire in $s$ and provides stable evaluation.
+
+### 3. Left of the Critical Line ($0 < \Re(s) < 1$)
+
+- For $s = a + ib$ with $0 < a < 1$, the operator sum converges and gives analytic continuation:
+  $$
+  \zeta(a + ib, x) = \mathcal{H}_{1,0,0}(t^{-(a+ib)})(x) + \frac{x^{1-(a+ib)}}{a+ib-1}
+  $$
+- This covers the region left of the critical line $\Re(s) = 1/2$.
+
+### 4. On the Critical Line ($s = 1/2 + it$)
+
+- For $s = 1/2 + it$, the operator sum converges and provides analytic continuation:
+  $$
+  \zeta(1/2 + it, x) = \mathcal{H}_{1,0,0}(t^{-(1/2+it)})(x) + \frac{x^{1-(1/2+it)}}{(1/2+it)-1}
+  $$
+- For $x=1$:
+  $$
+  \zeta(1/2 + it) = \mathcal{H}_{1,0,0}(t^{-(1/2+it)})(1) + \frac{1}{-1/2+it}
+  $$
+- This is the region of greatest interest for analytic number theory.
+
+### 5. Right Boundary ($s = 1 + it$, $\Re(s) = 1$, $t \neq 0$)
+
+- For $s = 1 + it$ (not the pole at $s=1$), the operator sum converges and the correction term is finite:
+  $$
+  \zeta(1 + it, x) = \mathcal{H}_{1,0,0}(t^{-(1+it)})(x) + \frac{x^{1-(1+it)}}{it}
+  $$
+- For $x=1$:
+  $$
+  \zeta(1 + it) = \mathcal{H}_{1,0,0}(t^{-(1+it)})(1) + \frac{1}{it}
+  $$
+- The operator isolates the pole at $s=1$; for $t \neq 0$, the value is analytic.
+
+---
+
 **Summary:**  
-- The Hasse-Stirling operator provides a systematic way to compute Stieltjes constants for small $k$.
-- For large $k$, numerical and analytic methods must be used, with attention to computational complexity.
-- The irrationality and arithmetic nature of $\gamma_k$ remain open questions in mathematics.
+- The Hasse-Stirling operator with $(1,0,0)$ coefficients provides analytic continuation and stable evaluation for the Hurwitz zeta and Riemann zeta functions at complex arguments, including the left boundary ($s=it$), left of the critical line, on the critical line ($s=1/2+it$), and the right boundary ($s=1+it$, $t \neq 0$).
+- The operator sum is entire in $s$ and the correction term isolates the pole at $s=1$.
+- This method is effective for both Hurwitz and Riemann zeta functions at complex arguments.
+
+---
+
+## Evaluating $1/t^{a+ib}$: Expansion and Rationalization
+
+Given $s = a + ib$ ($a, b \in \mathbb{R}$), the term $1/t^{a+ib}$ can be expanded and rationalized as follows:
+
+### 1. Euler's Formula Expansion
+
+- $t^{-a-ib} = t^{-a} t^{-ib}$
+- $t^{-ib} = e^{-ib \log t} = \cos(b \log t) - i \sin(b \log t)$
+
+So,
+$$
+\frac{1}{t^{a+ib}} = t^{-a} \left[ \cos(b \log t) - i \sin(b \log t) \right]
+$$
+
+### 2. Binomial Series (for small $b$)
+
+- For small $b$, expand $\cos(b \log t)$ and $\sin(b \log t)$ in Taylor series:
+  $$
+  \cos(b \log t) = 1 - \frac{(b \log t)^2}{2!} + \frac{(b \log t)^4}{4!} - \cdots
+  $$
+  $$
+  \sin(b \log t) = b \log t - \frac{(b \log t)^3}{3!} + \cdots
+  $$
+- Substitute into the expansion above for an explicit series in powers of $\log t$.
+
+### 3. Rationalization
+
+- For $1/(it)$, note $1/(it) = -i/t$.
+- For $1/t^{a+ib}$, after expansion as above, the real and imaginary parts are separated, which is useful for integration or summation.
+
+### 4. Best Approach
+
+- **For analytic continuation and operator methods:**  
+  Use the Euler expansion: $t^{-a} \cos(b \log t)$ and $t^{-a} \sin(b \log t)$.
+- **For numerical evaluation:**  
+  Compute $t^{-a}$ and then use standard library functions for $\cos(b \log t)$ and $\sin(b \log t)$.
+- **For series expansion:**  
+  Expand $\cos(b \log t)$ and $\sin(b \log t)$ as Taylor series if $b$ is small.
+
+**Summary:**  
+- The most general and practical approach is to write $1/t^{a+ib} = t^{-a} \left[ \cos(b \log t) - i \sin(b \log t) \right]$ using Euler's formula.
+- This separates real and imaginary parts and is compatible with integration, summation, and operator methods.

@@ -12,9 +12,27 @@
 
 ---
 
-## Reflection Formula
+## Reflection Formula and Hypergeometric Series
 
-- $\psi(1-x) - \psi(x) = \pi \cot(\pi x)$
+- The reflection formula for the digamma function:
+  $$
+  \psi(1-x) - \psi(x) = \pi \cot(\pi x)
+  $$
+- There is also a hypergeometric series representation for $\psi(x)$ involving falling factorials:
+  $$
+  \psi(x) = -\gamma + \sum_{n=1}^\infty \frac{1}{n} - \frac{1}{n + x - 1}
+  $$
+  or equivalently,
+  $$
+  \psi(x) = -\gamma + \sum_{k=1}^\infty \frac{(x-1)_{k}}{k \cdot k!}
+  $$
+  where $(x-1)_k$ is the falling factorial: $(x-1)_k = (x-1)(x-2)\cdots(x-k)$.
+
+- This series can be interpreted as a hypergeometric-type expansion, and is related to the Newton/Stern series for the digamma function.
+
+**Summary:**  
+- The reflection formula connects digamma to trigonometric functions.
+- The hypergeometric series and falling factorial expansion provide alternative representations, useful for analytic continuation and series acceleration.
 
 ---
 
@@ -102,6 +120,21 @@ Apart from Gauss's digamma theorem, no such closed formula is known for the real
 - When using the digamma function $\psi(x)$ in formulas where it is not a difference of digammas, add the Euler-Mascheroni constant $\gamma$:
   - Use $\psi(x) + \gamma$ for normalization, e.g., in operator formulas or analytic continuations.
   - Example: $\mathcal{H}_{1,-1,0}(\log t)(x-1) = \psi(x) + \gamma$
+
+---
+
+## Entire Function and Infinite Product over Zeros
+
+- The function $\frac{\psi(x)}{\Gamma(x)}$ is **entire** (analytic everywhere in the complex plane).
+- It admits an infinite product representation over the zeros $x_k$ of the digamma function:
+  $$
+  \frac{\psi(x)}{\Gamma(x)} = -e^{2\gamma x} \prod_{k=0}^\infty \left(1 - \frac{x}{x_k}\right) e^{x/x_k}
+  $$
+  where $x_k$ are the zeros of $\psi(x)$ and $\gamma$ is the Euler-Mascheroni constant.
+
+**Summary:**  
+- $\frac{\psi(x)}{\Gamma(x)}$ is entire and its zeros coincide with the zeros of the digamma function.
+- The infinite product formula expresses this function in terms of its zeros, similar to Weierstrass products for other entire functions.
 
 ---
 

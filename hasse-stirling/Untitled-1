@@ -1,1 +1,10 @@
 $$H_{m,n} = H_{m-1,n-1} - \frac{3m/2 - 2n}{m+2} H_{m-1,n}$$
+
+{
+  "markdown-preview-enhanced.mathRenderingOption": "KaTeX",
+  "markdown-preview-enhanced.enableScriptExecution": true,
+  "markdown-preview-enhanced.latexEngine": "pdflatex",
+  "markdown-preview-enhanced.usePandocParser": true,
+  "markdown-preview-enhanced.previewTheme": "github-light.css",
+  "markdown-preview-enhanced.codeBlockTheme": "atom-one-light.css"
+}

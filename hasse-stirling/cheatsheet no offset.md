@@ -123,6 +123,7 @@ A strong argument for the irrationality of $\zeta(5)$ arises from the Hasse-Stir
 
 - The function $\log\left(\frac{1+t}{1-t}\right)$ is the analytic continuation of $2\,\mathrm{artanh}(t)$ for $|t|<1$ (inverse hyperbolic tangent).
 - For $|t|>1$, it connects to $2\,\mathrm{arcoth}(t)$ (inverse hyperbolic cotangent).
+- Thus, the Hasse–Stirling operator acting on $\log\left(\frac{1+t}{1-t}\right)$ is directly related to hyperbolic inverse functions, with the domain determining which branch applies.
 
 ---
 
