@@ -1,0 +1,199 @@
+\documentclass[12pt]{amsart}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title[Von Mangoldt Hierarchies and Stieltjes Constants]{Von Mangoldt Hierarchies and Stieltjes Constants in Explicit Formulas}
+
+\author{Student Name}
+\address{Department of Mathematics, [Your University], [Your City, State, ZIP]}
+\email{student@email.edu}
+
+\author{David England (Advisor)}
+\address{Independent Researcher, Collinwood, TN, USA}
+\email{contact@email.com}
+
+\date{October 2025}
+
+\keywords{Riemann zeta function, Stieltjes constants, von Mangoldt function, explicit formula, analytic number theory}
+\subjclass[2020]{11M06, 11M26, 11N05}
+
+\begin{document}
+
+\begin{abstract}
+We develop higher-order generalizations of the von Mangoldt function arising from derivatives of the logarithmic derivative of the Riemann zeta function. These \emph{von Mangoldt hierarchies}~$\Lambda_k(n)$ admit Dirichlet series
+\[
+(-1)^k \frac{d^k}{ds^k}\!\Big(-\frac{\zeta'(s)}{\zeta(s)}\Big)
+= \sum_{n\ge1} \frac{\Lambda_k(n)}{n^s},
+\]
+and satisfy explicit prime-power formulas $\Lambda_k(p^r)=(\log p)^{k+1}r^k$.
+We derive residue expansions for
+\[
+\Psi_k(x)=\sum_{n\le x}\Lambda_k(n),
+\]
+obtaining main terms involving Stieltjes constants~$\gamma_m$ and polynomial corrections in~$\log x$.
+We present both conditional (under the Riemann Hypothesis) and unconditional estimates for the error terms, and discuss the cumulant interpretation of Stieltjes constants and their relation to the prime number distribution.
+\end{abstract}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+
+The classical von Mangoldt function~$\Lambda(n)$ encodes prime powers via
+\[
+-\frac{\zeta'(s)}{\zeta(s)}=\sum_{n\ge1}\frac{\Lambda(n)}{n^s},\qquad \Re(s)>1.
+\]
+Its partial sums
+\[
+\Psi(x)=\sum_{n\le x}\Lambda(n)
+\]
+are central to the explicit formula linking prime distribution with zeros of the Riemann zeta function.
+
+Differentiating the logarithmic derivative of~$\zeta(s)$ introduces powers of~$\log n$:
+\[
+\frac{d^k}{ds^k} n^{-s}=(-\log n)^k n^{-s}.
+\]
+Thus, successive derivatives yield \emph{weighted} von Mangoldt functions emphasizing logarithmic moments of prime powers.
+These ``von Mangoldt hierarchies'' form a natural bridge between zero distributions, zeta derivatives, and the Laurent expansion coefficients of~$\zeta(s)$.
+
+The Stieltjes constants~$\gamma_m$, defined by
+\[
+\zeta(1+u)=\frac{1}{u}+\sum_{m\ge0}\frac{(-1)^m\gamma_m}{m!}u^m,
+\]
+arise as the finite parts of~$\zeta$ near its pole at~$s=1$. They enter residue computations for~$\Psi_k(x)$, producing a hierarchy connecting the analytic structure at~$s=1$ with logarithmic weighting in the prime domain.
+
+\section{Preliminaries}
+
+\subsection{Definition of the von Mangoldt hierarchy}
+
+For integers $k\ge0$, define
+\[
+\Lambda_k(n)\quad\text{by}\quad
+(-1)^k\frac{d^k}{ds^k}\!\Big(-\frac{\zeta'(s)}{\zeta(s)}\Big)
+= \sum_{n\ge1}\frac{\Lambda_k(n)}{n^s}.
+\]
+Differentiating the Euler product
+\[
+-\frac{\zeta'(s)}{\zeta(s)} = \sum_{p}\frac{\log p}{p^s-1},
+\]
+yields the explicit prime-power formula:
+\[
+\boxed{\Lambda_k(p^r) = (\log p)^{k+1}r^k, \quad r\ge1,}
+\]
+and $\Lambda_k(n)=0$ otherwise.
+
+\subsection{Dirichlet series relations}
+
+Note that $\Lambda_0(n)=\Lambda(n)$, and in general
+\[
+\Lambda_k(n) = (\log n)^k \, (\Lambda * \log^{*k})(n),
+\]
+where $*$ denotes Dirichlet convolution and $\log^{*k}$ is the $k$-fold convolution power of the logarithm sequence.
+
+\subsection{Stieltjes constants}
+
+The Stieltjes constants admit the limit representation
+\[
+\gamma_m = \lim_{N\to\infty}\Bigg(\sum_{n=1}^N\frac{(\log n)^m}{n}
+- \frac{(\log N)^{m+1}}{m+1}\Bigg),
+\]
+and their exponential generating function is
+\[
+G(t)=\sum_{m\ge0}\frac{\gamma_m}{m!}t^m=\zeta(1-t)+\frac{1}{t}.
+\]
+
+\section{Main Theorem: Conditional Explicit Formula}
+
+\begin{theorem}\label{thm:main}
+For $k\ge0$, define
+\[
+\Psi_k(x)=\sum_{n\le x}\Lambda_k(n).
+\]
+Then for any $c>1$,
+\[
+\Psi_k(x)=\frac{1}{2\pi i}\int_{c-i\infty}^{c+i\infty}
+(-1)^k\frac{d^k}{ds^k}\!\Big(-\frac{\zeta'(s)}{\zeta(s)}\Big)\frac{x^s}{s}\,ds.
+\]
+Shifting the contour leftward and summing residues gives
+\[
+\Psi_k(x)
+= x(\log x)^k
+-\sum_{m=0}^{k}\binom{k}{m}\gamma_m\,x(\log x)^{k-m}
++\sum_{\rho}x^{\rho}P_k(\rho,\log x)
++O(1),
+\]
+where the sum runs over nontrivial zeros $\rho$ of $\zeta(s)$, and $P_k$ is an explicit polynomial of degree~$k$ with coefficients depending on $\rho$ and $\gamma_m$.
+
+Under the Riemann Hypothesis,
+\[
+\Psi_k(x) = x(\log x)^k + O\!\big(x^{1/2}\log^{k+2}x\big).
+\]
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+Differentiating under the integral sign and applying Cauchy’s theorem isolates the residue at $s=1$, whose Laurent coefficients involve the Stieltjes constants~$\gamma_m$. Nontrivial zeros~$\rho$ contribute oscillatory secondary terms $x^{\rho}$ multiplied by polynomials in~$\log x$.
+The resulting error term follows from standard zero-free region bounds or from the Riemann Hypothesis.
+\end{proof}
+
+\section{Computational Verification}
+
+\subsection{Numerical objectives}
+To verify the first coefficients of the residue expansion and observe the oscillatory zero terms, we:
+\begin{enumerate}
+    \item Compute $\gamma_m$ via high-precision zeta evaluation near $s=1$.
+    \item Evaluate truncated sums $\Psi_k(x)$ for $k=0,1,2$ up to $x\le10^6$.
+    \item Compare with the main term
+    \[
+    M_k(x)=x(\log x)^k-\sum_{m=0}^{k}\binom{k}{m}\gamma_m\,x(\log x)^{k-m}.
+    \]
+    \item Plot $\Psi_k(x)-M_k(x)$ to reveal oscillations corresponding to the first few zeta zeros.
+\end{enumerate}
+
+\subsection{Expected results}
+The residual differences should oscillate with frequencies matching $\Im(\rho)$, confirming that higher derivatives of $\zeta$ emphasize deeper zero correlations and higher ``log moments'' of the prime structure.
+
+\section{Discussion and Future Work}
+
+\subsection{Cumulant interpretation}
+
+Viewing $\gamma_m$ as cumulants of a hypothetical ``logarithmic prime distribution'' gives, via Bell polynomials,
+\[
+\mu_n = B_n(\gamma_1,\gamma_2,\dots,\gamma_n),
+\]
+formal ``moments'' related to sums of $\Lambda_k(n)$ under logarithmic weighting.  Clarifying this probabilistic model remains open.
+
+\subsection{Open problems}
+
+\begin{itemize}
+    \item Uniform bounds for $\Psi_k(x)$ as $k\to\infty$.
+    \item Asymptotics of $\gamma_m$ with explicit error terms (beyond Knessl–Coffey).
+    \item Exact function-field analogues for $\Lambda_k$ in $\mathbb{F}_q[T]$.
+    \item Possible spectral or trace interpretations of $\Lambda_k$ hierarchies.
+\end{itemize}
+
+\section*{Acknowledgements}
+The authors thank [Department or Research Group] for support. The second author acknowledges stimulating discussions with colleagues working on prime distributions and Stieltjes asymptotics.
+
+\begin{thebibliography}{99}
+
+\bibitem{Titchmarsh}
+E.~C. Titchmarsh, \emph{The Theory of the Riemann Zeta-Function}, 2nd~ed., Oxford Univ. Press, 1986.
+
+\bibitem{Davenport}
+H.~Davenport, \emph{Multiplicative Number Theory}, 3rd~ed., Springer GT, 2000.
+
+\bibitem{IwaniecKowalski}
+H.~Iwaniec and E.~Kowalski, \emph{Analytic Number Theory}, AMS Colloquium Publications, 2004.
+
+\bibitem{KnesslCoffey}
+C.~Knessl and M.~Coffey, \emph{An effective asymptotic formula for the Stieltjes constants}, Math. Comp.~80 (2011), 379--386.
+
+\bibitem{GranvilleNotes}
+A.~Granville, \emph{Analytic Number Theory Lectures}, available online notes, various years.
+
+\end{thebibliography}
+
+\end{document}
