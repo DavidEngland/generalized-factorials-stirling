@@ -1,0 +1,135 @@
+% filepath: /Users/davidengland/Documents/GitHub/generalized-factorials-stirling/Analytic_Hierarchies_Stieltjes.tex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{mathtools}
+
+\title{Analytic Hierarchies of the von Mangoldt Function and the Stieltjes Constants}
+\author{}
+\date{}
+
+\newcommand{\LM}{\Lambda}
+\newcommand{\z}{\zeta}
+
+\begin{document}
+\maketitle
+
+\section*{Overview}
+Level: Advanced Graduate (Analytic Number Theory). Prerequisites: Dirichlet series and Euler products; basic complex analysis; Mellin transforms; elementary prime number theory.
+
+\section{Lecture 1 --- The von Mangoldt Function and Its Generating Series}
+\subsection{The von Mangoldt function}
+\[
+\LM(n)=
+\begin{cases}
+\log p,& n=p^k\ (p\ \text{prime},\ k\ge1),\\[4pt]
+0,&\text{otherwise}.
+\end{cases}
+\]
+
+\subsection{Dirichlet generating function}
+For $\Re(s)>1$,
+\[
+\sum_{n\ge1}\frac{\LM(n)}{n^s}=-\frac{\z'(s)}{\z(s)}.
+\]
+
+\paragraph{Commentary.} This identity connects primes and analytic structure; zeros of $\z(s)$ induce oscillations in prime counts.
+
+\paragraph{Exercises.}
+\begin{enumerate}
+\item From $\z(s)=\prod_p(1-p^{-s})^{-1}$ show $-\z'(s)/\z(s)=\sum_p\frac{\log p}{p^s-1}$ and expand to recover $\sum_n \LM(n)/n^s$.
+\item Use the logarithmic derivative to show primes dominate the behaviour of $\z(s)$ near $s=1$.
+\item Prove $\Psi(x)=\sum_{n\le x}\LM(n)$ has the same asymptotic order as $x$.
+\end{enumerate}
+
+\section{Lecture 2 --- The von Mangoldt Hierarchies}
+For integer $k\ge0$ define
+\[
+\sum_{n\ge1}\frac{\LM_k(n)}{n^s}=(-1)^k\frac{d^k}{ds^k}\!\Big[-\frac{\z'(s)}{\z(s)}\Big],\qquad \Re(s)>1.
+\]
+\[
+\Psi_k(x)=\sum_{n\le x}\LM_k(n).
+\]
+
+\paragraph{Exercises.}
+\begin{enumerate}
+\item Verify $\LM_0(n)=\LM(n)$ and $\LM_1(n)=-(\log n)\LM(n)$ and check the Dirichlet series.
+\item Tabulate $\LM_k(n)$ for small $n$ with a short script.
+\item Interpret $\LM_k(n)$ probabilistically (cumulant viewpoint).
+\end{enumerate}
+
+\section{Lecture 3 --- Mellin Transforms and Explicit Formulas}
+\[
+\int_0^\infty \Psi_k(x)x^{-s-1}\,dx=\frac{1}{s}\sum_{n\ge1}\frac{\LM_k(n)}{n^s}
+=\frac{(-1)^k}{s}\frac{d^k}{ds^k}\!\Big[-\frac{\z'(s)}{\z(s)}\Big].
+\]
+Mellin inversion ($c>1$):
+\[
+\Psi_k(x)=\frac{1}{2\pi i}\int_{c-i\infty}^{c+i\infty}\frac{(-1)^k}{s}\frac{d^k}{ds^k}\!\Big[-\frac{\z'(s)}{\z(s)}\Big]x^s\,ds.
+\]
+
+\paragraph{Commentary.} Shift the contour left to pick up residue at $s=1$ (main term) and contributions from nontrivial zeros $\rho$ (oscillatory terms).
+
+\paragraph{Exercises.} Partial summation verification, contour shift residue computations, zero-contribution derivations, compute main term for $\Psi_1(x)$ via Stieltjes constants.
+
+\section{Lecture 4 --- The Stieltjes Constants and Their Generating Function}
+The Laurent expansion of $\zeta$ at $s=1$:
+\[
+\zeta(1+u)=\frac{1}{u}+\sum_{n=0}^\infty\frac{(-1)^n\gamma_n}{n!}u^n.
+\]
+The exponential generating function (EGF):
+\[
+G(t)=\sum_{n=0}^\infty\frac{\gamma_n}{n!}t^n=\zeta(1-t)+\frac{1}{t}.
+\]
+
+\paragraph{Commentary.} $G(t)$ is entire (singularity cancels at $t=0$); singularities occur at $t=1-\rho$ where $\rho$ runs over zeros of $\z(s)$, so the behaviour of $\gamma_n$ reflects the zero distribution.
+
+\paragraph{Exercises.} Verify the EGF identity, determine radius of convergence, compute small $\gamma_n$ numerically.
+
+\section{Lecture 5 --- Relating Stieltjes Constants to Prime Fluctuations}
+Local expansion:
+\[
+-\frac{\z'(s)}{\z(s)}=\frac{1}{s-1}-\sum_{n=0}^\infty \eta_n (s-1)^n,
+\]
+with $\eta_n$ polynomially expressible in the $\gamma_m$. Thus $\LM_k(n)$ relates to derivatives at $s=1$ and to the $\eta_k$.
+
+\paragraph{Exercises.} Derive $\eta_n$ for small $n$, write explicit formulas for $\Psi_k(x)$ up to $k=2$, show contribution of zeros as $x^\rho P_k(\rho,\log x)$.
+
+\section{Lecture 6 --- Further Insights on the Stieltjes Constants}
+\subsection*{Multiple useful viewpoints}
+\begin{itemize}
+\item \textbf{Cumulant/Probabilistic:} $\gamma_n$ viewed as cumulant-like coefficients from $G(t)$; suggests smoothing transforms to study sign patterns.
+\item \textbf{Spectral/Entire-function:} Singularities of $G$ at $t=1-\rho$ make $\{\gamma_n\}$ sensitive to zeros near $s=1$.
+\item \textbf{Asymptotic/Saddle-point:} Saddle-point analysis of $G(t)$ predicts factorial-scale growth of $\gamma_n$ with oscillatory modulation.
+\end{itemize}
+
+\subsection*{Exact classical representation}
+\[
+\gamma_n=\lim_{m\to\infty}\Big(\sum_{k=1}^m\frac{(\log k)^n}{k}-\frac{(\log m)^{n+1}}{n+1}\Big).
+\]
+
+\paragraph{Experiments.} Plot scaled values $\gamma_n/n!$, compute zero-contribution truncations, apply Borel or Bell-polynomial smoothing.
+
+\section{Lecture 7 --- Open Problems and Research Directions}
+\begin{itemize}[leftmargin=*]
+\item Analytic: uniform asymptotics for $\Psi_k(x)$ in $k$.
+\item Probabilistic: random model with cumulants equal to $\gamma_n$.
+\item Positivity: transforms yielding positive sequences from $\gamma_n$.
+\item Spectral: rigorous spectral interpretation of $G(t)=\zeta(1-t)+1/t$.
+\item Computational: stable computation of $\Psi_k(x)$ and derivatives of $\zeta$.
+\end{itemize}
+
+\section*{Projects and Further Reading}
+Projects: numerical zero-sum experiments; saddle-point asymptotics for $\gamma_n$; symbolic Bell-polynomial relations; probabilistic prime-process models.
+
+References include Titchmarsh, Coffey, Knessl \& Coffey, Edwards, Montgomery \& Vaughan.
+
+\bigskip
+\noindent\textbf{Compilation note.} Run \texttt{pdflatex} or \texttt{lualatex} twice to resolve cross-references.
+
+\end{document}
