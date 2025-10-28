@@ -40,6 +40,14 @@ Essential definitions and formulas (keep these at hand)
   S_k(x):=\frac{\Psi_k(x)}{x}= (\log x)^k - \sum_{m=0}^k \binom{k}{m}\gamma_m (\log x)^{k-m} + \frac{1}{x}\sum_\rho x^\rho P_k(\rho,\log x)+O(x^{-1}).
   $$
 
+Optional numerical test (incomplete‑Gamma fitting)
+• Purpose: validate the residue‑computed polynomial \(P_k(\rho,L)\) by fitting it to incomplete‑Gamma moments.
+• Minimal steps:
+  1. For a chosen zero \(\rho\) and small \(k\), compute the residue polynomial samples \(P_k(\rho,L_m)\) at \(k+1\) distinct \(L_m=\log x_m\).
+  2. Evaluate the matrix \(A_{m,j}=\partial_\alpha^j\Gamma(\alpha,L_m)\big|_{\alpha=c/\rho}\) (use high precision).
+  3. Solve \(A\mathbf b=\mathbf P\) for \(\mathbf b\); compare \(\mathbf b\) with algebraic expressions derived from jets if available.
+• Use this test when validating P_k extraction for k ≤ 4 before scaling up to many zeros.
+
 Priority checklist (do these in order)
 1. Reproduce k=0 classical result (sanity check):
    - Compute $\Psi_0(x)$ by summing $\Lambda(n)$ over prime powers up to x.
@@ -86,6 +94,24 @@ Notes on theory and pitfalls (short)
 - The explicit formula assumes simple zeros; if multiplicities occur you must adapt residues. For computation, treat zeros as simple and flag repeats.  
 - Summing x^ρ is numerically oscillatory and best handled by pairing conjugate zeros and summing in increasing imaginary part.  
 - The diagonal inversion for $(\log x)^k$ from $S_j$ is algebraic and valid because $1-\gamma_0 \ne 0$; remember to re-add the zero sum if high precision is needed.
+
+Notes on region of convergence, α‑choices for incomplete‑Gamma fitting, and positivity
+
+- Region of validity / analytic continuation:
+  • The Dirichlet series definitions hold for \Re(s)>1. To use residues from zeros in the critical strip you must rely on analytic continuation of \zeta(s) and perform a contour shift from c>1 to the left. Numerically this is reflected in computing residues/local jets of the analytically continued integrand near each zero \(\rho\).
+
+- Practical α‑choices when fitting P_k with incomplete‑Gamma derivatives:
+  1. Try \(\alpha=-1/\rho\) and \(\alpha=1/\rho\) (or \(\alpha=c/\rho\) for small integer c). For each choice form the sampling matrix A_{m,j}=\partial_\alpha^j\Gamma(\alpha,L_m) and check its condition number.
+  2. Favor α values for which Re(α) is not strongly negative to improve numerical stability; if necessary increase precision (mpmath dps) or use more samples L_m and regularization.
+  3. Always pair conjugate zeros in later sums to form real contributions and reduce cancellation.
+
+- Moments vs cumulants (positivity):
+  • Reminder: the polynomial coefficients and Stieltjes constants are cumulant‑style objects and may have alternating signs. Do not expect positivity as one would for raw moments of a positive measure.
+  • If you need a positive sequence for modeling, apply smoothing/transforms (Borel, Bell‑polynomial smoothing, absolute‑moment reweighting) and document how they alter the analytic content.
+
+- Quick checks for the student:
+  1. For a test zero \(\rho\) and small k (≤3), compute P_k via local‑jet residue extraction and then perform the incomplete‑Gamma linear fit with two α choices; compare coefficients and condition numbers.
+  2. Vary sampling points L_m and radius used for Laurent extraction to ensure stability.
 
 Suggested reading (start here)
 - Titchmarsh, *The Theory of the Riemann Zeta-Function* — Chapters on explicit formulas.  
@@ -184,3 +210,31 @@ Focus on the following for quick reference:
 - **Iwaniec & Kowalski:** Context on zeros and density theorems.
 
 **Quick TODO (First 48 Hours):** Implement `compute_Psi_k` for $k=0$ and generate a baseline plot comparing $\Psi_0(x)$ against $x$. Then, implement the $M_0(x)$ and truncated zero sum for the k=0 sanity check. Email the advisor with the $k=0$ plot and any initial issues.
+
+Quick note: P_k naming, generating function, and quick checks
+
+- Name: call them "residue polynomials" \(P_k(\rho,\log x)\) or "zero‑residue polynomials" — this is descriptive and avoids suggesting a fixed canonical name.
+- Useful generating function (EGF in k):
+  \[
+  \sum_{k\ge0}\frac{t^k}{k!}\sum_{n\ge1}\frac{\Lambda_k(n)}{n^s}
+  = -\frac{\zeta'(s-t)}{\zeta(s-t)}.
+  \]
+  Use this shift \(s\mapsto s-t\) to test k‑dependence numerically: extract residues at s=ρ for several small t and compare Taylor coefficients in t with computed P_k.
+- Why many indices: keep the notation \(c^{(k)}_m\) (k for derivative order, m for Laurent index) to avoid ambiguity—this is bookkeeping rather than mathematical complication.
+- Quick checks to implement (first week):
+  1. Compute P_0,P_1 by residue extraction and verify they match direct formulas from jets.  
+  2. Perform the EGF shift test for small t (e.g. t values ±0.01) and compare coefficients.  
+  3. Fit P_k via incomplete‑Gamma basis for k≤4 and compare with residue coefficients; record matrix condition numbers.
+
+Practical note — how to test the "cumulant" analogy numerically
+
+1. Pick s>1 (e.g. s=1.5) and a truncation N (e.g. N=1e6).
+2. Form weights w_n = Λ(n)/n^s for n≤N (compute only prime powers).
+3. Compute empirical moments m_j = sum_{n≤N} w_n (log n)^j for j=0..k.
+4. Use Bell‑polynomial formulas to form the combinatorial cumulant κ_k from the moments m_j (standard combinatorial routine).
+5. Compare κ_k with the Dirichlet coefficient sum S_k := sum_{n≤N} Λ_k(n)/n^s (or compare partial sums Ψ_k(x) appropriately scaled). They should match within truncation/precision error.
+6. Also check finite differences: evaluate K_s(t) = -ζ'(s-t)/ζ(s-t) for small t, form finite difference derivatives at t=0 and compare with κ_k.
+
+Notes:
+- Use high precision (mpmath dps ≥ 50) for steps involving ζ and to reduce cancellation.
+- This test validates the structural cumulant interpretation (algebraic equivalence) for s in the region of absolute convergence; residue/zero effects enter when you analytically continue or shift contours.
