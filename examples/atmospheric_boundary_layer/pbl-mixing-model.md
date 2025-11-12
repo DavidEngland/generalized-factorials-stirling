@@ -196,3 +196,49 @@ This approach bridges the gap between simple diffusion models and complex comput
 1. Stull, R.B. (1988). An Introduction to Boundary Layer Meteorology. Kluwer Academic Publishers.
 2. Seinfeld, J.H. and Pandis, S.N. (2016). Atmospheric Chemistry and Physics: From Air Pollution to Climate Change. Wiley.
 3. Hsu, L.C. and Shiue, P.J.-S. (1998). A unified approach to generalized Stirling numbers. Adv. in Appl. Math., 20(3):366-384.
+
+---
+
+## Appendix — Sharing via Gmail / Word (DOCX/PDF/HTML)
+
+Goal
+- Send this Markdown as a Word-friendly document via Gmail. Best practice: attach both DOCX and PDF.
+
+One-time setup
+- Install Pandoc: https://pandoc.org/install
+- Optional for PDF (recommended): a LaTeX engine (e.g., TeX Live) or wkhtmltopdf.
+
+Produce Word (DOCX) — preserves equations as native Word math
+```bash
+# filepath: /Users/davidengland/Documents/GitHub/generalized-factorials-stirling/examples/atmospheric_boundary_layer/pbl-mixing-model.md
+pandoc "examples/atmospheric_boundary_layer/pbl-mixing-model.md" \
+  -s -o "examples/atmospheric_boundary_layer/pbl-mixing-model.docx"
+# Optional: apply your own Word styles
+# pandoc ... --reference-doc="path/to/reference.docx"
+```
+
+Produce PDF (XeLaTeX engine; good math rendering)
+```bash
+# filepath: /Users/davidengland/Documents/GitHub/generalized-factorials-stirling/examples/atmospheric_boundary_layer/pbl-mixing-model.md
+pandoc "examples/atmospheric_boundary_layer/pbl-mixing-model.md" \
+  -s --pdf-engine=xelatex \
+  -o "examples/atmospheric_boundary_layer/pbl-mixing-model.pdf"
+```
+
+Produce standalone HTML (for web preview or rich copy-paste)
+```bash
+# filepath: /Users/davidengland/Documents/GitHub/generalized-factorials-stirling/examples/atmospheric_boundary_layer/pbl-mixing-model.md
+pandoc "examples/atmospheric_boundary_layer/pbl-mixing-model.md" \
+  -s --mathjax \
+  -o "examples/atmospheric_boundary_layer/pbl-mixing-model.html"
+```
+
+Gmail tips
+- Attach both: pbl-mixing-model.docx (for Word users) and pbl-mixing-model.pdf (read-only fallback).
+- For inline email: open the generated HTML in a browser, Select All, Copy, and paste into Gmail compose. Math renders if recipients open in browsers that load MathJax (embedding is automatic with the command above).
+- If attachments exceed 25 MB, Gmail auto-converts to Google Drive links.
+
+Notes on math and styling
+- DOCX: Pandoc converts LaTeX math to native Office Math (editable in Word). If any equations mis-convert, try simplifying macros or add a reference.docx for consistent styles.
+- PDF: XeLaTeX is robust for equations; switch fonts using standard XeLaTeX options if needed.
+- Images: keep image paths relative to this file; Pandoc will embed them in DOCX/PDF/HTML.
