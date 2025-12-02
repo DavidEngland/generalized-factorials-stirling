@@ -33,6 +33,7 @@ The full Hasse operator, $\mathcal{H}(f)(x)$, is the infinite sum of these opera
 * **Linearity**: It is a linear operator.
 * **Weighted Average**: It acts as a weighted average where the weights sum to zero for $m \ge 1$, which makes it behave like a discrete differential operator.
 * **Connection to Special Functions**: The operator transforms basic functions into special functions. For example, it maps powers of $x$ to **Bernoulli polynomials** and connects logarithmic functions to the **digamma function** and **generalized Stieltjes constants**.
+  * **Digamma Identity**: An interesting property related to the digamma function is that $\psi\left(\frac{n+1}{2}\right) - \psi\left(\frac{n}{2}\right) - \frac{1}{n} = \frac{1}{n}$ for positive integers $n$. This follows from the recurrence relation $\psi(z+1) = \psi(z) + \frac{1}{z}$. Since this expression yields a constant, it would be annihilated by the Hasse operator (for $m \geq 1$), illustrating the operator's fundamental property.
 * **Self-Adjointness**: The Hasse operator is not inherently self-adjoint, but a self-adjoint version can be constructed by either modifying the inner product or by symmetrizing the operator, particularly for even values of $m$.
 
 ---
