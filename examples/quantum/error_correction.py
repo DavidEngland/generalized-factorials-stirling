@@ -41,8 +41,12 @@ def polylog_hasse(s, z, max_m=40, tol=1e-15):
     Returns:
         Value of Li_s(z)
     """
+    # Li_1 is the analytically continued logarithm on the chosen branch.
+    if np.isclose(s, 1):
+        return -np.log(np.complex128(1 - z))
+
     # Safety checks
-    if abs(z) >= 1.0 and s <= 1:
+    if abs(z) >= 1.0 and s < 1:
         raise ValueError(f"Polylogarithm Li_{s}(z) not convergent for |z| >= 1")
     
     # For z = 0, the result is 0 for any s
