@@ -721,6 +721,64 @@ $$
 
 and the displayed series is exactly the large-$x$ expansion of $(x-1)^{-2}$.
 
+### Example 3b: the logarithm of the golden ratio
+
+Let
+$$
+\varphi=\frac{1+\sqrt5}{2}.
+$$
+Then
+$$
+\log(1+\sqrt5)=\log 2+\log\varphi.
+$$
+It is better to expand $\log\varphi$ than $\log(1+\sqrt5)$ directly, because the naive series
+$$
+\log(1+u)=\sum_{n\ge 1}(-1)^{n+1}\frac{u^n}{n}
+$$
+only converges for $|u|<1$, whereas $\sqrt5>1$.
+
+Using
+$$
+\varphi=1+\frac{1}{\varphi}=1+\frac{\sqrt5-1}{2},
+$$
+one obtains the convergent expansion
+$$
+\log\varphi
+=\sum_{n\ge 1}(-1)^{n+1}\frac{1}{n\varphi^n}
+=\sum_{n\ge 1}(-1)^{n+1}\frac{1}{n}\left(\frac{\sqrt5-1}{2}\right)^n.
+$$
+Therefore
+$$
+\log(1+\sqrt5)
+=\log 2+\sum_{n\ge 1}(-1)^{n+1}\frac{1}{n}\left(\frac{\sqrt5-1}{2}\right)^n.
+$$
+
+There is also a particularly clean odd-power expansion. Since
+$$
+\log\varphi=\operatorname{artanh}\!\left(\frac{1}{\sqrt5}\right)
+=\frac12\log\!\left(\frac{1+1/\sqrt5}{1-1/\sqrt5}\right),
+$$
+the standard series for $\operatorname{artanh}$ gives
+$$
+\log\varphi
+=\sum_{k\ge 0}\frac{1}{(2k+1)5^{k+1/2}}
+=\frac{1}{\sqrt5}\sum_{k\ge 0}\frac{1}{(2k+1)5^k}.
+$$
+Hence
+$$
+\log(1+\sqrt5)=\log 2+\frac{1}{\sqrt5}\sum_{k\ge 0}\frac{1}{(2k+1)5^k}.
+$$
+
+In polylogarithm language this may be written as
+$$
+\log\varphi=-\operatorname{Li}_1\!\left(-\frac{1}{\varphi}\right),
+$$
+so
+$$
+\log(1+\sqrt5)=\log 2-\operatorname{Li}_1\!\left(-\frac{1}{\varphi}\right).
+$$
+This is a useful model case: before applying the logarithm series, one often rewrites the argument into a form with modulus $<1$.
+
 ### Example 4: $\operatorname{Log}\!\left(\dfrac{\sin(\pi t)}{\pi t}\right)$
 
 The Weierstrass product
