@@ -259,4 +259,162 @@ F(m)=\frac{1}{\varphi(2m)}\sum_{\chi\bmod 2m}\Bigl(1-\overline{\chi}(m+1)\Bigr)L
 $$
 Here the principal character contributes $0$, because the coefficients add to zero. For small even $m$, this immediately explains why one gets combinations of $L(1,\chi)$, hence logarithms and arctangents coming from cyclotomic quantities.
 
+---
+
+# Digamma Function: Properties and Identities
+
+## Definitiond
+
+The digamma function is the logarithmic derivative of the gamma function:
+$$
+\psi(z):=\frac{d}{dz}\log\Gamma(z)=\frac{\Gamma'(z)}{\Gamma(z)}.
+$$
+
+## Series Representations
+
+**Gauss's series.**
+$$
+\psi(z)=-\gamma+\sum_{n=0}^{\infty}\left(\frac{1}{n+1}-\frac{1}{n+z}\right),
+\qquad z\notin\{0,-1,-2,\dots\}.
+$$
+
+**Difference form.** For $a\neq b$,
+$$
+\psi(a)-\psi(b)=\sum_{n=0}^{\infty}\left(\frac{1}{n+b}-\frac{1}{n+a}\right).
+$$
+
+## Integral Representations
+
+**Standard kernel ($1-t$ denominator).**
+$$
+\psi(z)+\gamma=\int_0^1\frac{1-t^{z-1}}{1-t}\,dt,
+\qquad \Re z>0.
+$$
+
+**Alternating kernel ($1+t$ denominator).**
+$$
+\psi\!\left(z+\tfrac12\right)-\psi(z)=2\int_0^1\frac{t^{2z-1}}{1+t}\,dt,
+\qquad \Re z>0.
+$$
+This is the kernel behind the function $F(z)$.
+
+**Gauss's integral.**
+$$
+\psi(z)=\int_0^{\infty}\left(\frac{e^{-t}}{t}-\frac{e^{-zt}}{1-e^{-t}}\right)dt,
+\qquad \Re z>0.
+$$
+
+**Binet's second formula.**
+$$
+\psi(z)=\log z-\frac{1}{2z}-2\int_0^{\infty}\frac{t\,dt}{(t^2+z^2)(e^{2\pi t}-1)},
+\qquad \Re z>0.
+$$
+
+## Functional Equations
+
+**Recurrence (shift relation).**
+$$
+\psi(z+1)=\psi(z)+\frac{1}{z}.
+$$
+Iterated: $\psi(z+n)=\psi(z)+\displaystyle\sum_{k=0}^{n-1}\frac{1}{z+k}$ for $n\in\mathbb{N}$.
+
+**Reflection formula.**
+$$
+\psi(1-z)-\psi(z)=\pi\cot(\pi z).
+$$
+
+**Duplication formula.** ($m=2$ case of multiplication)
+$$
+\psi(2z)=\frac12\psi(z)+\frac12\psi\!\left(z+\tfrac12\right)+\log 2.
+$$
+Equivalently,
+$$
+\psi\!\left(z+\tfrac12\right)-\psi(z)=2\psi(2z)-2\psi(z)-2\log 2.
+$$
+
+**Multiplication formula (Gauss–Legendre).**
+$$
+\sum_{k=0}^{m-1}\psi\!\left(z+\frac{k}{m}\right)=m\,\psi(mz)-m\log m.
+$$
+
+**Parity-split series.**
+$$
+\psi\!\left(z+\tfrac12\right)-\psi(z)
+=2\sum_{n=0}^{\infty}\left(\frac{1}{2n+2z}-\frac{1}{2n+2z+1}\right).
+$$
+
+## Special Values
+
+| $z$ | $\psi(z)$ |
+|---|---|
+| $1$ | $-\gamma$ |
+| $2$ | $1-\gamma$ |
+| $n\in\mathbb{N}$ | $H_{n-1}-\gamma$ where $H_0:=0$ |
+| $\tfrac12$ | $-\gamma-2\log 2$ |
+| $\tfrac14$ | $-\gamma-\tfrac{\pi}{2}-3\log 2$ |
+| $\tfrac34$ | $-\gamma+\tfrac{\pi}{2}-3\log 2$ |
+
+**Gauss's theorem at rational arguments.** For $1\le a<q$ with $\gcd(a,q)=1$,
+$$
+\psi\!\left(\frac{a}{q}\right)
+=-\gamma-\log(2q)-\frac{\pi}{2}\cot\!\left(\frac{\pi a}{q}\right)
++2\sum_{n=1}^{\lfloor(q-1)/2\rfloor}
+\cos\!\left(\frac{2\pi an}{q}\right)\log\sin\!\left(\frac{\pi n}{q}\right).
+$$
+
+## Asymptotic Expansion
+
+As $z\to\infty$ in $|\arg z|<\pi$,
+$$
+\psi(z)\sim\log z-\frac{1}{2z}-\sum_{n=1}^{\infty}\frac{B_{2n}}{2n\,z^{2n}}
+=\log z-\frac{1}{2z}-\frac{1}{12z^2}+\frac{1}{120z^4}-\frac{1}{252z^6}+\cdots,
+$$
+where $B_{2n}$ are Bernoulli numbers. The first few terms give excellent approximations even for moderate $|z|$.
+
+## Polygamma Functions
+
+Define $\psi_n(z):=\psi^{(n)}(z)=\dfrac{d^n}{dz^n}\psi(z)$ for $n\ge 0$ (so $\psi_0=\psi$).
+
+**Series representation.**
+$$
+\psi_n(z)=(-1)^{n+1}n!\sum_{k=0}^{\infty}\frac{1}{(z+k)^{n+1}},
+\qquad n\ge 1.
+$$
+
+**Recurrence.**
+$$
+\psi_n(z+1)=\psi_n(z)+\frac{(-1)^n n!}{z^{n+1}}.
+$$
+
+**Reflection formula.**
+$$
+\psi_n(1-z)+(-1)^{n+1}\psi_n(z)=(-1)^n\pi\frac{d^n}{dz^n}\cot(\pi z).
+$$
+In particular for $n=1$ (trigamma):
+$$
+\psi_1(1-z)+\psi_1(z)=\frac{\pi^2}{\sin^2(\pi z)}.
+$$
+
+**Integral representation.**
+$$
+\psi_n(z)=(-1)^{n+1}\int_0^{\infty}\frac{t^n e^{-zt}}{1-e^{-t}}\,dt,
+\qquad n\ge 1,\quad \Re z>0.
+$$
+
+**Special values.**
+$$
+\psi_1(1)=\frac{\pi^2}{6},\qquad
+\psi_1\!\left(\tfrac12\right)=\frac{\pi^2}{2},\qquad
+\psi_2(1)=-2\zeta(3),\qquad
+\psi_n(1)=(-1)^{n+1}n!\,\zeta(n+1).
+$$
+
+## Relation to the Hurwitz Zeta Function
+
+For $n\ge 1$,
+$$
+\psi_n(z)=(-1)^{n+1}n!\,\zeta(n+1,z),
+$$
+where $\zeta(s,z):=\sum_{k=0}^{\infty}(z+k)^{-s}$ is the Hurwitz zeta function. In particular, $\psi_0(z)=-\zeta'(0,z)/\zeta(0,z)$ and the relation ties rational special values of polygamma to those of $\zeta(s,a/q)$.
+
 For odd $m$, the class $m+1$ is not invertible modulo $2m$, so a literal Dirichlet-character decomposition modulo $2m$ is less natural. In that case one usually keeps the root-of-$-1$ partial fractions above, or splits off the even progression first and then applies character methods to the remaining odd moduli. Either way, the guiding principle is the same: isolate arithmetic progressions, then express those progressions through periodic data, either by roots of unity or by characters.
